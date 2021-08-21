@@ -892,7 +892,7 @@ class GamePatcher:
         self.patcher.set_event_patch(self.flow_patch)
         self.patcher.set_event_text_patch(self.text_patch)
         self.patcher.progress_callback = self.rando.progress_callback
-        self.patcher.do_patch()
+        # self.patcher.do_patch()
 
         self.do_dol_patch()
         self.do_rel_patch()
@@ -1977,6 +1977,8 @@ class GamePatcher:
         start_flags_write.write(bytes.fromhex("FFFF"))
         # itemflags
         for flag in self.startitemflags:
+            assert flag < 0x1FF
+            flag |= 1 << 9
             start_flags_write.write(struct.pack(">H", flag))
         start_flags_write.write(bytes.fromhex("FFFF"))
         # sceneflags
@@ -1994,12 +1996,16 @@ class GamePatcher:
                     flag = flag["flag"]
                 start_flags_write.write(struct.pack(">BB", flagregionid, flag))
         start_flags_write.write(bytes.fromhex("FFFF"))
+        # start rupee count
+        start_flags_write.write(struct.pack(">H", 0))
+        # start heart capacity (hearts * 4)
+        start_flags_write.write(struct.pack(">H", 4 * 6))
         startflag_byte_count = len(start_flags_write.getbuffer())
         if startflag_byte_count > 512:
             raise Exception(
                 f"not enough space to fit in all of the startflags, need {startflag_byte_count}, but only 512 bytes available"
             )
-        # print(f"total startflag byte count: {startflag_byte_count}")
+        print(f"total startflag byte count: {startflag_byte_count}")
         dol.write_data_bytes(0x804EE1B8, start_flags_write.getbuffer())
         dol.save_changes()
         write_bytes_create_dirs(

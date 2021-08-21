@@ -53,6 +53,7 @@
   oarc: GetBowA
   getarcname: GetBowA
   getmodelname: GetBowA
+  counteridx: 498
 - id: 20
   name: Clawshots
   oarc: GetHookShot
@@ -86,6 +87,7 @@
   oarc: GetKeyKakera
   getarcname: GetKeyKakera
   getmodelname: GetKeyKakeraA
+  counteridx: 505
 - id: 29
   name: SV Boss Key
   oarc: GetKeyBossA
@@ -124,6 +126,7 @@
   oarc: null
   getarcname: GetGenki
   getmodelname: GetGenki
+  counteridx: 502
 - id: 40
   name: 5 Bombs
   oarc: null
@@ -148,6 +151,7 @@
   oarc: GetPachinkoA
   getarcname: GetPachinkoA
   getmodelname: GetPachinkoA
+  counteridx: 493
 - id: 53
   name: Progressive Beetle
   oarc: GetBeetleA
@@ -208,6 +212,7 @@
   oarc: GetBombBag
   getarcname: GetBombBag
   getmodelname: GetBombBag
+  counteridx: 499
 - id: 93
   name: Heart Container
   oarc:
@@ -275,6 +280,7 @@
   oarc: GetPouchA
   getarcname: GetPouchA
   getmodelname: GetPorchA # yea, that's a typo in the game
+  counteridx: 490
 #- id: 113
 #  name: Pouch Expansion
 #  oarc: GetPouchB
@@ -376,11 +382,13 @@
   oarc: null
   getarcname: GetSozaiO
   getmodelname: GetSozaiO
+  countidx: 435
 - id: 176
   name: Goddess Plume
   oarc: null
   getarcname: GetSozaiP
   getmodelname: GetSozaiP
+  countidx: 436 # 104 add?
 - id: 177
   name: Emerald Tablet
   oarc: GetSekibanMapA
@@ -444,6 +452,7 @@
   oarc: GetSparePurse
   getarcname: GetSparePurse
   getmodelname: GetSparePurse
+  counteridx: 508
 # start rando custom items
 - id: 200
   name: SV Small Key
