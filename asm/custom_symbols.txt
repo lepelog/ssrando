@@ -1,0 +1,25 @@
+main.dol:
+  fix_freestanding_item_y_offset: 0x806782C0
+  should_increase_freestanding_model_size: 0x806782EC
+  setStoryflagToValue: 0x8067831C
+  handleBossKeyMapDungeonflag: 0x80678350
+  handleSmallKeyGet: 0x80678410
+  setSceneflagForArea: 0x806784B0
+  processStartflags: 0x80678520
+  alloc_keyboard_arcs_conditional: 0x806785CC
+d_a_birdNP.rel:
+  loftwing_speed_limit: 0xF298
+d_t_D3_scene_changeNP.rel:
+  trigger_exit_one: 0x804
+  trigger_exit_one_lbl: 0x340
+  function_end: 0x344
+d_a_obj_warpNP.rel:
+  check_should_delay_walk_out_event: 0x6100
+d_a_obj_time_stoneNP.rel:
+  set_first_time_cs_already_watched: 0x6548
+d_a_obj_sw_sword_beamNP.rel:
+  handle_crest_hit_item_give: 0x3780
+d_a_shop_sampleNP.rel:
+  check_needs_custom_storyflag_subtype: 0x8450
+d_a_npc_douguyanightNP.rel:
+  select_new_item_column: 0x2F20

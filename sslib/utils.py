@@ -3,70 +3,40 @@ import collections
 import json
 from pathlib import Path
 
-def write_u8(data, value, pos=None):
-    if pos != None:
-        data.seek(pos)
-    data.write(struct.pack('>B', value))
-
-def write_u24(data, value, pos=None):
-    if pos != None:
-        data.seek(pos)
-    high=value>>16
-    low=value&0xFFFF
-    data.write(struct.pack('>BH', high, low))
-
-def write_u32(data, value, pos=None):
-    if pos != None:
-        data.seek(pos)
-    data.write(struct.pack('>I', value))
-
-def read_u8(data, pos=None):
-    if pos != None:
-        data.seek(pos)
-    return struct.unpack(">B", data.read(1))[0]
-
-def read_u24(data, pos=None):
-    if pos != None:
-        data.seek(pos)
-    d=struct.unpack(">BH", data.read(3))
-    return (d[0]<<16)|d[1]
-
-def read_u32(data, pos=None):
-    if pos != None:
-        data.seek(pos)
-    return struct.unpack(">I", data.read(4))[0]
-
-def read_null_term_string(data, pos=None):
-    if pos != None:
-        data.seek(pos)
-    buf=b''
-    read=data.read(1)
-    while read != b'\x00':
-        buf=buf+read
-        read=data.read(1)
-    return buf.decode('ASCII')
 
 def unpack(fields, formatstr, item):
-    return collections.namedtuple('_',fields)._make(struct.unpack(formatstr,item))._asdict()
+    return (
+        collections.namedtuple("_", fields)
+        ._make(struct.unpack(formatstr, item))
+        ._asdict()
+    )
+
 
 def encodeBytes(bytestr):
-    return ' '.join(['%02X'%x for x in bytestr])
-    
+    return " ".join(["%02X" % x for x in bytestr])
+
+
 def objToJson(parsed):
-    return json.dumps(parsed,indent=4,ensure_ascii=True,allow_nan=False,default=encodeBytes)
+    return json.dumps(
+        parsed, indent=4, ensure_ascii=True, allow_nan=False, default=encodeBytes
+    )
+
 
 def toStr(bytestr):
     """Converts a bytestring, which is shift-jis encoded to a string"""
-    return bytestr.split(b'\x00',1)[0].decode('shift-jis')
+    return bytestr.split(b"\x00", 1)[0].decode("shift-jis")
+
 
 def toBytes(string, length):
     """Converts a string into shift-jis encoding and padding it with zeroes to the specified length"""
-    encoded = string.encode('shift-jis')
-    return encoded+(b'\x00' * (length - len(encoded)))
+    encoded = string.encode("shift-jis")
+    return encoded + (b"\x00" * (length - len(encoded)))
+
 
 def write_bytes_create_dirs(path: Path, data: bytes):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(data)
+
 
 stagenames = {
     "F000": "Skyloft: Skyloft",
@@ -102,7 +72,6 @@ stagenames = {
     "D003_7": "Skyloft: Sky Keep R07 (Entrance)",
     "D003_8": "Skyloft: Sky Keep R08 Tri Get",
     "S000": "Skyloft: Town Silent Realm",
-
     "F100": "Faron Woods: Faron Woods",
     "F100_1": "Faron Woods: Inside the Great Tree",
     "F101": "Faron Woods: Deep Woods",
@@ -118,7 +87,6 @@ stagenames = {
     "B101": "Faron Woods: Forest Boss (Asura)",
     "B101_1": "Faron Woods: Farore's Candle Room",
     "S100": "Faron Woods: Forest Silent Realm",
-
     "F200": "Eldin Volcano: Eldin Volcano",
     "F201_1": "Eldin Volcano: Inside Volcano",
     "F201_2": "Eldin Volcano: Volcano F3 (Crater)",
@@ -140,7 +108,6 @@ stagenames = {
     "B201_1": "Eldin Volcano: Volcano D2 Boss (Din's Fire)",
     "B210": "Eldin Volcano: Volcano D1 Boss (Earth Spring)",
     "S200": "Eldin Volcano: Mountain Silent Realm",
-
     "F300": "Lanayru Desert: Lanayru Desert",
     "F300_1": "Lanayru Desert: Lanayru Mine",
     "F300_2": "Lanayru Desert: Power Generator #1",
@@ -164,7 +131,6 @@ stagenames = {
     "B300": "Lanayru Desert: Desert Boss 00 (Moldarach)",
     "B301": "Lanayru Desert: Desert Boss Kraken",
     "S300": "Lanayru Desert: Sand Silent Realm",
-
     "F400": "Sealed Grounds: Forest",
     "F401": "Sealed Grounds: Whirlpool",
     "F402": "Sealed Grounds: Temple",
@@ -174,5 +140,5 @@ stagenames = {
     "F406": "Sealed Grounds: Whirlpool (With Statue)",
     "F407": "Sealed Grounds: Temple (Cutscene)",
     "B400": "Sealed Grounds: Last Boss",
-
-    "Demo": "Staff Roll"}
+    "Demo": "Staff Roll",
+}

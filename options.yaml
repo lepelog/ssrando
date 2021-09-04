@@ -1,0 +1,531 @@
+- name: Dry Run
+  command: dry-run
+  type: boolean
+  default: false
+  permalink: false
+  help: Only generate a spoiler log, doesn't attempt to patch any game files
+  ui: option_dry_run
+- name: Output Path
+  command: output-folder
+  type: dirpath
+  default: "."
+  permalink: false
+  help: Path to folder, where to write the patched wbfs and the spoiler log
+- name: JSON spoiler log
+  command: json
+  type: boolean
+  default: false
+  permalink: false
+  help: If set, outputs the spoiler log in json format
+- name: No GUI
+  command: noui
+  type: boolean
+  default: false
+  permalink: false
+  help: Don't launch the randomizer UI, just read command line params
+- name: Starting Tablet Count
+  command: starting-tablet-count
+  type: int
+  default: 3
+  min: 0
+  max: 3
+  bits: 2
+  help: Number of tablets to start with. Tablets are selected randomly, and the remainder
+    are randomized
+  ui: option_starting_tablet_count
+- name: Open Thunderhead
+  command: open-thunderhead
+  type: singlechoice
+  bits: 2
+  choices:
+    - Ballad
+    # - Harp and Ballad
+    - Open
+  default: Ballad
+  help: Controls the starting state of the Thunderhead.
+  ui: option_open_thunderhead
+- name: Starting Sword
+  command: starting-sword
+  type: singlechoice
+  bits: 3
+  choices:
+    - Swordless
+    - Practice Sword
+    - Goddess Sword
+    - Goddess Longsword
+    - Goddess White Sword
+    - Master Sword
+    - True Master Sword
+  default: Goddess Sword
+  help: Select which sword to start with. The remaining upgrades will be shuffled into
+    the item pool
+  ui: option_starting_sword
+- name: Required Dungeon Count
+  command: required-dungeon-count
+  type: int
+  default: 2
+  min: 0
+  max: 6
+  bits: 3
+  help: The number of dungeons that are required, to beat the seed
+  ui: option_required_dungeon_count
+- name: Imp 2
+  command: imp2-skip
+  type: boolean
+  default: true
+  help: Skips the requirement to beat Imp 2 in order to beat the seed
+  ui: option_imp_2
+- name: Empty unrequired Dungeons
+  command: empty-unrequired-dungeons
+  type: boolean
+  default: false
+  help: If activated, only the required dungeons will contain progression items
+  ui: option_empty_unrequired_dungeons
+- name: Banned Types
+  command: banned-types
+  type: multichoice
+  default: []
+  choices:
+    - skyloft
+    - sky
+    - thunderhead
+    - faron
+    - eldin
+    - lanayru
+    - dungeon
+    - mini dungeon
+    - free gift
+    - freestanding
+    - miscellaneous
+    - silent realm
+    - digging
+    - bombable
+    - combat
+    - song
+    - spiral charge
+    - minigame
+    - crystal
+    - short
+    - long
+    - fetch
+    - crystal quest
+    - scrapper
+    - peatrice
+    - goddess
+    - beedle
+    - cheap
+    - medium
+    - expensive
+    - faron goddess
+    - eldin goddess
+    - lanayru goddess
+    - floria goddess
+    - summit goddess
+    - sand sea goddess
+  help: 'Choose subtypes that can''t contain progression items, as a comma seperated
+    list, available types are: skyloft, sky, thunderhead, faron, eldin, lanayru, dungeon,
+    mini dungeon, free gift, freestanding, miscellaneous, silent realm, digging, bombable,
+    combat, song, spiral charge, minigame, crystal, short, long, fetch, crystal quest,
+    scrapper, peatrice, goddess, faron goddess, eldin goddess, lanayru goddess, floria
+    goddess, summit goddess, sand sea goddess'
+  ui: option_banned_types
+- name: Skip Sky Keep
+  command: skip-skykeep
+  type: boolean
+  default: false
+  help: If activated, skips the requirement to beat Sky Keep in order to access the
+    horde in the past
+  ui: option_skip_skykeep
+- name: Seed
+  command: seed
+  type: int
+  default: -1
+  permalink: false
+  help: Specify a seed to use for randomization, leave empty for random seed
+  ui: seed
+- name: Hero Mode
+  command: hero-mode
+  type: boolean
+  default: true
+  help: If activated, play the game on Hero Mode
+  ui: option_hero_mode
+- name: Randomize Entrances
+  command: randomize-entrances
+  type: singlechoice
+  bits: 2
+  choices:
+    - None
+    - Dungeons
+    - Dungeons + Sky Keep
+  default: None
+  help: "Shuffles entrances with one another. Options: None, Dungeons, Dungeons + Sky Keep"
+  ui: option_randomize_entrances
+- name: Randomize Silent Realms
+  command: randomize-trials
+  type: boolean
+  default: false
+  help: "Shuffles the trials. If checked, entering a trial gate will send you to a randomized trial."
+  ui: option_randomize_trials
+- name: Start with Adventure Pouch
+  command: start-with-pouch
+  type: boolean
+  default: false
+  help: If activated, you will start with the adventure pouch unlocked. The remaining four
+    progressive pouches will still be shuffled.
+  ui: option_start_pouch
+- name: No Spoiler Log
+  command: no-spoiler-log
+  type: boolean
+  default: false
+  help: If activated, no spoiler log will be generated. This is highly discouraged
+    to activate, as it makes debugging issues much harder.
+  ui: option_no_spoiler_log
+- name: Max Batreaux Reward
+  command: max-batreaux-reward
+  type: singlechoice
+  default: 80
+  choices:
+    - 0
+    - 5
+    - 10
+    - 30
+    - 40
+    - 50
+    - 70
+    - 80
+  bits: 3
+  help: Enables progression items to appear in all Batreaux rewards up to and including
+    the specified amount.
+  ui: option_max_batreaux_reward
+- name: Shop Mode
+  command: shop-mode
+  type: singlechoice
+  default: Randomized
+  choices:
+    - Vanilla
+    - Always Junk
+    - Randomized
+  bits: 2
+  help: Controls how shops are randomized. If vanilla, shops will always contain their vanilla
+    items. Always Junk will randomize the shops, but will not place progression items in shops.
+    Randmomized will apply standard randomization to shops.
+  ui: option_shopsanity
+- name: Rupoor Mode
+  command: rupoor-mode
+  type: singlechoice
+  default: "Off"
+  choices:
+    - "Off"
+    - Added
+    - Rupoor Mayhem
+    - Rupoor Insanity
+  bits: 2
+  help: Adds or replaces items in the junk item pool with Rupoors. Added adds 15 rupoors to the pool
+    (not replacing existing items), Mayhem replaces half of the junk pool and Insanity replaces the entire
+    pool. All modes also add ruppors to the backup, duplicatable pool for when all other items have been
+    placed
+  ui: option_rupoor_mode
+- name: Gate of Time Starting State
+  command: got-start
+  type: singlechoice
+  bits: 1
+  choices:
+    - Lowered
+    - Raised
+  default: Lowered
+  help: Sets the starting state of the Gate of Time
+  ui: option_got_starting_state
+- name: Gate of Time Sword Requirement
+  command: got-sword-requirement
+  type: singlechoice
+  bits: 3
+  choices:
+    - Goddess Sword
+    - Goddess Longsword
+    - Goddess Whitesword
+    - Master Sword
+    - True Master Sword
+  default: Master Sword
+  help: Sets the sword requirement for opening the Gate of Time
+  ui: option_got_sword_requirement
+- name: Gate of Time Dungeon Requirements
+  command: got-dungeon-requirement
+  type: singlechoice
+  bits: 1
+  choices:
+    - Required
+    - Unrequired
+  default: Required
+  help: Enables dungeon requirements for opening the Gate of Time. When disabled, dungeons will
+    open the horde door instead.
+  ui: option_got_dungeon_requirement
+- name: Open LMF
+  command: open-lmf
+  type: singlechoice
+  bits: 2
+  choices:
+    - Nodes
+    # - Hook Beetle
+    - Open
+  default: Nodes
+  help: Controls the conditions for opening LMF. Nodes requires activating the 3 nodes as in vanilla,
+    Hook Beetle will raise LMF once the Hook Beetle is obtained.
+  ui: option_open_lmf
+- name: Horde
+  command: horde
+  type: boolean
+  default: true
+  help: When disabled, the horde fight will be skipped
+  ui: option_horde
+- name: Ghirahim 3
+  command: g3
+  type: boolean
+  default: true
+  help: When disabled, the Ghirahim 3 fight will be skipped
+  ui: option_g3
+- name: Demise
+  command: demise
+  type: boolean
+  default: true
+  help: When disabled, the Demise fight will be skipped. Entering the portal in the
+    spiral will play the credits
+  ui: option_demise
+- name: Map Mode
+  command: map-mode
+  type: singlechoice
+  bits: 3
+  choices:
+    - Removed
+    # - Start With
+    - Vanilla
+    - Own Dungeon - Restricted
+    - Own Dungeon - Unrestricted
+    # - Overworld Only
+    # - Any Dungeon
+    - Anywhere
+  default: Own Dungeon - Unrestricted
+  help: Controls the placement of maps. Restricted means that maps cannot be placed on the
+    Boss Heart Container or ending check of the dungeon
+  ui: option_map_mode
+- name: Small Key Mode
+  command: small-key-mode
+  type: singlechoice
+  bits: 3
+  choices:
+    - Vanilla
+    - Own Dungeon - Restricted
+    # - Own Dungeon - Unrestricted
+    - Lanayru Caves Key Only
+    # - Overworld Only
+    # - Any Dungeon
+    - Anywhere
+  default: Own Dungeon - Restricted
+  help: Controls the placement of small keys. Vanilla means they will always be in their vanilla locations.
+    In Skyview, the Digging Spot will not contain a key. Own Dungeon means the keys can only appear
+    within their own dungeons. Restricted decreases the number of locations keys can appear in some
+    dungeons, depending on logic settings. Lanayru Caves Key only shuffles the Lanayru Caves Small Key.
+  ui: option_small_key_mode
+- name: Boss Key Mode
+  command: boss-key-mode
+  type: singlechoice
+  bits: 3
+  choices:
+    - Vanilla
+    - Own Dungeon
+    # - Overworld Only
+    # - Any Dungeon
+    - Anywhere
+  default: Own Dungeon
+  help: Controls the placement of boss keys. Vanilla means they will always be in their vanilla locations.
+    Own Dungeon means the boss key can only appear within its own dungeon.
+  ui: option_boss_key_mode
+- name: Logic Mode
+  command: logic-mode
+  type: singlechoice
+  bits: 3
+  choices:
+    # - Glitchless - Basic
+    # - Glitchless - Standard
+    - BiTless
+    - Glitched
+    - No Logic
+  default: BiTless
+  help: Sets the logic mode to use when placing items. Glitchless requires no major tricks to complete, but
+    Standard may require minor tricks, such as whipping bombflowers. BiTless may require basic non-BiT tricks
+    such as Fence Hop. Glitched may require BiT. No logic may be unbeatable
+  ui: option_logic_mode
+- name: Enabled Tricks BiTless
+  command: enabled-tricks-bitless
+  type: multichoice
+  choices:
+    - Upgrade Hook Beetle
+    # Skyloft / Sky
+    - Waterfall Cave Jump
+    - Baby Rattle from Beedle's Shop
+    - Sky Keep Entrance Jump
+    - Sky - Volcanic Island Dive
+    - Sky - Beedle's Island Cage Chest Dive
+    - Thunderhead - East Island Dive
+    # Faron
+    - Gym's Rope Jump
+    - Early Lake Floria - Fence Hop
+    # - Early Lake Floria - Moblin
+    - Early Lake Floria - Swordless Rope Floria
+    - Faron - Bokoblin Luring
+    # Lanayru
+    - Itemless First Timeshift Stone
+    - Lanayru Mines Brakeslide
+    - Temple of Time - Slingshot Shot
+    - Temple of Time - Bomb Throw
+    - Temple of Time Skip - Brakeslide
+    - Secret Passageway Hook Beetle Opening
+    - Lightning Node End with Bombs  # Is it worth
+    - Fire Node - Brakeslide
+    - Cactus Bomb Whip
+    - Skipper's Retreat Fast Clawshots
+    # Skyview
+    - Skyview - Spider Roll
+    - Skyview Slingshot Shot
+    # Earth Temple
+    - Earth Temple - Keese Yeet
+    - Earth Temple - Slope Stuttersprint
+    - Earth Temple - Bomb Flower Scaldera
+    # Lanayru Mining Facility
+    - LMF - Whip First Room Switch
+    - LMF - Key Locked Room Bomb Throw
+    - LMF - Keylocked Slingshot Trickshot
+    - LMF - Minecart Jump
+    - LMF - Molderach without Gust Bellows
+    # Ancient Cistern
+    - Ancient Cistern - Basement Highflip
+    # Sandship
+    - Sandship - No Combination Hint
+    - Sandship - Itemless Spume Skip
+    - Sandship - Mast Jump
+    # Fire Sanctuary
+    - Fire Sanctuary - Pillar Jump
+    - Fire Sanctuary - Swordless Pillar Jump
+    - Fire Sanctuary - No Bombable Wall Hint
+    # Sky Keep
+    - Sky Keep - Shooting LMF Bow Switches in Present
+    - Sky Keep - FS Room Clawshots Vine Clip
+  default: []
+  help: Enable specific tricks to be considered in logic
+  ui: enabled_tricks
+- name: Enabled Tricks Glitched
+  command: enabled-tricks-glitched
+  type: multichoice
+  choices:
+
+    # Non-BiT
+    - Bed Trick
+    - Owlan Crystals without Bombs
+    - Ancient Cistern - Lilypad Skip
+    - Ancient Cistern - Swordless Cistern Clip
+
+  default: []
+  help: Enable specific tricks to be considered in logic
+  ui: enabled_tricks
+- name: Hint Distribution
+  command: hint-distribution
+  type: singlechoice
+  bits: 2
+  choices:
+    # - Weak
+    # - Balanced
+    # - Strong
+    # - Very Strong
+    # - Locations Only
+    # - Items Only
+    - Junk
+    - Normal
+    - Bingo
+  default: Normal
+  help: Sets the distribution of hints. Select a distribution to automatically apply a preset, or custom to select
+    your own distribution. Hover over each hint type to see details on the hint
+  ui: option_hint_distribution
+- name: Way of the Hero Hints
+  command: woth-hints
+  type: int
+  min: 0
+  max: 15
+  bits: 4
+  default: 0
+  help: Way of the Hero areas contain item(s) required to beat the game
+  ui: option_woth_hints
+- name: Sometimes Hints
+  command: sometimes-hints
+  type: int
+  min: 0
+  max: 15
+  bits: 4
+  default: 0
+  help: Sometimes areas contain item(s) that may be required for the seed.
+  ui: option_sometimes_hints
+- name: Barren
+  command: barren-hints
+  type: int
+  min: 0
+  max: 15
+  bits: 4
+  default: 0
+  help: Barren areas contain no items required to beat the game
+  ui: option_barren_hints
+- name: Location Hints
+  command: location-hints
+  type: int
+  min: 0
+  max: 15
+  bits: 4
+  default: 0
+  help: Location hints give the item at a specific check
+  ui: option_location_hints
+- name: Item Hints
+  command: item-hints
+  type: int
+  min: 0
+  max: 15
+  bits: 4
+  default: 0
+  help: Item hints give the location of a specific item
+  ui: option_item_hints
+- name: Song Hints
+  command: song-hints
+  type: singlechoice
+  bits: 2
+  choices:
+    - None
+    - Basic
+    - Advanced
+    - Direct
+  default: None
+  help: Enables or disables hints appearing on songs. When set to None, the trials will be 'Always' location hints.
+    Basic tells if the reward item is any progress item. Advanced tells if the trial is WotH, Barren, or potentially required.
+    Direct tells the item on the trial directly.
+  ui: option_song_hints
+- name: Fix BiT crashes
+  command: fix-bit-crashes
+  type: boolean
+  default: false
+  help: If enabled, does not load some arcs in BiT when all file slots are filled to make all areas accessible in BiT
+  ui: option_fix_bit_crashes
+- name: Output placement file
+  command: out-placement-file
+  type: boolean
+  default: false
+  permalink: false
+  help: If enabled, writes a placement json file that can be modified for plandomizer purposes
+  ui: option_out_placement_file
+- name: Past Impa Stone of Trials Hint
+  command: impa-sot-hint
+  type: boolean
+  default: true
+  help: Enables Impa in the Past to give a hint to the location of the Stone of Trials
+  ui: option_impa_sot_hint
+- name: Tunic Swap
+  command: tunic-swap
+  type: boolean
+  default: false
+  permalink: false # this should be purely cosmetic
+  help: Swaps Link's casual clothes for the hero's tunic and vice versa
+  ui: option_tunic_swap

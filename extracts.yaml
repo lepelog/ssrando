@@ -11,6 +11,10 @@
   - GetKobunALetter
   - GetPouchA
   stage: F001r
+- layer: 0
+  oarcs:
+    - GetSparePurse
+  stage: F002r
 - layer: 1
   oarcs:
   - GetPouchB
@@ -85,6 +89,11 @@
   oarcs:
   - GetKeyBossC
   stage: D300
+- layer: 9
+  oarcs:
+  - GoddessSymbolSc
+  - SwordCandle
+  stage: D301
 - layer: 0
   oarcs:
   - GetKeyBoss2A
@@ -117,6 +126,7 @@
   - PutGaragara
   - GetSeedLife
   - GetSozaiP
+  - GossipStone
   stage: F000
 - layer: 4
   oarcs:
@@ -169,3 +179,6 @@
   - GetHeartUtuwa
   - PutHeartUtuwa
   stage: B100
+- objectpack:
+  - Alink
+  - Bird_Link

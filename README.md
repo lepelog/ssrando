@@ -1,7 +1,25 @@
-This is still under heavy development, be careful to use it!
+This is still under heavy development, be careful to use it!  
+**IMPORTANT NOTES**  
+This only works if the game language is set to ENGLISH, other languages will NOT WORK and will break  
+Do NOT use hero mode files, instead select the "hero mode" option in the randomizer. Some hero mode files break the randomizer!  
+There is also the [Skyward Sword Randomizer Discord](https://discord.gg/evpNKkaaw6)
 
-## Installing
-1) Download [https://github.com/lepelog/sslib](https://github.com/lepelog/sslib) either via Github directly or via git
+## Running the compiled binary (Windows)(recommended)
+1. For stable releases, grab the compiled program from the [github release section](https://github.com/lepelog/sslib/releases), for the newest, although potentially untested build get them from [github actions](https://nightly.link/lepelog/sslib/workflows/build.yaml/master).
+2. Download the zipfile, extract it somewhere (if you already have an older version installed, install it over and replace the existing files)
+3. run `ssrando.exe`
+4. Select a clean NTSC-U 1.00 ISO
+5. Customize the settings however you want
+6. hit randomize, it might take a while
+
+### For dolphin
+Just open the generated `SOUE01.wbfs` in dolphin and enjoy!
+### For console
+1. Make sure to have homebrew and a USB loader installed (for example Configurable USB Loader)
+2. copy the generated `SOUE01.wbfs` to your SD card in this folder: /wbfs/The Legend of Zelda Skyward Sword [SOUE01]/ and put the SD into your Wii
+3. Power up your Wii, homebrew channel, configurable USB Loader, Profit
+## Installing from source (for development)
+1) Clone [https://github.com/lepelog/sslib](https://github.com/lepelog/sslib)
 2) Install Python 3.8(!) (3.9 won't work on Windows) and pip (comes with most python installers)
 3) Download and Install wit from [here](https://wit.wiimm.de/download.html) (there's a simple installer.exe for Windows, you will probably have to reboot your system)
 4) Open a terminal of your choice and use the `cd` command to navigate to the directory where you have sslib saved
@@ -14,74 +32,61 @@ On Windows:
 
     pip install -r requirements.txt
 
-6) Take a clean E 1.00 ISO (make sure to verify the hashes in dolphin: crc="2b48d050" md5="e7c39bb46cf938a5a030a01a677ef7d1" sha1="9cf9a4a7ed2a6a4abb4582e3304af1327c160640") and put it in the sslib directory (in the following steps it will be simply called disc.iso)
-7)
+6) Take a clean E 1.00 ISO (make sure to verify the hashes in dolphin: crc="2b48d050" md5="e7c39bb46cf938a5a030a01a677ef7d1" sha1="9cf9a4a7ed2a6a4abb4582e3304af1327c160640") and put it somewere you can find it again(in the following steps it will be simply called disc.iso)
+7)Start the GUI/Setup by writeing this into your terminal
 
-    wit extract disc.iso actual-extract
-
-8) Copy the actual-extract folder and name it modified-extract
-9)
-On Linux:
-
-    python3 ssrando.py
-
-On Windows:
-
-    python ssrando.py
-
-To use a predefined seed, use the seed command line argument:
-On Linux:
-
-    python3 ssrando.py --seed=123456
-
-On Windows:
-
-    python ssrando.py --seed=123456
-
-
-#### MORE OPTIONS
-There is a bug currently where receiving sword upgrades result in a crash, to avoid that, there is an option `--invisible-sword` which turns
-the sword invisible and avoids the crash
-
-To start with all light pillars closed and needing to find the tablets to unlock them, use `--randomize-tablets`
-
-To start with the thunderhead closed, use `--closed-thunderhead`. It is automatically opened after obtaining Ballad of the Goddess
-
-To start without a sword, use `--swordless`. Otherwise, you start with the goddess sword
-
-To only generate a spoiler log, use the `--dry-run` option as a command line argument
-
-#### INTERACTIVE SCRIPT
-If you prefer an interactive script, that prompts all possible options, instead of appending all options to the original file, you can use
 On Linux:
 
     python3 randoscript.py
-    
+
 On Windows:
-    
-    py -3.8 randoscript.py
-    
-This script includes all options that can be given the original randomizer as parameters. 
+
+    py randoscript.py
+Or:
+
+    python randoscript.py
+
+It will ask you to choose an iso and will extract it for you into the sslib directory (you should see 2 new folders in the directory afterwards).
+The GUI will also Test your ISO version if you haven't checked yourself before and won't extract unless you have the right version.
+After it is complete it should show up the GUI you can use to modify your game.
+The randomized game will then show up in the folder you choose in the GUI.
 
 
-#### FOR EMULATOR
-10a) Depending on your setup, on how you wanna use the game this step might differ, if you want an iso ready to be played on emu
+#### MORE OPTIONS
+To access more options you can start the GUI by starting the randoscript.py (see above).
+If you don't want to use the GUI you can do `--noui`, otherwise this extra information is not important for you
+To see all options, use `--help` or see options.yaml
 
-    wit -P copy modified-extract disc.iso
+#### Model Customization
+After running the randomizer once, a folder `oarc` will be created, which has Link's model (Alink.arc) and his bird (Bird_Link.arc)
 
-11a) Open disc.iso in Dolphin
-12a) Profit
-#### FOR CONSOLE
-10b) The exact steps may differ from what i write down, but this worked for me using Configurable USB Loader, loading from a SD card:
-
-    wit -P copy -z modified-extract SOUE01.wbfs
-
-11b) Take the 2! files (SOUE01.wbfs & SOUE01.wbf1), copy them to your SD card in this folder: /wbfs/The Legend of Zelda Skyward Sword [SOUE01]/ and put the SD into your Wii
-12b) Power up your Wii, HBC, CFG USB Loader, Profit
+To modify them, you need an external program. To include make sure the models get actually replaced when running the randomizer, save the modified arcs (the name **has** to stay the same) in the `arc-replacements` folder, which needs to be located next to the randomizer executable
 
 ### Tests
 `python3 -mpytest test`  
 Make sure to have the extracted game prepared as stated in Installing, otherwise they won't work
+
+### Contributing
+Contributions are always welcome!  
+To make sure we don't have to fight about formatting, make sure to install `black`  
+On Linux:
+
+    python3 -mpip install -r requirements_dev.txt
+
+On Windows:
+
+    pip install -r requirements_dev.txt
+
+Then run `black .` and you are good to go!
+
+### Executable
+To build the executable, you need PyInstaller installed:
+
+    python3 -mpip install pyinstaller
+
+Then, build the executable using
+
+    pyinstaller ssrando.spec
 
 ### Changes
 #### Storyflag
@@ -104,7 +109,7 @@ Make sure to have the extracted game prepared as stated in Installing, otherwise
 912: Progressive Beetle1
 913: Progressive Beetle2 (Hook Beetle)
 
-914: Beat LMF (more precisely, watch harp CS), storyflag 9 is associated with harp
+914: Change Temple of Time Layer, storyflag 9 is associated with harp
 
 915: Medium Wallet
 916: Big Wallet
@@ -121,7 +126,35 @@ New Trial Completed Storyflags:
 924: Obtained Item from Cawlin
 925: Obtained Item from Strich
 
+926: Required Dungeon 3  
+927: Required Dungeon 4  
+928: Required Dungeon 5  
+929: Required Dungeon 6  
+
+931: Adventure Pouch 932 Pouch Expansion
+
+933: Defeat Tentalus
+934: Obtained Item from Levias
+
+935: Exit out of back of LMF for first time
+936: Obtained Item at end of LMF
+
+937: bought Beetles first 100R item
+938: bought Beetles second 100R item
+939: bought Beetles third 100R item
+940: bought Beetles Bug Net item
+941: bought Beetles Bug Medal item
+
+#### Sceneflags
+Ancient Cistern:
+- 85, after recieving item from flame CS
+Sandship:
+- 87, after recieving item from flame CS
+
 ### Shoutouts
 - Peppernicus2000: Logic, fixes
 - Azer67: Logic
 - MrCheeze: Reverse engineering file formats
+- LagoLunatic: For implementing the logic for [TWWR](https://github.com/LagoLunatic/wwrando), which is also used here
+- DGod63: title screen logo
+- cjs07: GUI

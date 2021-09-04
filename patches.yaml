@@ -1,33 +1,60 @@
 global:
   startstoryflags: # first 8 flags are set during opening cutscenes
     - 36  # Hero's tunic
+    - storyflag: 226 # Hero Mode
+      onlyif: Option "hero-mode" Enabled
+    - 724 # Prevent first time light pillar CS sending player always to faron
+    - 96  # Fi's text after obtaining first map
+    - 496 # Skipper's cutscene after Sea Chart
+    - 264 # Talked to Skipper first time
+    - 273 # Talked to Skipper first time after saying no (prevents weird first text)
+    - 130 # Start with Beacon
+    - 358 # Interface choice unlocked
+    - 789 # Set after skyward striking imp spike first time (allows dowsing option [still needs a goddess sword])
     - 27  # Loftwing
     - 198 # Can jump off Loftwing
     - storyflag: 194 # open thunderhead
-      onlyif: Option "closed-thunderhead" Disabled
+      onlyif: Option "open-thunderhead" Is "Open"
     - 58  # b-wheel
-    - 724 # Prevent first time light pillar CS sending player always to faron
-    - 789 # Set after skyward striking imp spike first time (allows dowsing option [still needs a goddess sword])
     - 323 # Scrapper repaired
     - 661 # Windmill Repaired
-    - 358 # Interface choice unlocked
     - 494 # open gate to faron
     - 138 # Sealed Temple layer 1
     - 24  # no Fi sky text
     - 304 # Crystal Quest activated
     - 329 # No sleeping for Wyrna
     - 32  # Sailcoth
-    - 96  # Fi's text after obtaining first map
     - 28 # Pratice Sword storyflag
+    - 519 # Updated Sand Sea map
+    - 115 # Full Lake Floria map
+    - 180 # Thrill digger entrance CS
+    - 199 # talked to sword instructor after practice sword chest
+    - 804 # eldin entrance statue
   startitems: # careful, items are NOT progressive here (only set item flag, no text), storyflag for upgrade has to be set manually
     - 15 # sailcloth
   startsceneflags: # currently only for skyloft
-    - 95 # Fi Text for Ruby Tablet
-    - 96 # Fi Text for Amber Tablet
-    - 66 # Batreaux Doors outside open
-    - 99 # Sheikah Stone cs played
-    - 67 # Inside Doors open
-    - 1 # UA Doors open
+    Skyloft:
+      - 95 # Fi Text for Ruby Tablet
+      - 96 # Fi Text for Amber Tablet
+      - 66 # Batreaux Doors outside open
+      - 99 # Sheikah Stone cs played
+      - 67 # Inside Doors open
+      - 1 # UA Doors open
+    Faron Woods:
+      - 15 # fi text after vine to deep woods
+      - 14 # text in front of VP statue
+    Sealed Grounds:
+      - 7 # vents active
+      - onlyif: Option "skip-skykeep" Enabled
+        flag: 50 # horde door open
+      - 13 # door to temple unlocked
+    Lanayru Desert:
+      - 68 # desert statue checked
+      - 7 # pushed first minecart to end
+      - onlyif: Option "open-lmf" Is "Open"
+        flag: 30 # LMF Rises CS
+      - onlyif: Option "open-lmf" Is "Open"
+        flag: 31 # LMF rising CS watched
   objpackoarcadd: # Models to add to the global ObjectPack.arc.LZ file
     - GetSozaiL # Monster Horn (part of treasure)
     # - GetSozaiM # Evil Crystal (part of treasure), already part of objectpack
@@ -40,115 +67,13 @@ global:
   #   - GetSozaiO
   #   - GetSozaiP
 
-  asm:
-    main:
-      # sets the chesttype based on the item, change so that chesttype is determined by 00 00 00 30 in the params1
-      - original: 38 7f 0e 08 7c 03 20 ae 98 1c 12 09 28 00 00 03 40 82 00 14 20 04 01 ff 7f 83 e3 78 54 04 04 3e
-        patched:  80 1c 00 04 54 00 e7 be 98 1c 12 09 28 00 00 03 48 00 00 14 20 04 01 ff 7f 83 e3 78 54 04 04 3e
-      # skip drawing link's sword
-      - original: 4b ff fd 69 7f 63 db 78 4b f8 3b 51 2c 03 00 00 41 82 00 14 7f 63 db 78 7f e5 fb 78 38 9b 06 54 4b ff fd 49
-        patched:  60 00 00 00 7f 63 db 78 4b f8 3b 51 2c 03 00 00 41 82 00 14 7f 63 db 78 7f e5 fb 78 38 9b 06 54 60 00 00 00
-        onlyif: Option "invisible-sword" Enabled
-      # instant text
-      - original: 88 03 08 15 2c 00 00 00 40 82 00 60 88 03 08 16 2c 00 00 00 40 82 00 54 80 63 07 20 38 80 00 00 38 a0 00 01
-        patched:  88 03 08 15 2c 00 00 00 40 82 00 60 88 03 08 16 2c 00 00 00 40 82 00 54 80 63 07 20 38 80 00 01 38 a0 00 01
-      # patch every item with item subtype 9 acting like babies rattle (forces textbox)
-      - original: a0 63 03 30 4b ff 0a ac
-        patched:  80 63 00 04 4b ff 35 8c
-      - original: 48 00 2a e5 2c 03 00 00 40 82 00 14 7f c3 f3 78
-        patched:  48 00 2a e5 2c 03 00 09 41 82 00 14 7f c3 f3 78
-    d_a_obj_door_boss: # change storyflags the boss door checks for, so that the doors can be opened in swordless mode, when the crest can't be hit
-      - original: 00 00 00 05 00 00 00 07 00 00 00 09 00 00 00 0b 00 00 00 0d 00 00 00 0f
-        patched:  00 00 00 53 00 00 00 07 00 00 03 2C 00 00 02 88 00 00 00 54 00 00 00 0f
-    d_a_obj_time_door_before: # this bit checks for the current sword, replace equals check with greater equals
-      - original: 2c 00 00 04 40 82 00 a0
-        patched:  2c 00 00 04 41 80 00 a0
-    d_a_obj_item_heart_container:
-      # normally, the heart container spawns an item, which is hardcoded to the heart container item.
-      # this uses forbidden knowledge, that params1 is still in r0 from the called function to extract the item from that
-      # also change the item subtype to 7 so it is always forced to play the textbox
-      - original: 94 21 ff f0 7c 08 02 a6 90 01 00 14 4b ff f1 85 7c 66 1b 78 38 60 00 5d 38 80 00 05
-        patched:  94 21 ff f0 7c 08 02 a6 90 01 00 14 4b ff f1 85 7c 66 1b 78 54 03 86 3e 38 80 00 07
-    d_a_obj_chandelier:
-      # normall, the heart piece is hardcoded, change it so that it instead uses 0000FF00 from params1
-      # additionally, change the item subtype to 9, to force collection with a textbox
-      - original: 94 21 ff f0 7c 08 02 a6 38 a0 00 00 38 e0 00 01 90 01 00 14 39 00 00 ff 93 e1 00 0c 7c 9f 23 78 38 80 00 00 93 c1 00 08 7c 7e 1b 78 80 03 00 04 38 60 00 5e 54 06 46 3e
-        patched:  94 21 ff f0 7c 08 02 a6 38 a0 00 00 38 e0 00 01 90 01 00 14 39 00 00 ff 93 e1 00 0c 7c 9f 23 78 38 80 00 09 93 c1 00 08 7c 7e 1b 78 80 03 00 04 54 03 c6 3e 54 06 46 3e
-    d_a_obj_soil:
-      # item id for the key pieces is hardcoded, change it to read from first byte of params2
-      # the code occurs twice, identical besides registers
-      - original: 88 1f 07 8c 2c 00 00 00 40 82 00 18 38 60 00 1c 38 80 ff ff 38 a0 00 00
-        patched:  88 1f 07 8c 2c 00 00 00 40 82 00 18 88 7f 00 a8 38 80 ff ff 38 a0 00 00
-      - original: 88 03 07 8c 2c 00 00 00 40 82 00 18 38 60 00 1c 38 80 ff ff 38 a0 00 00
-        patched:  88 03 07 8c 2c 00 00 00 40 82 00 18 88 63 00 a8 38 80 ff ff 38 a0 00 00
-    d_a_obj_warp:
-      # items are hardcoded for the trial, just grab them from params1, FF000000 instead and skip most of the switch statement
-      # turns out the trial takes priority over the item, which causes link to warp out before recieving the item
-      # the original devs patched that by waiting until the item flag for the item, that was in the trial was set
-      # which is something rando can't rely on. So this just increments a counter, and only allows the next event to happen
-      # if the counter has been incremented and isn't 0
-      - original: 88 03 0c 7c 2C 00 00 00 41 82 00 20 28 00 00 01 41 82 00 24 28 00 00 02 41 82 00 28 28 00 00 03
-        patched:  88 63 00 04 48 00 00 54 88 63 0c 7d 28 03 00 01 41 81 00 84 38 63 00 01 98 7f 0c 7d 48 00 00 c8
-      # function that start the walking and warping CS, jump to the code injected above
-      - original: 94 21 ff b0 7c 08 02 a6 90 01 00 54 93 e1 00 4c 7c 7f 1b 78 88 63 0c 7d
-        patched:  94 21 ff b0 7c 08 02 a6 90 01 00 54 93 e1 00 4c 7c 7f 1b 78 4b ff ff 84
-      # change faron trial completed storyflag
-      - original: 38 80 00 CE 80 63
-        patched:  38 80 03 97 80 63
-        multiple: true
-      # Eldin
-      - original: 38 80 00 CF 80 63
-        patched:  38 80 03 98 80 63
-        multiple: true
-      # Lanayru
-      - original: 38 80 00 D0 80 63
-        patched:  38 80 03 99 80 63
-        multiple: true
-      # Skyloft
-      - original: 38 80 00 D1 80 63
-        patched:  38 80 03 9A 80 63
-        multiple: true
-    d_a_e_bc:
-      # the bokoblin holding a key in AC, if he dies (possible with bow), but the key isn't picked up it can't be obtained again
-      # first, patch that the sceneflag (shared between bokoblin and key) isn't set if the boko dies and still has the key
-      # this replaces the check for sceneflag 0xFF, I don't think it hurts if we try to set that
-      - original: 88 1f 13 0f 2c 00 00 00 41 82 00 44 88 1f 13 43 28 00 00 ff
-        patched:  88 1f 13 0f 2c 00 00 00 41 82 00 44 88 1f 12 54 28 00 00 01
-      # prevent the key from dropping, the called drop function can't be easily changed and doesn't allow a
-      # sceneflag to be passed as a param
-      - original: 2c 00 00 00 41 82 00 18 38 a1 00 80 38 c1 00 18
-        patched:  2c 00 00 00 42 80 00 18 38 a1 00 80 38 c1 00 18
-      # read the item to give after whipping based on 000000FF from params2
-      # also change item subtype to 9 to always force displaying the textbox
-      - original: 8b df 00 ec 38 00 00 00 98 1f 12 54 38 60 00 01 88 df 13 43 7f de 07 74 38 80 00 01
-        patched:  8b df 00 ec 38 00 00 00 98 1f 12 54 88 7f 00 ab 88 df 13 43 7f de 07 74 38 80 00 09
-      # that code occurs another time
-      - original: 8b 9f 00 ec 38 00 00 00 98 1f 12 54 38 60 00 01 88 df 13 43 7f 9c 07 74 38 80 00 01
-        patched:  8b 9f 00 ec 38 00 00 00 98 1f 12 54 88 7f 00 ab 88 df 13 43 7f 9c 07 74 38 80 00 09
-    d_a_obj_goddess_cube:
-      # Goddess cubes can always be hit, even if the one in deep woods hasn't been hit
-      - original: 94 21 ff f0 7c 08 02 a6 90 01 00 14 93 e1 00 0c 3b e0 00 01 a0 03 08 ac 28 00 00 e3 41 82 00 2c
-        patched:  38 60 00 01 4e 80 00 20 90 01 00 14 93 e1 00 0c 3b e0 00 01 a0 03 08 ac 28 00 00 e3 41 82 00 2c
-    d_a_npc_aqua_dragon:
-      # new AC storyflag is 900
-      - original: 38 80 00 0b 90 01 00 14
-        patched:  38 80 03 84 90 01 00 14
-    d_a_npc_kyui_elder:
-      # prevent slingshot from spawning, just immediately return from the function that should spawn it
-      - original: 94 21 ff a0 7c 08 02 a6 90 01 00 64 db e1 00 50 f3 e1 00 58 db c1 00 40 f3 c1 00 48 93 e1 00 3c
-        patched:  4e 80 00 20 7c 08 02 a6 90 01 00 64 db e1 00 50 f3 e1 00 58 db c1 00 40 f3 c1 00 48 93 e1 00 3c
-        # let the function that checks for the slinshot appears storyflag always return false
-      - original: 38 80 00 39 90 01 00 14
-        patched:  38 60 00 00 48 00 00 2c
-        # let the function that checks for erla's storyflag always return false, this is used in instead of the checkAllKikwisLocated function
-        # cause that one is copy and pasted twice and the individual kikwis are also checked in a seperate location
-      - original: 38 80 00 37 90 01 00 14
-        patched:  38 60 00 00 48 00 00 2c
-        # let the function that checks for the slingshot item flag always return false (includes the end of the previous function for needed context)
-      - original: 4e 80 00 20 94 21 ff f0 7c 08 02 a6 3c 60 00 00 38 80 00 34 90 01 00 14
-        patched:  4e 80 00 20 38 60 00 00 4E 80 00 20 3c 60 00 00 38 80 00 34 90 01 00 14
-
-# S100:
+S100: # Faron Silent Realm
+  - name: Fi text near waking water
+    type: objdelete
+    id: 0xFCDB
+    layer: 2
+    room: 0
+    objtype: OBJ
 #   - name: Test Trial
 #     type: objpatch
 #     id: 0xFC94
@@ -161,6 +86,39 @@ global:
 #     type: oarcadd
 #     oarc: GetMoleGloveA
 #     destlayer: 2
+B100:
+  - name: Layer override
+    type: layeroverride
+    override:
+      - story_flag: 530
+        night: 0
+        layer: 5
+      - story_flag: 67
+        night: 0
+        layer: 4
+      - story_flag: 206
+        night: 0
+        layer: 3
+      - story_flag: 83
+        night: 0
+        layer: 1
+      - story_flag: -1
+        night: 0
+        layer: 13
+  - name: only play CS when ghirahim hasn't been defeated
+    type: objpatch
+    index: 0
+    room: 0
+    objtype: PLY
+    object:
+      storyflag: 83 # ghirahim defeated
+  - name: move first time loadzone to layer 0
+    type: objmove
+    id: 0xFC18
+    layer: 1
+    destlayer: 0
+    room: 0
+    objtype: STAG
 B100_1: # skyview spring
   - name: Fi text after skyview CS
     type: objpatch
@@ -169,7 +127,8 @@ B100_1: # skyview spring
     room: 0
     objtype: OBJ
     object:
-      params1: 0xFFE017F1 # last 1 is subtype (not talk to fi)
+      params1: 0xFFFFFFF1 # last 1 is subtype (not talk to fi)
+      trigscenefid: 104
   - name: Fi text after skyview CS
     type: objmove
     id: 0xFC73
@@ -190,13 +149,37 @@ B100_1: # skyview spring
     index: 1
     objtype: EVNT
     object:
-      item: -1
+      sceneflag1: 104
+      item: -1 # first storyflag handled by entrance rando patches
   - name: Loadzone to outside layer 3
     type: objdelete
     room: 0
     layer: 3
     id: 0xFC75
     objtype: STAG
+  - name: Remove small cutscene
+    type: objdelete
+    room: 0
+    layer: 1
+    id: 0xFC73
+    objtype: STAG
+B101: # Koloktos Boss Room
+  - name: Open door after boss
+    type: objpatch
+    room: 0
+    layer: 1
+    id: 0xFC13
+    objtype: OBJS
+    object:
+      params1: 0xFFFD3000
+  - name: Open door after boss
+    type: objpatch
+    room: 0
+    layer: 3
+    id: 0xFC15
+    objtype: OBJS
+    object:
+      params1: 0xFFFD3000
 B101_1: # after AC boss
   - name: AC CS remove item and flags
     type: objpatch
@@ -204,9 +187,8 @@ B101_1: # after AC boss
     index: 1
     objtype: EVNT
     object:
-      item: -1
-      story_flag1: -1
-      story_flag2: 900 # new ancient cistern flag
+      item: -1 # first storyflag handled by entrance rando patches
+      story_flag2: -1
   - name: Fi text before AC CS
     type: objadd
     room: 0
@@ -214,16 +196,17 @@ B101_1: # after AC boss
     id: 0xFC00
     objtype: OBJ
     object:
-      params1: 0x709FFF01 # untriggered by 900, storyflag for beating AC
+      params1: 0xFFFFFF01 # type 1, no fi, flag sets automatically
       params2: 0xFF1FFFFF
       posx: 0
       posy: 0 # doesn't matter, is triggered anywhere
       posz: 0
-      anglex: 0xFF56 # triggered by sceneflag 86, which is goddess crest hit
       angley: 0xFFFF
       anglez: 20231 # entrypoint 202_31
       id: 0xFC00
       name: NpcTke
+      trigscenefid: 86 # goddess crest hit
+      untrigscenefid: 85 # unused flag
   - name: Loadzone to outside
     type: objpatch
     room: 0
@@ -264,8 +247,7 @@ B201_1: # after FS boss
     index: 0
     objtype: EVNT
     object:
-      item: -1
-      story_flag1: 901 # new FS beaten flag
+      item: -1 # first storyflag handled by entrance rando patches
   - name: Fi text before FS CS
     type: objadd
     room: 0
@@ -273,16 +255,17 @@ B201_1: # after FS boss
     id: 0xFC00
     objtype: OBJ
     object:
-      params1: 0x70BFFF01 # untriggered by 901, storyflag for beating fire sanctuary
+      params1: 0xFFFFFF01 # untriggered by 901, storyflag for beating fire sanctuary
       params2: 0xFF1FFFFF
       posx: 0
       posy: 0 # doesn't matter, is triggered anywhere
       posz: 0
-      anglex: 0xFF5F # triggered by sceneflag 95, which is goddess crest hit
       angley: 0xFFFF
       anglez: 30407 # entrypoint 304_07
       id: 0xFC00
       name: NpcTke
+      trigscenefid: 95 # goddess crest hit
+      untrigscenefid: 121 # sets in flame CS normally
   - name: Loadzone to outside
     type: objpatch
     room: 0
@@ -298,7 +281,8 @@ B301: # after Sandship boss
     room: 0
     index: 1
     objtype: EVNT
-    object:
+    object: # first storyflag handled by entrance rando patches
+      story_flag2: 933 # set defeat tentalus storyflag
       item: -1
   - name: Fi text before FS CS
     type: objadd
@@ -307,16 +291,36 @@ B301: # after Sandship boss
     id: 0xFC00
     objtype: OBJ
     object:
-      params1: 0x01FFFF01 # untriggered by 15, storyflag for beating sandship
+      params1: 0xFFFFFF01 # subtype for not talking to Fi, but setting the untriggerflag
       params2: 0xFF1FFFFF
       posx: 0
       posy: 0 # doesn't matter, is triggered anywhere
       posz: 0
-      anglex: 0xFF54 # triggered by sceneflag 84, which is goddess crest hit
       angley: 0xFFFF
       anglez: 40108 # entrypoint 401_08
       id: 0xFC00
       name: NpcTke
+      trigscenefid: 84
+      untrigscenefid: 87
+  - name: Fi text to force leave boss room
+    type: objadd
+    room: 0
+    layer: 1
+    id: 0xFC00
+    objtype: OBJ
+    object:
+      params1: 0xFFFFFF0B # subtype 0xB for Fi and no storyflag set
+      params2: 0xFF1FFFFF
+      posx: 0
+      posy: 0 # doesn't matter, is triggered anywhere
+      posz: 0
+      angley: 0xFFFF
+      anglez: 40118 # entrypoint 401_18
+      id: 0xFC00
+      name: NpcTke
+      trigscenefid: 85
+      untrigscenefid: 0xFF
+      untrigstoryfid: 907 # untriggered by 907, storyflag for having goddess sword
   - name: Loadzone to outside
     type: objpatch
     room: 0
@@ -326,6 +330,65 @@ B301: # after Sandship boss
     object:
       params1: 0xC303FF03 # change to zone temp flag 3
       anglez: 0xFFFF # don't set any storyflag here
+D003_0: # Sky Keep Courage Room
+  - name: Fi text
+    type: objdelete
+    id: 0xFC0F
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Fi text reach the mark
+    type: objdelete
+    id: 0xFC11
+    layer: 0
+    room: 0
+    objtype: OBJ
+D003_2: # Sky Keep Power Room
+  - name: Fi text
+    type: objdelete
+    id: 0xFC33
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Fi text reach the mark
+    type: objdelete
+    id: 0xFC3C
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Fi text wrong side
+    type: objdelete
+    id: 0xFC32
+    layer: 0
+    room: 0
+    objtype: OBJ
+D003_3: # Sky Keep Wisdom Room
+  - name: Fi text
+    type: objdelete
+    id: 0xFC1B
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Fi text reach the mark
+    type: objdelete
+    id: 0xFC1D
+    layer: 0
+    room: 0
+    objtype: OBJ
+D003_7: # Sky Keep Entrance Room
+  - name: Fi text
+    type: objdelete
+    id: 0xFC0B
+    layer: 0
+    room: 0
+    objtype: OBJ
+D003_8: # this change is purely to make sure D003_8 gets patched, so a perviously broken rando version gets overwritten
+  - name: remove unused layer
+    type: objdelete
+    id: 0xFC08
+    layer: 6
+    room: 0
+    objtype: OBJ
 F000: # Skyloft
   - name: Trial
     type: oarcadd
@@ -373,12 +436,36 @@ F000: # Skyloft
     layer: 4
   - name: unnecessary oarcs
     type: oarcdelete
+    oarc: GetSozaiN
+    layer: 6
+  - name: unnecessary oarcs
+    type: oarcdelete
+    oarc: GetSozaiO
+    layer: 6
+  - name: unnecessary oarcs
+    type: oarcdelete
+    oarc: GetSozaiP
+    layer: 6
+  - name: unnecessary oarcs
+    type: oarcdelete
     oarc: GetGaragara
     layer: 0
   - name: unnecessary oarcs
     type: oarcdelete
     oarc: PutGaragara
     layer: 0
+  - name: unnecessary oarcs
+    type: oarcdelete
+    oarc: MoldoGut_Baby # baby molderarch, is probably here because of the dust pile but not needed
+    layer: 0
+  - name: unnecessary oarcs
+    type: oarcdelete
+    oarc: SoMother # wryna is never outside anymore
+    layer: 4
+  - name: unnecessary oarcs
+    type: oarcdelete
+    oarc: SoMother # wryna is never outside anymore
+    layer: 6
   - name: Trial # trial object
     type: objmove
     id: 0xFDD8
@@ -414,6 +501,18 @@ F000: # Skyloft
   - name: Wyrna cs
     type: objdelete
     id: 0xFDD2
+    layer: 6
+    room: 0
+    objtype: OBJ
+  - name: Wyrna l4 1
+    type: objdelete
+    id: 0xFDCD
+    layer: 4
+    room: 0
+    objtype: OBJ
+  - name: Wyrna l6
+    type: objdelete
+    id: 0xFDD1
     layer: 6
     room: 0
     objtype: OBJ
@@ -543,6 +642,58 @@ F000: # Skyloft
     layer: 10
     room: 0
     objtype: OBJS
+  - name: untrigger fledge on academy after bow layer 4
+    type: objpatch
+    id: 0xFDCF
+    layer: 4
+    room: 0
+    objtype: OBJ
+    object:
+      untrigstoryfid: 1114 # bow
+  - name: untrigger fledge on academy after bow layer 6
+    type: objpatch
+    id: 0xFDD3
+    layer: 6
+    room: 0
+    objtype: OBJ
+    object:
+      untrigstoryfid: 1114 # bow
+  - name: delete Wryna l4 2
+    type: objdelete
+    id: 0xFDF1
+    layer: 4
+    room: 0
+    objtype: OBJ
+  - name: delete people on bridge 1
+    type: objdelete
+    id: 0x05D7
+    layer: 1
+    room: 0
+    objtype: OBJ
+  - name: delete people on bridge 2
+    type: objdelete
+    id: 0x05D8
+    layer: 1
+    room: 0
+    objtype: OBJ
+  - name: delete people on bridge 3
+    type: objdelete
+    id: 0x05D9
+    layer: 1
+    room: 0
+    objtype: OBJ
+  - name: delete people on bridge 1
+    type: oarcdelete
+    oarc: SenpaiAMotherLOD
+    layer: 1
+  - name: delete people on bridge 2
+    type: oarcdelete
+    oarc: DouguyaMotherLOD
+    layer: 1
+  - name: delete people on bridge 3
+    type: oarcdelete
+    oarc: JunkMotherLOD
+    layer: 1
 F001r: # Knight Academy
   - name: Fi Text in Academy at night
     type: objdelete
@@ -574,6 +725,78 @@ F001r: # Knight Academy
     objtype: OBJ
     object:
       untrigstoryfid: 2047
+  - name: Olwan Npc after Kikwis
+    type: objpatch
+    id: 0xFC0A
+    layer: 3
+    room: 5
+    objtype: OBJ
+    object:
+      trigstoryfid: 57 # talk to Elder after locating every Kikwi
+  - name: untrigger other owlan
+    type: objpatch
+    id: 0xFC0B
+    layer: 3
+    room: 5
+    objtype: OBJ
+    object:
+      untrigstoryfid: 57 # talk to Elder after locating every Kikwi
+  - name: Startflags 1
+    type: objadd
+    room: 1 # Link's room
+    layer: 1 # only accessible in BiT
+    objtype: STAG
+    object:
+      params1: 0xFFFFFFF
+      params2: 0xFF5FFFFF
+      posx: 761
+      posy: -22
+      posz: -2260
+      sizex: 1000
+      sizey: 1000
+      sizez: 1000
+      anglex: 27 # loftwing storyflag
+      angley: 0
+      anglez: 65535
+      name: SwAreaT
+  - name: Startflags 2
+    type: objadd
+    room: 1 # Link's room
+    layer: 1 # only accessible in BiT
+    objtype: STAG
+    object:
+      params1: 0xFFFFFFF
+      params2: 0xFF5FFFFF
+      posx: 761
+      posy: -22
+      posz: -2260
+      sizex: 1000
+      sizey: 1000
+      sizez: 1000
+      anglex: 198 # can jump off loftwing storyflag
+      angley: 0
+      anglez: 65535
+      name: SwAreaT
+F002r: # Beedle's Airshop
+  - name: Delete cutscene
+    type: objdelete
+    id: 0xFC11
+    layer: 1
+    room: 0
+    objtype: STAG
+  - name: Delete cutscene
+    type: objdelete
+    id: 0xFC13
+    layer: 1
+    room: 0
+    objtype: STAG
+F004r: # Bazaar
+  - name: Delete goddess chest fi text
+    type: objdelete
+    id: 0xFC7D
+    layer: 0
+    room: 0
+    objtype: OBJ
 F008r: # Goddess Statue
   - name: Goddess Sword chest
     type: objadd
@@ -597,58 +820,41 @@ F008r: # Goddess Statue
     layer: 0
     room: 0
     objtype: OBJ
-F010r: # Isle of songs tower
-  - name: First song chest
-    type: objadd
-    layer: 0
-    room: 0
-    objtype: OBJS
-    object:
-      params1: 0xFFFFFFF3
-      params2: 0xFF5F038B # goddess sword upgrade storyflag
-      posx: 0
-      posy: 0
-      posz: 625
-      anglex: 0xFFFF
-      angley: 0
-      anglez: 0x9DDF # chest flag 78, item 479 (to make it a goddess chest), will be filled in later
-      id: 0xFC00
-      name: TBox
-  - name: Second song chest
-    type: objadd
-    layer: 0
-    room: 0
-    objtype: OBJS
-    object:
-      params1: 0xFFFFFFF3
-      params2: 0xFF5F038C # goddess long sword upgrade storyflag
-      posx: -200
-      posy: 0
-      posz: 625
-      anglex: 0xFFFF
-      angley: 0
-      anglez: 0x9FDF # chest flag 79
-      id: 0xFC00
-      name: TBox
-  - name: Third song chest
-    type: objadd
-    layer: 0
-    room: 0
-    objtype: OBJS
-    object:
-      params1: 0xFFFFFFF3
-      params2: 0xFF5F038D # goddess white sword upgrade storyflag
-      posx: 200
-      posy: 0
-      posz: 625
-      anglex: 0xFFFF
-      angley: 0
-      anglez: 0xA1DF # chest flag 80
-      id: 0xFC00
-      name: TBox
   - name: Delete Crest
     type: objdelete
-    id: 0xFC00
+    id: 0xFC02
+    layer: 0
+    room: 0
+    objtype: OBJ
+F010r: # Isle of songs tower
+  - name: Delete Faron Trial Dowsing
+    type: objdelete
+    id: 0xFC02
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Delete Lanayru Trial Dowsing
+    type: objdelete
+    id: 0xFC03
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Delete Eldin Trial Dowsing
+    type: objdelete
+    id: 0xFC04
+    layer: 0
+    room: 0
+    objtype: OBJ
+F011r: # Lumpy Pumpkin
+  - name: Delete Lumpy Pumpkin Cutscene 1
+    type: objdelete
+    id: 0xFC42
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Delete Lumpy Pumpkin Cutscene 2
+    type: objdelete
+    id: 0xFC43
     layer: 0
     room: 0
     objtype: OBJ
@@ -670,6 +876,12 @@ F013r: # Sparrot's House
     objtype: OBJ
     object:
       trigstoryfid: 36 # always there
+  - name: Sparrot at night
+    type: objdelete
+    id: 0xFC17
+    layer: 2
+    room: 0
+    objtype: OBJ
 F020: # Sky
   - name: Fi text about goddess cubes
     type: objdelete
@@ -697,6 +909,32 @@ F020: # Sky
     type: oarcdelete
     oarc: GetSpareBombBagA
     layer: 0
+  - name: unnecessary oarcs
+    type: oarcdelete
+    oarc: WaterPotWater
+    layer: 2
+  - name: unnecessary oarcs
+    type: oarcdelete
+    oarc: Waterpot
+    layer: 2
+  - name: unnecessary oarcs
+    type: oarcdelete
+    oarc: Pinwheel
+    layer: 2
+  - name: remove faron loadzone after groose
+    type: objdelete
+    id: 0xFC96
+    layer: 0
+    room: 0
+    objtype: STAG
+  - name: never untrigger first faron loadzone
+    type: objpatch
+    id: 0xFC8B
+    layer: 0
+    room: 0
+    objtype: STAG
+    object:
+      untrigstoryfid: -1
 F023: # Thunderhead
   - name: Strich layer 1
     type: objadd
@@ -718,10 +956,66 @@ F023: # Thunderhead
     type: oarcadd
     oarc: KobunB
     destlayer: 1
+  - name: void out during bug heaven minigame
+    type: objadd
+    layer: 13
+    room: 0
+    objtype: STAG
+    object:
+      params1: 0xFFCFFF06
+      params2: 0xFFDFFFFF
+      posx: -165885
+      posy: 16506
+      posz: -52597
+      sizex: 50463
+      sizey: 1000
+      sizez: 50463
+      anglex: 0
+      angley: 0
+      anglez: 0xFFFF
+      id: 0xFC00
+      name: PlRsTag
+  - name: Delete Isle of Songs intro cutscene
+    type: objdelete
+    id: 0xFC89
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Fi text after levias
+    type: objadd
+    room: 0
+    layer: 0
+    id: 0xFC13
+    objtype: OBJ
+    object:
+      params1: 0x74C32301 # triggered by story flag 200, untriggered by story flag 934
+      params2: 0xFF1FFFFF
+      posx: 0
+      posy: 0 # doesn't matter, is triggered anywhere
+      posz: 0
+      anglex: 0xFFFF
+      angley: 0xFFFF
+      anglez: 12003 # entrypoint 120_03
+      id: 0xFC13
+      name: NpcTke
+  - name: Gossip Stone
+    type: objmove
+    id: 0xFCEE
+    layer: 2
+    destlayer: 0
+    room: 0
+    objtype: OBJ
+  - name: Gossip Stone
+    type: oarcadd
+    oarc: GossipStone
+    destlayer: 0
 F100: # Faron main area
   - name: Layer override
     type: layeroverride
     override:
+      - story_flag: 479 #owlan quest started
+        night: 0
+        layer: 5
       - story_flag: -1
         night: 0
         layer: 1
@@ -747,52 +1041,76 @@ F100: # Faron main area
   - name: Trial
     type: oarcadd
     oarc: PLHarpPlay
-    destlayer: 1
+    destlayer: 0
   - name: Trial
     type: oarcadd
     oarc: SirenEntrance
-    destlayer: 1
+    destlayer: 0
   - name: Trial
     type: oarcadd
     oarc: PLSwordStick
-    destlayer: 1
+    destlayer: 0
   - name: Trial # trial object
     type: objmove
     id: 0x02B0
     layer: 3
-    destlayer: 1
+    destlayer: 0
     room: 0
     objtype: OBJ
   - name: Trial # butterflies
     type: objmove
     id: 0xFEE3
     layer: 3
-    destlayer: 1
+    destlayer: 0
     room: 0
     objtype: STAG
   - name: Lake floria door
     type: oarcadd
     oarc: SwrdPrj
-    destlayer: 1
+    destlayer: 0
   - name: Lake floria door
     type: objmove
     id: 0xFEFB
     layer: 4
-    destlayer: 1
+    destlayer: 0
     room: 0
     objtype: STAG
   - name: Lake floria door
     type: objmove
     id: 0xFEE8
     layer: 4
-    destlayer: 1
+    destlayer: 0
     room: 0
     objtype: OBJ
   - name: Lake floria door
     type: objmove
     id: 0xFEF0
     layer: 4
-    destlayer: 1
+    destlayer: 0
+    room: 0
+    objtype: OBJ
+  - name: Remove Fi text Not letting you leave machi 1
+    type: objdelete
+    id: 0x0EBB
+    layer: 1
+    room: 0
+    objtype: OBJ
+  - name: Remove Fi text Not letting you leave machi 2
+    type: objdelete
+    id: 0x0EBA
+    layer: 1
+    room: 0
+    objtype: OBJ
+  - name: Remove Fi text Not letting you leave machi 3
+    type: objdelete
+    id: 0x66B9
+    layer: 1
+    room: 0
+    objtype: OBJ
+  - name: Remove Fi text after machi 1
+    type: objdelete
+    id: 0x66B8
+    layer: 1
     room: 0
     objtype: OBJ
 F101: # Deep Woods
@@ -808,6 +1126,18 @@ F101: # Deep Woods
   - name: Remove goddess cube force hit trigger
     type: objdelete
     id: 0xFD05
+    layer: 1
+    room: 0
+    objtype: OBJ
+  - name: Remove Fi text infront of Skyview
+    type: objdelete
+    id: 0xFCFA
+    layer: 1
+    room: 0
+    objtype: OBJ
+  - name: Remove first Fi text in deep woods
+    type: objdelete
+    id: 0xFD09
     layer: 1
     room: 0
     objtype: OBJ
@@ -835,19 +1165,82 @@ F102_1: # Outside AC
 F102: # lake Floria
   - name: Layer override
     type: layeroverride
-    override: # change layer 2 trigger
-      - story_flag: 16
-        night: 0
-        layer: 3
-      - story_flag: 900 # new beat AC
-        night: 0
-        layer: 2
-      - story_flag: 206 # scale
-        night: 0
-        layer: 1
+    override: # force layer 1
       - story_flag: -1
         night: 0
-        layer: 0
+        layer: 1
+  - name: Door to Dragon Lair
+    type: objdelete
+    id: 0x1000
+    layer: 0
+    room: 4
+    objtype: OBJ
+#  - name: evntTag 1
+#    type: objdelete
+#    id: 0xFC27
+#    layer: 0
+#    room: 1
+#    objtype: STAG
+  - name: evntTag 2
+    type: objdelete
+    id: 0xFc1D
+    layer: 0
+    room: 1
+    objtype: STAG
+  - name: evntTag 3
+    type: objdelete
+    id: 0xFC1E
+    layer: 0
+    room: 1
+    objtype: STAG
+  - name: evntTag 4
+    type: objdelete
+    id: 0xFC2F
+    layer: 0
+    room: 3
+    objtype: STAG
+  - name: evntTag 5
+    type: objdelete
+    id: 0xFC13
+    layer: 0
+    room: 4
+    objtype: STAG
+#  - name: evntTag 6
+#    type: objdelete
+#    id: 0xFC13
+#    layer: 0
+#    room: 4
+#    objtype: STAG
+  - name: evntTag 7
+    type: objdelete
+    id: 0xFC12
+    layer: 0
+    room: 4
+    objtype: STAG
+  - name: evntTag 8
+    type: objdelete
+    id: 0xFC26
+    layer: 0
+    room: 1
+    objtype: STAG
+  - name: evntTag 9
+    type: objdelete
+    id: 0xFC1F
+    layer: 0
+    room: 1
+    objtype: STAG
+  - name: evntTag 10
+    type: objdelete
+    id: 0xFC1C
+    layer: 0
+    room: 1
+    objtype: STAG
+  - name: Delete Parella
+    type: objdelete
+    id: 0xFC2A
+    layer: 1
+    room: 1
+    objtype: OBJS
 F100_1: # Great Tree
   - name: Layer override
     type: layeroverride
@@ -883,11 +1276,11 @@ F100_1: # Great Tree
 D100: # Skyview
   - name: Layer override
     type: layeroverride
-    override: # keep layers normal but remove layer 3+
+    override: # only layer change is to layer 2 after water dragons scale
       - story_flag: 206 # storyflag after water dragons scale
         night: 0
         layer: 2
-      - story_flag: 4 # skyview entrance CS
+      - story_flag: -1
         night: 0
         layer: 1
   - name: Small Key Soil
@@ -986,6 +1379,13 @@ D100: # Skyview
     objtype: OBJS
     object:
       setscenefid: 13 # 0x0 20
+  - name: Always open Bar from inside Beetle Room
+    type: objpatch
+    index: 6
+    layer: 0
+    objtype: DOOR
+    object:
+      anglex: 0xFF09 # remove inside sceneflag
   - name: Remove Skyview 2 Key door # it's now the same as layer 1
     type: objpatch
     index: 2 # all have id FFFF :(
@@ -1053,6 +1453,48 @@ D100: # Skyview
       anglez: 0
       id: 0xFD03
       name: Tubo
+  - name: Remove forced talk to mogma in right room
+    type: objdelete
+    id: 0xFC51
+    layer: 2
+    room: 4
+    objtype: STAG
+  - name: Remove forced talk to mogma in left room
+    type: objdelete
+    id: 0xFC46
+    layer: 2
+    room: 3
+    objtype: STAG
+  - name: Remove forced talk to mogma in front of boss door
+    type: objdelete
+    id: 0xFC7B
+    layer: 2
+    room: 9
+    objtype: STAG
+  - name: Remove soil in three eye room #this one makes pushing the block difficult
+    type: objdelete
+    id: 0xFC34
+    layer: 2
+    room: 7
+    objtype: OBJ
+  - name: Remove initial Fi text in Skyview 1
+    type: objdelete
+    id: 0xFC4C
+    layer: 1
+    room: 0
+    objtype: OBJ
+  - name: Remove initial Fi text in Skyview 2
+    type: objdelete
+    id: 0xFC4A
+    layer: 2
+    room: 0
+    objtype: OBJ
+  - name: Remove cutscene in hub room
+    type: objdelete
+    id: 0xFC85
+    layer: 1
+    room: 5
+    objtype: STAG
 D101: # Ancient Cistern
   - name: remove stone tablet text
     type: objpatch
@@ -1102,6 +1544,24 @@ D101: # Ancient Cistern
       anglez: 0
       id: 0xFD01
       name: Bombf
+  - name: Delete cutscene inside statue
+    type: objdelete
+    id: 0xFC21
+    layer: 0
+    room: 10
+    objtype: STAG
+  - name: Delete cutscene in basement showing bk chest
+    type: objdelete
+    id: 0xFC7E
+    layer: 0
+    room: 4
+    objtype: STAG
+  - name: Delete bottom Water Spout cutscene inside statue
+    type: objdelete
+    id: 0xFC1C
+    layer: 0
+    room: 10
+    objtype: STAG
 F200: # Eldin main area
   - name: Layer override
     type: layeroverride
@@ -1146,6 +1606,18 @@ F200: # Eldin main area
     layer: 1
     room: 4
     objtype: OBJ
+  - name: delete Just saying cs mogma
+    type: objdelete
+    id: 0x248A
+    layer: 1
+    room: 4
+    objtype: OBJ
+  - name: delete Just saying cs mogma
+    type: objdelete
+    id: 0x248B
+    layer: 1
+    room: 4
+    objtype: OBJ
   - name: Trial
     type: oarcadd
     oarc: PLHarpPlay
@@ -1178,6 +1650,29 @@ F200: # Eldin main area
     layer: 0
     room: 4
     objtype: OBJ
+  - name: Forced camera when draining lava before digging mitts
+    type: objdelete
+    id: 0xFCD6
+    layer: 1
+    room: 2
+    objtype: STAG
+  - name: Gossip Stone
+    type: objmove
+    id: 0xFC97
+    layer: 2
+    destlayer: 0
+    room: 4
+    objtype: OBJ
+  - name: Gossip Stone
+    type: oarcadd
+    oarc: GossipStone
+    destlayer: 0
+  - name: CS after draining lava for key piece
+    type: objdelete
+    id: 0x14CC
+    layer: 1
+    room: 2
+    objtype: STAG
 F210: # Mogma Turf
   - name: Layer override
     type: layeroverride
@@ -1185,6 +1680,14 @@ F210: # Mogma Turf
       - story_flag: -1
         night: 0
         layer: 1
+  - name: Cobal Trigger
+    type: objpatch
+    id: 0xFC70
+    layer: 2
+    room: 0
+    objtype: OBJ
+    object:
+      trigstoryfid: 909 # Whitesword
   - name: Cobal
     type: objmove
     id: 0xFC70
@@ -1216,6 +1719,51 @@ F210: # Mogma Turf
     objtype: OBJ
     object:
       trigstoryfid: 901
+  - name: Mogma Holding you back in caves
+    type: objdelete
+    id: 0x007B
+    layer: 1
+    room: 0
+    objtype: OBJ
+F211:
+  - name: Remove thrill digger entry CS
+    type: objpatch
+    index: 0
+    room: 0
+    objtype: PLY
+    object:
+      storyflag: -1
+      play_cutscene: -1
+F201_1: # Inside Volcano
+  - name: Layer override
+    type: layeroverride
+    override:
+      - story_flag: 19
+        night: 0
+        layer: 4
+      - story_flag: 677
+        night: 0
+        layer: 3
+      - story_flag: 207
+        night: 0
+        layer: 2
+      - story_flag: -1
+        night: 0
+        layer: 1
+  - name: Chest in front of sword
+    type: objmove
+    id: 0xFC2E
+    layer: 4
+    destlayer: 0
+    room: 0
+    objtype: OBJS
+  - name: Boko Base pouch chest
+    type: objmove
+    id: 0xFC2D
+    layer: 4
+    destlayer: 0
+    room: 0
+    objtype: OBJS
 F201_3: # FS entrance
   - name: Layer override
     type: layeroverride
@@ -1226,22 +1774,64 @@ F201_3: # FS entrance
       - story_flag: 677
         night: 0
         layer: 3
-      - story_flag: 48
+      - story_flag: 207
         night: 0
         layer: 2
-      - story_flag: 5
-        night: 0
-        layer: 1
       - story_flag: -1
         night: 0
-        layer: 0
+        layer: 1
   - name: Big Flames
     type: objdelete
     id: 0xFC15
     layer: 0
     room: 0
     objtype: OBJ
+  - name: Goron Text after first frog
+    type: objdelete
+    id: 0xFC5A
+    layer: 2
+    room: 0
+    objtype: OBJ
+  - name: Goron Text after second frog
+    type: objdelete
+    id: 0xFC5B
+    layer: 2
+    room: 0
+    objtype: OBJ
+  - name: Goron Text near big frog
+    type: objdelete
+    id: 0xFC5C
+    layer: 2
+    room: 0
+    objtype: OBJ
+  - name: Goron Text near first frog
+    type: objdelete
+    id: 0xFC5D
+    layer: 2
+    room: 0
+    objtype: OBJ
+  - name: Goron Text near first frog
+    type: objdelete
+    id: 0xFC5E
+    layer: 2
+    room: 0
+    objtype: OBJ
 F201_4: # Volcano Waterfall
+  - name: Layer override
+    type: layeroverride
+    override:
+      - story_flag: 19
+        night: 0
+        layer: 4
+      - story_flag: 677
+        night: 0
+        layer: 3
+      - story_flag: 207
+        night: 0
+        layer: 2
+      - story_flag: -1
+        night: 0
+        layer: 1
   - name: extra Bomb flower
     type: objadd
     layer: 0
@@ -1265,6 +1855,14 @@ D200: # ET
     layer: 0
     room: 1
     objtype: OBJ
+  - name: Keep Ledd after Beating ET
+    type: objpatch
+    id: 0xFC50
+    layer: 0
+    room: 1
+    objtype: OBJ
+    object:
+      untrigstoryfid: 2047
   - name: Bombs from Ledd
     type: objpatch
     id: 0xFC53
@@ -1295,6 +1893,12 @@ B200: # Boss Room
       - story_flag: -1
         night: 0
         layer: 2
+  - name: delete fi text
+    type: objdelete
+    id: 0xFC30
+    layer: 2
+    room: 10
+    objtype: OBJ
 D201: # FS A
   - name: Mogma 1
     type: objdelete
@@ -1302,23 +1906,78 @@ D201: # FS A
     layer: 0
     room: 0
     objtype: OBJ
+  - name: Guld cs trigger
+    type: objdelete
+    id: 0xFC08
+    layer: 0
+    room: 0
+    objtype: OBJ
 D201_1: # FS B
-   - name: Clawshot Traget for 2nd small Key
-     type: objadd
-     layer: 0
-     room: 5
-     objtype: OBJ
-     object:
-       params1: 0xFFFFFC24
-       params2: 0xFFFFFFFF
-       posx: -5743
-       posy: 650
-       posz: -8514
-       anglex: 0
-       angley: 36894
-       anglez: 0
-       id: 0xFC20
-       name: ClawSTg
+  - name: Clawshot Target for 2nd small Key
+    type: objadd
+    layer: 0
+    room: 5
+    objtype: OBJ
+    object:
+      params1: 0xFFFFFC24
+      params2: 0xFFFFFFFF
+      posx: -5743
+      posy: 650
+      posz: -8514
+      anglex: 0
+      angley: 36894
+      anglez: 0
+      id: 0xFC20
+      name: ClawSTg
+  - name: Fist Trapped Mogma CS delete
+    type: objdelete
+    layer: 0
+    room: 5
+    objtype: OBJ
+    id: 0xFC11
+  - name: Double Magmanos fight cs (can softblock)
+    type: objdelete
+    layer: 0
+    room: 5
+    objtype: STAG
+    id: 0xFC2B
+  - name: Text after Magmanos fight 1
+    type: objdelete
+    layer: 0
+    room: 5
+    objtype: OBJ
+    id: 0xFC1E
+  - name: Text after Magmanos fight 2
+    type: objdelete
+    layer: 0
+    room: 5
+    objtype: OBJ
+    id: 0xFC23
+  - name: Remove Sealed Grounds intro CS flag
+    type: objpatch
+    room: 6
+    objtype: EVNT
+    index: 1
+    object:
+      story_flag1: -1
+  - name: Delete Camera Pan in first magmanos room
+    type: objdelete
+    id: 0xFC1B
+    layer: 0
+    room: 1
+    objtype: STAG
+  - name: Underground tutorial text for mogma mitts
+    type: objdelete
+    id: 0xFC66
+    layer: 0
+    room: 5
+    objtype: OBJ
+  - name: Delete camera pan cutscene after mogma mitts
+    type: objdelete
+    id: 0xFC2C
+    layer: 0
+    room: 5
+    objtype: STAG
 B201: # G2 fight
   - name: Layer override
     type: layeroverride
@@ -1334,7 +1993,7 @@ B201: # G2 fight
         layer: 1
       - story_flag: -1
         night: 0
-        layer: 0
+        layer: 13
 F300: # lanayru Main Area
   - name: Layer override
     type: layeroverride
@@ -1357,21 +2016,58 @@ F300: # lanayru Main Area
     destlayer: 1
     room: 0
     objtype: OBJS
-F300_1:
+  - name: Remove Fi text after Tumbleweed Chest
+    type: objdelete
+    id: 0xFCC6
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Remove Zelda Dowsing from LMF raising cs
+    type: objpatch
+    room: 0
+    index: 28
+    objtype: EVNT
+    object:
+      story_flag2: -1 # no Zelda Dowsing
+  - name: Remove Fi text for Trial Gate
+    type: objdelete
+    id: 0xFC87
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Remove Fi text for all nodes
+    type: objdelete
+    id: 0x0CC4
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: LMF entrance loadzone
+    type: objpatch
+    id: 0xFCEB
+    layer: 0
+    room: 0
+    objtype: STAG
+    object:
+      trigstoryfid: 8 # LMF raised
+F300_1: # Lanayru Mines
   - name: Layer override
     type: layeroverride
     override:
       - story_flag: -1
         night: 0
         layer: 1
-  - name: Connect intro event to entrance statue # make sure the statue is always checked
-    type: objpatch
-    id: 0xFC8C
-    layer: 1
+  - name: Remove First timeshift stone cs
+    type: objdelete
+    id: 0xFC47
+    layer: 0
     room: 0
     objtype: STAG
-    object:
-      params1: 0xFFFF4403 # sceneflag 68
+  - name: Remove Fi text for Trial Gate
+    type: objdelete
+    id: 0xFC2D
+    layer: 0
+    room: 0
+    objtype: OBJ
 F300_2: # Thunder node
   - name: extra Bomb flower
     type: objadd
@@ -1389,6 +2085,31 @@ F300_2: # Thunder node
       anglez: 0
       id: 0xFC50
       name: Bombf
+  - name: Fi text for generator
+    type: objdelete
+    id: 0xFC24
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Remove Fi text for all nodes
+    type: objdelete
+    id: 0xFC23
+    layer: 0
+    room: 0
+    objtype: OBJ
+F300_3: # Fire node
+  - name: Fi text for generator
+    type: objdelete
+    id: 0xFC28
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Remove Fi text for all nodes
+    type: objdelete
+    id: 0xFC27
+    layer: 0
+    room: 0
+    objtype: OBJ
 F300_4: # Temple of Time
   - name: Layer override
     type: layeroverride
@@ -1405,16 +2126,42 @@ F300_4: # Temple of Time
     room: 0
     objtype: EVNT
     object:
-      item: -1
-      story_flag1: 914
+      item: -1 # storyflag handled in entrance rando patches
+      story_flag2: 935 # changes loadzone out of LMF
   - name: Fi text after Harp
-    type: objpatch
+    type: objdelete
     room: 0
     layer: 0
     id: 0xFC0D
     objtype: OBJ
-    object:
-      params1: 0xFFFFFFF1
+  - name: Remove Fi text for Trial Gate
+    type: objdelete
+    id: 0xFC17
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Remove backwards loadingzone to LMF
+    type: objdelete
+    id: 0xFC3D
+    layer: 0
+    room: 0
+    objtype: STAG
+  # - name: Loadzone to dungeon entrance
+  #   type: objadd
+  #   room: 0
+  #   layer: 0
+  #   objtype: STAG
+  #   object:
+  #     params1: 0xC303FF05 # change to zone temp flag 3
+  #     params2: 0xFF5FFFFF
+  #     posx: -38000
+  #     posy: 50
+  #     posz: -4750
+  #     sizex: 500
+  #     sizey: 500
+  #     sizez: 500
+  #     anglez: 0xFFFF # don't set any storyflag here
+  #     name: ScChang
 F300_5: # LMF to ToT
   - name: harp CS loadzone
     type: objpatch
@@ -1423,7 +2170,11 @@ F300_5: # LMF to ToT
     room: 0
     objtype: STAG
     object:
-      untrigstoryfid: 914
+      # increase size to make it unmissable
+      sizex: 1700
+      sizez: 500
+      trigscenefid: 0xC3
+      untrigstoryfid: 935
   - name: harp CS loadzone
     type: objpatch
     id: 0xFC04
@@ -1431,7 +2182,36 @@ F300_5: # LMF to ToT
     room: 0
     objtype: STAG
     object:
-      trigstoryfid: 914
+      trigstoryfid: 935
+  - name: Area to give Reward after dungeon
+    type: objadd
+    index: 0
+    room: 0
+    objtype: AREA
+    object:
+      posx: -11810.81640625
+      posy: -103.16357421875
+      posz: -4.131864070892334
+      sizex: 700
+      sizey: 1000
+      sizez: 500
+      angle: 0
+  - name: Trigger to give Reward after dungeon
+    type: objadd
+    room: 0
+    layer: 0
+    objtype: OBJ
+    object:
+      params1: 0x751FFFF1 # sets own storyflag (936) to untrigger
+      params2: 0xFF1FFFFF
+      posx: -11810
+      posy: -103 # doesn't matter, triggered by area
+      posz: -4
+      anglex: 0xFFFF
+      angley: 0xFF00 # AREA 0
+      anglez: 40055 # entrypoint 400_55
+      id: 0xFC00
+      name: NpcTke
   - name: Extra Bird Statue
     type: objadd
     layer: 0
@@ -1519,15 +2299,6 @@ F301_1: # Sand Sea Main Area
     objtype: SCEN
     object:
       layer: 1
-  - name: open sandship with sea chart 1
-    type: objpatch
-    id: 0xFC6B
-    layer: 1
-    room: 0
-    objtype: STAG
-    object:
-      trigscenefid: 255
-      trigstoryfid: 269 # Sea Chart
   - name: Move sandship load to layer 0
     type: objmove
     layer: 1
@@ -1535,30 +2306,20 @@ F301_1: # Sand Sea Main Area
     room: 0
     objtype: STAG
     id: 0xFC6B
-  - name: open sandship with sea chart 2
+  - name: Cutscene after shipyard
     type: objdelete
-    id: 0xFC98
-    layer: 2
+    id: 0xFC07
+    layer: 0
     room: 0
-    objtype: STAG
-  - name: open sandship with sea chart 3
-    type: objdelete
-    id: 0xFCB7
-    layer: 3
+    objtype: OBJ
+  - name: remove entrance cutscene
+    type: objpatch
+    index: 0
     room: 0
-    objtype: STAG
-  - name: open sandship with sea chart 4
-    type: objdelete
-    id: 0xFCB7
-    layer: 4
-    room: 0
-    objtype: STAG
-  - name: open sandship with sea chart 5
-    type: objdelete
-    id: 0xFCB7
-    layer: 5
-    room: 0
-    objtype: STAG
+    objtype: PLY
+    object:
+      storyflag: -1
+      play_cutscene: -1
 F301: # Ancient Harbour
   - name: No Sandship beaten layer in sandship
     type: objpatch
@@ -1567,6 +2328,52 @@ F301: # Ancient Harbour
     objtype: SCEN
     object:
       layer: 1
+  - name: Remove Skipper Text with Whitesword
+    type: objdelete
+    id: 0xFC0F
+    layer: 0
+    room: 0
+    objtype: OBJ
+F301_2: # inside Pirate Stronghold
+  - name: Fi Text at beginning
+    type: objdelete
+    id: 0xFC0A
+    layer: 0
+    room: 1
+    objtype: OBJ
+  - name: Fi Text near timeshift orb
+    type: objdelete
+    id: 0xFC06
+    layer: 0
+    room: 3
+    objtype: OBJ
+  - name: Fi Text after placing orb
+    type: objdelete
+    id: 0xFC0B
+    layer: 0
+    room: 1
+    objtype: OBJ
+  - name: CS before second lever
+    type: objdelete
+    id: 0xFC28
+    layer: 0
+    room: 6
+    objtype: STAG
+F301_3: # Skipper's Retreat
+  - name: Text after intro
+    type: objdelete
+    id: 0xFC30
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: remove entrance cutscene
+    type: objpatch
+    index: 0
+    room: 0
+    objtype: PLY
+    object:
+      storyflag: -1
+      play_cutscene: -1
 F301_4: # Shipyard
   - name: Text after intro
     type: objdelete
@@ -1574,21 +2381,68 @@ F301_4: # Shipyard
     layer: 1
     room: 0
     objtype: OBJ
-  - name: Shipyard Intro
+  - name: Door to Construction always open
     type: objpatch
     room: 0
-    index: 0
-    objtype: EVNT
+    layer: 0
+    id: 0xFC05
+    objtype: OBJS
     object:
-      sceneflag2: 87
+      params1: 0xF7FFFC20
+  - name: remove entrance cutscene
+    type: objpatch
+    index: 0
+    room: 0
+    objtype: PLY
+    object:
+      storyflag: -1
+      play_cutscene: -1
+  - name: Gossip Stone
+    type: objmove
+    id: 0xFC5E
+    layer: 5
+    destlayer: 0
+    room: 0
+    objtype: OBJ
+  - name: Gossip Stone
+    type: oarcadd
+    oarc: GossipStone
+    destlayer: 0
+F301_5: # Skipper's Shack
+  - name: Text after chest
+    type: objdelete
+    id: 0xFC1B
+    layer: 0
+    room: 0
+    objtype: OBJ
 F301_6: # outside Pirate stronghold
+  - name: Text after intro
+    type: objdelete
+    id: 0xFC07
+    layer: 0
+    room: 0
+    objtype: OBJ
   - name: Ship dowsing
     type: objdelete
     id: 0xFC08
     layer: 0
     room: 0
     objtype: OBJ
+  - name: remove entrance cutscene
+    type: objpatch
+    index: 0
+    room: 0
+    objtype: PLY
+    object:
+      storyflag: -1
+      play_cutscene: -1
 F301_7: # inside Shipyard
+  - name: Text near minecart door
+    type: objdelete
+    id: 0xFC04
+    layer: 0
+    room: 0
+    objtype: OBJ
   - name: Door to outside
     type: objpatch
     id: 0xFC01
@@ -1618,6 +2472,29 @@ D300: # LMF A
     objtype: OBJS
     object:
       params1: 0xF7FFFC20
+  - name: extra Bomb flower
+    type: objadd
+    layer: 0
+    room: 6
+    objtype: OBJ
+    object:
+      params1: 0xFFFFFFF0
+      params2: 0xFFFFFFFF
+      posx: -6150
+      posy: 1050
+      posz: -10108
+      anglex: 0
+      angley: 0
+      anglez: 0
+      id: 0xFC50
+      name: Bombf
+D300_1: # LMF B
+  - name: Fi Text in front of boss door
+    type: objdelete
+    id: 0xFC71
+    layer: 0
+    room: 5
+    objtype: OBJ
 D301: # Sandship A
   - name: extra Bomb flower
     type: objadd
@@ -1646,6 +2523,79 @@ D301: # Sandship A
     type: oarcadd
     destlayer: 1
     oarc: PutHeartUtuwa
+  - name: Candle on layer 1
+    type: objmove
+    layer: 9
+    destlayer: 1
+    room: 0
+    objtype: OBJ
+    id: 0xFC54
+  - name: load goddess crest rel
+    type: objnadd
+    layer: 1
+    room: 0
+    objn: SwSB
+  - name: candle arcs
+    type: oarcadd
+    destlayer: 1
+    oarc: GoddessSymbolSc
+  - name: candle arcs
+    type: oarcadd
+    destlayer: 1
+    oarc: SwordCandle
+  - name: Fi text after hitting Sandship Crest
+    type: objadd
+    room: 0
+    layer: 1
+    id: 0xFC00
+    objtype: OBJ
+    object:
+      params1: 0xFFFFFF01 # subtype to not trigger fi, but set flag
+      params2: 0xFF1FFFFF
+      posx: 0
+      posy: 0 # doesn't matter, is triggered anywhere
+      posz: 0
+      angley: 0xFFFF
+      anglez: 40108 # entrypoint 401_08
+      id: 0xFC00
+      name: NpcTke
+      trigstoryfid: 933 # triggered by storyflag for leaving tentalus room
+      trigscenefid: 84 # and triggered by sceneflag 84, which is goddess crest hit
+      untrigscenefid: 87 # unused flag to untrigger
+  - name: Trigger Flame CS
+    type: objadd
+    layer: 0
+    room: 0
+    objtype: STAG
+    object:
+      params1: 0xC303FF07 # scenlink: 7, triggered by zone temp flag 3
+      params2: 0xFF5FFFFF
+      posx: -4118
+      posy: 500
+      posz: 1914
+      sizex: 50000
+      sizey: 500
+      sizez: 50000
+      anglex: 0xFFFF # no trigger storyflag
+      angley: 0
+      anglez: 0xFFFF # no untrigger cause zone temp flag is unset after load
+      id: 0xFC00
+      name: ScChang
+  - name: Flame CS Exit
+    type: objadd
+    room: 0
+    index: 7
+    objtype: SCEN
+    object:
+      name: B301
+      room: 0
+      layer: 13
+      entrance: 4
+      byte4: 2
+      byte5: 0
+      flag6: 0
+      zero: 0
+      flag8: 0
   - name: Remove Boss Door loadzone after beating dungeon
     type: objpatch
     id: 0xFC45
@@ -1653,8 +2603,111 @@ D301: # Sandship A
     room: 9
     objtype: STAG
     object:
-      anglez: 15 # untriggerstoryflag, beat sandship
+      anglez: 933 # untriggerstoryflag, defeat tentalus
+  - name: Fi text infront of Boss Door
+    type: objdelete
+    id: 0xFC43
+    layer: 4
+    room: 9
+    objtype: OBJ
+  - name: Fi text at generator
+    type: objdelete
+    id: 0xFC0F
+    layer: 1
+    room: 7
+    objtype: OBJ
+  - name: Fi text at generator
+    type: objdelete
+    id: 0xFC12
+    layer: 1
+    room: 5
+    objtype: OBJ
+  - name: Fi text after boss key chest
+    type: objdelete
+    id: 0xFC1D
+    layer: 3
+    room: 14
+    objtype: OBJ
+  - name: Fi text after Scervo
+    type: objdelete
+    id: 0xFC07
+    layer: 2
+    room: 15
+    objtype: OBJ
+  - name: Fi text after bow chest
+    type: objdelete
+    id: 0xFC08
+    layer: 2
+    room: 15
+    objtype: OBJ
+  - name: Fi text for revealing timeshift stone
+    type: objdelete
+    id: 0xFC4C
+    layer: 1
+    room: 0
+    objtype: OBJ
+D301_1: # Sandship B
+  - name: Fi text before tentalus
+    type: objdelete
+    id: 0xFC1D
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Fi text before tentalus
+    type: objdelete
+    id: 0xFC1E
+    layer: 0
+    room: 0
+    objtype: OBJ
+F303: # Lanayru Caves
+  - name: Layer override
+    type: layeroverride
+    override:
+      - story_flag: 208 #clawshots
+        night: 0
+        layer: 1
+      - story_flag: -1
+        night: 0
+        layer: 0
+  - name: Fi text after chest
+    type: objdelete
+    id: 0xFC25
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Delete cutscene
+    type: objdelete
+    id: 0xFC41
+    layer: 0
+    room: 0
+    objtype: STAG
+  - name: never untrigger goron
+    type: objpatch
+    id: 0xFC5C
+    layer: 1
+    room: 0
+    objtype: OBJ
+    object:
+      untrigstoryfid: 2047 # never untrigger
 F402: # Sealed Temple
+  - name: Layer override
+    type: layeroverride
+    override:
+      - story_flag: 133
+        night: 0
+        layer: 6
+      - story_flag: 132
+        night: 0
+        layer: 4
+      - story_flag: 13
+        night: 0
+        layer: 3
+      - story_flag: 140
+        night: 0
+        layer: 2
+      - story_flag: -1
+        night: 0
+        layer: 1
   - name: SotH start cs
     type: objdelete
     id: 0xFC4F
@@ -1708,6 +2761,12 @@ F402: # Sealed Temple
     layer: 2
     room: 2
     objtype: OBJ
+  - name: Impa text before imp 2 trigger
+    type: objdelete
+    id: 0xFC4C
+    layer: 3
+    room: 2
+    objtype: OBJ
   - name: Remove Music and shaking
     type: objpatch
     room: 2
@@ -1730,6 +2789,32 @@ F402: # Sealed Temple
     objtype: EVNT
     object:
       story_flag2: -1
+  - name: Delete post levias impa
+    type: objdelete
+    id: 0xFC17
+    layer: 0
+    room: 2
+    objtype: OBJ
+  - name: Impa triggers after raising GoT instead of Farores Courage
+    type: objpatch
+    id: 0xFC04
+    layer: 0
+    room: 2
+    objtype: OBJ
+    object:
+      trigstoryfid: 340 # gate of time raised
+  - name: Delete Imp 2 beaten cs inside
+    type: objdelete
+    id: 0xFC4D
+    layer: 4
+    room: 2
+    objtype: OBJ
+  - name: Delete Imp 2 beaten cs inside
+    type: objdelete
+    id: 0xFC4C
+    layer: 4
+    room: 2
+    objtype: OBJ
 F401: # Sealed grounds Whirlpool
   - name: Layer override
     type: layeroverride
@@ -1749,12 +2834,6 @@ F401: # Sealed grounds Whirlpool
       - story_flag: 133
         night: 0
         layer: 5
-      - story_flag: 175
-        night: 0
-        layer: 3
-      - story_flag: 200
-        night: 0
-        layer: 4
       - story_flag: 13
         night: 0
         layer: 3
@@ -1800,6 +2879,18 @@ F401: # Sealed grounds Whirlpool
     layer: 1
     room: 1
     objtype: OBJ
+  - name: Groosenator before imp 2
+    type: objdelete
+    id: 0xFC9D
+    layer: 3
+    room: 1
+    objtype: OBJ
+  - name: Fi text for Trial
+    type: objdelete
+    id: 0xFC09
+    layer: 0
+    room: 1
+    objtype: OBJ
 F400: # Behind the Temple
   - name: Layer override
     type: layeroverride
@@ -1813,9 +2904,6 @@ F400: # Behind the Temple
       - story_flag: 133
         night: 0
         layer: 6
-      - story_flag: 200
-        night: 0
-        layer: 5
       - story_flag: 13
         night: 0
         layer: 4
@@ -1844,6 +2932,26 @@ F400: # Behind the Temple
     objtype: OBJ
     object:
       untrigstoryfid: 2047
+  - name: Goron after Skyview
+    type: objdelete
+    id: 0xFC2E
+    layer: 0
+    room: 0
+    objtype: OBJ
+  - name: Untrigger Goron with Goddess Walls unlocked
+    type: objpatch
+    id: 0xFC2F
+    layer: 0
+    room: 0
+    objtype: OBJ
+    object:
+      untrigstoryfid: 493 #godess walls unlocked
+  - name: Fi text for Trial
+    type: objdelete
+    id: 0xFC5B
+    layer: 0
+    room: 0
+    objtype: OBJ
 F404: # Hylia's Temple
   - name: Layer override
     type: layeroverride
@@ -1858,6 +2966,12 @@ F404: # Hylia's Temple
     objtype: EVNT
     object:
       item: -1 # no TMS anymore
+  - name: Delete post-ghirahim 3 impa
+    type: objdelete
+    id: 0xFC05
+    layer: 0
+    room: 2
+    objtype: OBJ
 F403: # Hylia's Realm
   - name: Layer override
     type: layeroverride
@@ -1880,31 +2994,31 @@ F403: # Hylia's Realm
       - story_flag: -1
         night: 0
         layer: 13
-F407: # Skykeep beaten cs
-  - name: Skykeep CS remove Storyflag
+F407: # Sky Keep beaten CS
+  - name: Sky Keep CS remove Storyflag
     type: objpatch
     room: 0
     index: 2
     objtype: EVNT
     object:
-      story_flag2: -1
-  - name: Skykeep CS remove Storyflag
+      story_flag2: -1 # first storyflag is handled by entrance rando patches
+  - name: Sky Keep CS remove Storyflag
     type: objpatch
     room: 0
     index: 3
     objtype: EVNT
     object:
       story_flag2: -1
-  - name: Send player to Skyloft after Skykeep
-    type: objpatch
-    room: 0
-    index: 1
-    objtype: SCEN
-    object:
-      name: F000
-      room: 0
-      layer: 0
-      entrance: 52 # where you spawn after opening sky keep
+  # - name: Send player to Skyloft after Sky Keep
+  #   type: objpatch
+  #   room: 0
+  #   index: 1
+  #   objtype: SCEN
+  #   object:
+  #     name: F000
+  #     room: 0
+  #     layer: 0
+  #     entrance: 52 # where you spawn after opening sky keep
 S200:
   - name: Unforce layer
     type: objpatch
