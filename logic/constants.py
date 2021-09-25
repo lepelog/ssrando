@@ -159,3 +159,37 @@ ALL_TYPES = [
     "summit goddess",
     "sand sea goddess",
 ]
+
+NON_RANDOMIZED_SETTINGS = [
+    "No Spoiler Log",
+    "Fix BiT crashes",
+    "Randomize Additional Settings",
+    # Currently unavailable
+    "Gate of Time Starting State",
+    "Gate of Time Dungeon Requirements",
+    "Horde",
+    "Ghirahim 3",
+    "Demise",
+    # Unrandomized
+    "Logic Mode",
+    "Enabled Tricks BiTless",
+    "Enabled Tricks Glitched",
+    "Banned Types",
+    "Max Batreaux Reward",
+    # Hints (done separately)
+    "Hint Distribution",
+    "Way of the Hero Hints",
+    "Sometimes Hints",
+    "Barren",
+    "Location Hints",
+    "Item Hints",
+]
+
+HINT_SETTINGS = [
+    "Hint Distribution",
+    "Way of the Hero Hints",
+    "Sometimes Hints",
+    "Barren",
+    "Location Hints",
+    "Item Hints",
+]

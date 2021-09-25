@@ -481,7 +481,7 @@ class Ui_MainWindow(object):
         self.groupBox_7.setGeometry(QRect(560, 10, 181, 251))
         self.verticalLayoutWidget_7 = QWidget(self.groupBox_7)
         self.verticalLayoutWidget_7.setObjectName(u"verticalLayoutWidget_7")
-        self.verticalLayoutWidget_7.setGeometry(QRect(10, 20, 165, 221))
+        self.verticalLayoutWidget_7.setGeometry(QRect(10, 20, 173, 221))
         self.verticalLayout_10 = QVBoxLayout(self.verticalLayoutWidget_7)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
         self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
@@ -674,7 +674,7 @@ class Ui_MainWindow(object):
         self.groupBox_9.setGeometry(QRect(10, 270, 181, 241))
         self.verticalLayoutWidget_5 = QWidget(self.groupBox_9)
         self.verticalLayoutWidget_5.setObjectName(u"verticalLayoutWidget_5")
-        self.verticalLayoutWidget_5.setGeometry(QRect(10, 20, 161, 211))
+        self.verticalLayoutWidget_5.setGeometry(QRect(10, 20, 171, 211))
         self.verticalLayout_15 = QVBoxLayout(self.verticalLayoutWidget_5)
         self.verticalLayout_15.setObjectName(u"verticalLayout_15")
         self.verticalLayout_15.setContentsMargins(0, 0, 0, 0)
@@ -722,6 +722,11 @@ class Ui_MainWindow(object):
         self.option_hero_mode.setObjectName(u"option_hero_mode")
 
         self.verticalLayout_15.addWidget(self.option_hero_mode)
+
+        self.option_randomize_additional_settings = QCheckBox(self.verticalLayoutWidget_5)
+        self.option_randomize_additional_settings.setObjectName(u"option_randomize_additional_settings")
+
+        self.verticalLayout_15.addWidget(self.option_randomize_additional_settings)
 
         self.verticalSpacer_6 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -843,7 +848,7 @@ class Ui_MainWindow(object):
         self.groupBox_10.setGeometry(QRect(10, 10, 181, 221))
         self.verticalLayoutWidget_12 = QWidget(self.groupBox_10)
         self.verticalLayoutWidget_12.setObjectName(u"verticalLayoutWidget_12")
-        self.verticalLayoutWidget_12.setGeometry(QRect(10, 20, 161, 191))
+        self.verticalLayoutWidget_12.setGeometry(QRect(10, 20, 161, 206))
         self.verticalLayout_22 = QVBoxLayout(self.verticalLayoutWidget_12)
         self.verticalLayout_22.setObjectName(u"verticalLayout_22")
         self.verticalLayout_22.setContentsMargins(0, 0, 0, 0)
@@ -1076,7 +1081,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(4)
+        self.tabWidget.setCurrentIndex(2)
         self.option_randomize_entrances.setCurrentIndex(-1)
 
 
@@ -1178,6 +1183,7 @@ class Ui_MainWindow(object):
         self.label_for_option_rupoor.setText(QCoreApplication.translate("MainWindow", u"Rupoor Mode", None))
         self.option_fix_bit_crashes.setText(QCoreApplication.translate("MainWindow", u"Fix BiT crashes", None))
         self.option_hero_mode.setText(QCoreApplication.translate("MainWindow", u"Hero Mode", None))
+        self.option_randomize_additional_settings.setText(QCoreApplication.translate("MainWindow", u"Randomize Additional Settings", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), QCoreApplication.translate("MainWindow", u"Additional Settings", None))
         self.label_for_option_logic_mode.setText(QCoreApplication.translate("MainWindow", u"Logic Mode", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Exclude Locations", None))

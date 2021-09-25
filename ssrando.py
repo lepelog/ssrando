@@ -72,6 +72,16 @@ class Randomizer(BaseRandomizer):
     def __init__(self, options: Options, progress_callback=dummy_progress_callback):
         super().__init__(progress_callback)
         self.options = options
+        self.seed = self.options["seed"]
+        if self.seed == -1:
+            self.seed = random.randint(0, 1000000)
+        self.options.set_option("seed", self.seed)
+        self.rng = random.Random()
+        self.rng.seed(self.seed)
+
+        if self.options["randomize-settings"]:
+            self.randomize_additional_settings()
+
         # hack: if shops are vanilla, disable them as banned types because of bug net and progressive pouches
         if self.options["shop-mode"] == "Vanilla":
             banned_types = self.options["banned-types"]
@@ -82,14 +92,8 @@ class Randomizer(BaseRandomizer):
 
         self.dry_run = bool(self.options["dry-run"])
         self.no_logs = self.options["no-spoiler-log"]
-        self.seed = self.options["seed"]
-        if self.seed == -1:
-            self.seed = random.randint(0, 1000000)
-        self.options.set_option("seed", self.seed)
 
         self.randomizer_hash = self._get_rando_hash()
-        self.rng = random.Random()
-        self.rng.seed(self.seed)
         if self.no_logs:
             self.rng.randint(0, 100)
         self.banned_types = self.options["banned-types"]
@@ -300,6 +304,20 @@ class Randomizer(BaseRandomizer):
                 hintlocation + ":",
                 hint.to_spoiler_log_text(),
             )
+
+        spoiler_log += "\n\n\n"
+
+        # Write randomized settings
+        if self.options["randomize-settings"]:
+            spoiler_log += "Randomized Settings:\n"
+            for optkey, opt in OPTIONS.items():
+                if (
+                    opt["name"] in constants.NON_RANDOMIZED_SETTINGS
+                    or "permalink" in opt
+                ):
+                    if opt["name"] not in constants.HINT_SETTINGS:
+                        continue
+                spoiler_log += "  {}: {}\n".format(opt["name"], self.options[optkey])
 
         spoiler_log += "\n\n\n"
 
@@ -554,6 +572,32 @@ class Randomizer(BaseRandomizer):
         plcmt_file.check_valid()
 
         return plcmt_file
+
+    def randomize_additional_settings(self):
+        for optkey, opt in OPTIONS.items():
+            if opt["name"] in constants.NON_RANDOMIZED_SETTINGS or "permalink" in opt:
+                continue
+            else:
+                if opt["type"] == "boolean":
+                    self.options.set_option(optkey, bool(self.rng.randint(0, 1)))
+                elif opt["type"] == "int":
+                    self.options.set_option(
+                        optkey, self.rng.randint(opt["min"], opt["max"])
+                    )
+                elif opt["type"] == "singlechoice":
+                    self.options.set_option(optkey, self.rng.choice(opt["choices"]))
+                elif opt["type"] == "multichoice":
+                    multichoice = []
+                    for choice in opt["choices"]:
+                        if self.rng.randint(0, 1) == 1:
+                            multichoice.append(choice)
+                    self.options.set_option(optkey, multichoice)
+
+        # Randomize hint distribution
+        hint_types = ["woth-hints", "barren-hints", "location-hints", "item-hints"]
+        for i in range(30):
+            hint_type = self.rng.choice(hint_types)
+            self.options.set_option(hint_type, self.options[hint_type] + 1)
 
 
 class PlandoRandomizer(BaseRandomizer):
