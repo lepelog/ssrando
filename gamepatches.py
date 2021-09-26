@@ -20,6 +20,7 @@ from sslib.dol import DOL
 from sslib.rel import REL
 from paths import RANDO_ROOT_PATH
 from tboxSubtypes import tboxSubtypes
+from musicrando import music_rando
 
 from logic.logic import Logic
 from logic.constants import SILENT_REALM_CHECKS
@@ -899,6 +900,8 @@ class GamePatcher:
         self.do_patch_object_pack()
         self.do_patch_title_screen_logo()
 
+        music_rando(self)
+
     def filter_option_requirement(self, entry):
         return not (
             isinstance(entry, dict)
@@ -966,7 +969,7 @@ class GamePatcher:
         GOT_SWORD_MODES = {
             "Goddess Sword": 1,
             "Goddess Longsword": 2,
-            "Goddees Whitesword": 3,
+            "Goddess Whitesword": 3,
             "Master Sword": 4,
             "True Master Sword": 5,
         }

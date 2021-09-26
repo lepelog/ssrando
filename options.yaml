@@ -541,3 +541,22 @@
   default: false
   help: If enabled, all settings will be randomized, excluding progress locations (banned types), logic settings, and cosmetic/setup settings. If the seed fails to generate, try again with a different seed. It is uncommon for generation to fail, but some combinations of settings can cause this.
   ui: option_randomize_additional_settings
+- name: Randomize Music
+  command: music-rando
+  type: singlechoice
+  bits: 2
+  choices:
+    - None
+    - Shuffled
+    - Shuffled (Limit Vanilla)
+  default: None
+  permalink: false
+  help: If enabled, music will be randomized. Limit Vanilla means, the randomizer will attempt to prevent vanilla music. Note that some music can still be vanilla.
+  ui: option_music_rando
+- name: Cutoff Game Over Music
+  command: cutoff-gameover-music
+  type: boolean
+  default: false
+  permalink: false
+  help: If enabled, the game over music will cutoff when it normally would. If disabled, the music will continue to play until the end of the song, even after pressing continue.
+  ui: option_cutoff_gameover_music
