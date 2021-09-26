@@ -587,11 +587,12 @@ class Randomizer(BaseRandomizer):
                 elif opt["type"] == "singlechoice":
                     self.options.set_option(optkey, self.rng.choice(opt["choices"]))
                 elif opt["type"] == "multichoice":
-                    multichoice = []
-                    for choice in opt["choices"]:
-                        if self.rng.randint(0, 1) == 1:
-                            multichoice.append(choice)
-                    self.options.set_option(optkey, multichoice)
+                    self.options.set_option(
+                        optkey,
+                        self.rng.sample(
+                            opt["choices"], self.rng.randint(0, len(opt["choices"]))
+                        ),
+                    )
 
         # Randomize hint distribution
         hint_types = ["woth-hints", "barren-hints", "location-hints", "item-hints"]
