@@ -197,8 +197,8 @@ class RandoGUI(QMainWindow):
         self.ui.permalink.textChanged.connect(self.permalink_updated)
         self.ui.seed.textChanged.connect(self.update_settings)
         self.ui.progression_goddess.clicked.connect(self.goddess_cubes_toggled)
-        self.ui.option_randomize_additional_settings.clicked.connect(
-            self.randomize_additional_settings_toggled
+        self.ui.option_randomize_settings.clicked.connect(
+            self.randomize_settings_toggled
         )
         self.ui.seed_button.clicked.connect(self.gen_new_seed)
         self.update_ui_for_settings()
@@ -580,16 +580,24 @@ class RandoGUI(QMainWindow):
         self.ui.progression_summit_goddess.setEnabled(enabled)
         self.ui.progression_sand_sea_goddess.setEnabled(enabled)
 
-    def randomize_additional_settings_toggled(self):
-        if self.ui.option_randomize_additional_settings.isChecked() == True:
+    def randomize_settings_toggled(self):
+        if self.ui.option_randomize_settings.isChecked() == True:
             settings_randomized = False
         else:
             settings_randomized = True
         for opt in OPTIONS.values():
-            if opt["name"] in NON_RANDOMIZED_SETTINGS or "permalink" in opt:
+            if (
+                opt["name"] in NON_RANDOMIZED_SETTINGS
+                or "permalink" in opt
+                or opt["name"] == "Banned Types"
+            ):
                 if opt["name"] not in HINT_SETTINGS:
                     continue
             getattr(self.ui, opt["ui"]).setEnabled(settings_randomized)
+        for banned_type in ALL_TYPES:
+            getattr(
+                self.ui, "progression_{}".format(banned_type.replace(" ", "_"))
+            ).setEnabled(settings_randomized)
 
     def gen_new_seed(self):
         self.ui.seed.setText(str(random.randrange(0, 1_000_000)))

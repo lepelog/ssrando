@@ -58,7 +58,7 @@
      <string/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -1145,7 +1145,7 @@
         <rect>
          <x>10</x>
          <y>20</y>
-         <width>161</width>
+         <width>171</width>
          <height>224</height>
         </rect>
        </property>
@@ -1200,9 +1200,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="option_randomize_additional_settings">
+         <widget class="QCheckBox" name="option_randomize_settings">
           <property name="text">
-           <string>Randomize Additional Settings</string>
+           <string>Randomize Settings</string>
           </property>
          </widget>
         </item>

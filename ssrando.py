@@ -80,7 +80,7 @@ class Randomizer(BaseRandomizer):
         self.rng.seed(self.seed)
 
         if self.options["randomize-settings"]:
-            self.randomize_additional_settings()
+            self.options.randomize_settings(self)
 
         # hack: if shops are vanilla, disable them as banned types because of bug net and progressive pouches
         if self.options["shop-mode"] == "Vanilla":
@@ -161,7 +161,25 @@ class Randomizer(BaseRandomizer):
 
     def randomize(self):
         self.progress_callback("randomizing items...")
-        self.logic.randomize_items()
+        can_generate_seed = self.logic.randomize_items()
+        if self.options["randomize-settings"]:
+            while not can_generate_seed:
+                print(
+                    "The seed could not be generated; reshuffling settings and trying again..."
+                )
+                self.options.randomize_settings(self)
+
+                # hack: if shops are vanilla, disable them as banned types because of bug net and progressive pouches
+                if self.options["shop-mode"] == "Vanilla":
+                    banned_types = self.options["banned-types"]
+                    for unban_shop_item in ["beedle", "cheap", "medium", "expensive"]:
+                        if unban_shop_item in banned_types:
+                            banned_types.remove(unban_shop_item)
+                    self.options.set_option("banned-types", banned_types)
+
+                self.logic = Logic(self)
+                self.hints = Hints(self.logic)
+                can_generate_seed = self.logic.randomize_items()
         self.woth_locations = self.logic.get_woth_locations()
         if self.options["hint-distribution"] == "Junk":
             self.hints.do_junk_hints()
@@ -318,6 +336,26 @@ class Randomizer(BaseRandomizer):
                     if opt["name"] not in constants.HINT_SETTINGS:
                         continue
                 spoiler_log += "  {}: {}\n".format(opt["name"], self.options[optkey])
+
+            spoiler_log += "\nBanned Types:\n"
+
+            if len(self.options["banned-types"]) == 0:
+                spoiler_log += "  None\n"
+            for banned_type in self.options["banned-types"]:
+                if (
+                    banned_type.endswith("goddess")
+                    and banned_type != "goddess"
+                    and "goddess" in self.options["banned-types"]
+                ):
+                    continue
+                if (
+                    banned_type in ["cheap", "medium", "expensive"]
+                    and "beedle" in self.options["banned-types"]
+                ):
+                    continue
+                spoiler_log += "  {}\n".format(
+                    constants.POTENTIALLY_BANNED_TYPES[banned_type]
+                )
 
         spoiler_log += "\n\n\n"
 
@@ -572,33 +610,6 @@ class Randomizer(BaseRandomizer):
         plcmt_file.check_valid()
 
         return plcmt_file
-
-    def randomize_additional_settings(self):
-        for optkey, opt in OPTIONS.items():
-            if opt["name"] in constants.NON_RANDOMIZED_SETTINGS or "permalink" in opt:
-                continue
-            else:
-                if opt["type"] == "boolean":
-                    self.options.set_option(optkey, bool(self.rng.randint(0, 1)))
-                elif opt["type"] == "int":
-                    self.options.set_option(
-                        optkey, self.rng.randint(opt["min"], opt["max"])
-                    )
-                elif opt["type"] == "singlechoice":
-                    self.options.set_option(optkey, self.rng.choice(opt["choices"]))
-                elif opt["type"] == "multichoice":
-                    self.options.set_option(
-                        optkey,
-                        self.rng.sample(
-                            opt["choices"], self.rng.randint(0, len(opt["choices"]))
-                        ),
-                    )
-
-        # Randomize hint distribution
-        hint_types = ["woth-hints", "barren-hints", "location-hints", "item-hints"]
-        for i in range(30):
-            hint_type = self.rng.choice(hint_types)
-            self.options.set_option(hint_type, self.options[hint_type] + 1)
 
 
 class PlandoRandomizer(BaseRandomizer):

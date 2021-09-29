@@ -535,12 +535,12 @@
   default: false
   help: If activated, the final check of a required dungeon will be a sword (if possible). If there aren't enough swords to place, or there are more than 4 swords to place, some required dungeons will not force a sword at the end.
   ui: option_sword_dungeon_reward
-- name: Randomize Additional Settings
+- name: Randomize Settings
   command: randomize-settings
   type: boolean
   default: false
-  help: If enabled, all settings will be randomized, excluding progress locations (banned types), logic settings, and cosmetic/setup settings. If the seed fails to generate, try again with a different seed. It is uncommon for generation to fail, but some combinations of settings can cause this.
-  ui: option_randomize_additional_settings
+  help: If enabled, all settings will be randomized, excluding logic settings and cosmetic/setup settings. If the seed fails to generate, try again with a different seed. It is uncommon for generation to fail, but some combinations of settings can cause this.
+  ui: option_randomize_settings
 - name: Randomize Music
   command: music-rando
   type: singlechoice

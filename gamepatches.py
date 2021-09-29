@@ -23,11 +23,15 @@ from tboxSubtypes import tboxSubtypes
 from musicrando import music_rando
 
 from logic.logic import Logic
-from logic.constants import SILENT_REALM_CHECKS
+import logic.constants as constants
 
 from asm.patcher import apply_dol_patch, apply_rel_patch
 
-from util.textbox_utils import break_lines, break_and_make_multiple_textboxes
+from util.textbox_utils import (
+    break_lines,
+    break_and_make_multiple_textboxes,
+    make_mutliple_textboxes,
+)
 
 TOTAL_STAGE_FILES = 369
 TOTAL_EVENT_FILES = 6
@@ -885,6 +889,9 @@ class GamePatcher:
         if self.placement_file.options["impa-sot-hint"]:
             self.add_impa_hint()
         self.add_stone_hint_patches()
+        if self.placement_file.options["randomize-settings"]:
+            self.add_banned_type_hints()
+            self.add_batreaux_max_hint()
         self.handle_oarc_add_remove()
         self.add_rando_hash()
         self.add_keysanity()
@@ -1437,6 +1444,67 @@ class GamePatcher:
                     ),
                 },
             )
+
+    def add_banned_type_hints(self):
+        banned_types = []
+        banned_types.append(
+            break_lines(
+                "The ancient legend of Skyloft says that the hero who searches these locations will never find anything for their quest:"
+            )
+            + "\n"
+        )
+        if len(self.rando.options["banned-types"]) == 0:
+            banned_types.append("<r<None>>\n")
+        for btype in self.rando.options["banned-types"]:
+            if btype in ["beedle", "cheap", "medium", "expensive"]:
+                if btype != "beedle" and "beedle" in self.rando.options["banned-types"]:
+                    continue
+                banned_types.append(
+                    "<y<{}>>\n".format(constants.POTENTIALLY_BANNED_TYPES[btype])
+                )
+            elif "goddess" in btype:
+                if (
+                    btype != "goddess"
+                    and "goddess" in self.rando.options["banned-types"]
+                ):
+                    continue
+                banned_types.append(
+                    "<b+<{}>>\n".format(constants.POTENTIALLY_BANNED_TYPES[btype])
+                )
+            else:
+                banned_types.append(
+                    "<r<{}>>\n".format(constants.POTENTIALLY_BANNED_TYPES[btype])
+                )
+        banned_types.append(break_lines("Good luck with your journey. I'll be here."))
+
+        self.eventpatches["103-DaiShinkan"].append(
+            {
+                "name": f"Gaepora Banned Type Hint",
+                "type": "textpatch",
+                "index": 6,
+                "text": make_mutliple_textboxes(banned_types),
+            }
+        )
+
+    def add_batreaux_max_hint(self):
+        max_batreaux_hint_texts = [
+            "There's a fiendish demon living in\nSkyloft!",
+            "I'm tellin' ya, I came this close to\ngetting eaten by that evil beast!",
+            "You look like you've gotten a little\nknight training, but you'd better keep\nyour guard up, or he'll take a bite out\nof you too!",
+            break_lines(
+                "Rumor has it, the monster wants to become one of us, but needs <y+<{} tokens of gratitude>>.".format(
+                    self.rando.options["max-batreaux-reward"]
+                )
+            ),
+        ]
+        self.eventpatches["117-Pumpkin"].append(
+            {
+                "name": f"Max Batreaux Hint 1",
+                "type": "textpatch",
+                "index": 115,
+                "text": make_mutliple_textboxes(max_batreaux_hint_texts),
+            }
+        )
 
     def handle_oarc_add_remove(self):
         remove_stageoarcs = defaultdict(set)
