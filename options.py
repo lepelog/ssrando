@@ -225,10 +225,7 @@ class Options:
 
         # Randomize banned types
         potentially_banned_types = list(constants.POTENTIALLY_BANNED_TYPES.keys())
-        if (
-            self["small-key-mode"] == "Anywhere"
-            and self["boss-key-mode"] == "Anywhere"
-        ):
+        if self["small-key-mode"] == "Anywhere" and self["boss-key-mode"] == "Anywhere":
             pass
         else:
             potentially_banned_types.remove("dungeon")

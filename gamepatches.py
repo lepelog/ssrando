@@ -1481,7 +1481,9 @@ class GamePatcher:
 
         if len(txtbox) != 0:
             banned_types.append("\n".join(txtbox))
-        banned_types.append(break_lines("I wish you luck in saving my daughter. Be safe out there."))
+        banned_types.append(
+            break_lines("I wish you luck in saving my daughter. Be safe out there.")
+        )
 
         print(make_mutliple_textboxes(banned_types))
         self.eventpatches["103-DaiShinkan"].append(
