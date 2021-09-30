@@ -1485,7 +1485,6 @@ class GamePatcher:
             break_lines("I wish you luck in saving my daughter. Be safe out there.")
         )
 
-        print(make_mutliple_textboxes(banned_types))
         self.eventpatches["103-DaiShinkan"].append(
             {
                 "name": f"Gaepora Banned Type Hint",
