@@ -1451,16 +1451,16 @@ class GamePatcher:
             break_lines(
                 "The ancient legend of Skyloft says that the hero who searches these locations will never find anything for their quest:"
             )
-            + "\n"
         )
+        txtbox = []
         if len(self.rando.options["banned-types"]) == 0:
-            banned_types.append("<r<None>>\n")
+            banned_types.append("\n<r<None>>")
         for btype in self.rando.options["banned-types"]:
             if btype in ["beedle", "cheap", "medium", "expensive"]:
                 if btype != "beedle" and "beedle" in self.rando.options["banned-types"]:
                     continue
-                banned_types.append(
-                    "<y<{}>>\n".format(constants.POTENTIALLY_BANNED_TYPES[btype])
+                txtbox.append(
+                    "<y<{}>>".format(constants.POTENTIALLY_BANNED_TYPES[btype])
                 )
             elif "goddess" in btype:
                 if (
@@ -1468,15 +1468,22 @@ class GamePatcher:
                     and "goddess" in self.rando.options["banned-types"]
                 ):
                     continue
-                banned_types.append(
-                    "<b+<{}>>\n".format(constants.POTENTIALLY_BANNED_TYPES[btype])
+                txtbox.append(
+                    "<b+<{}>>".format(constants.POTENTIALLY_BANNED_TYPES[btype])
                 )
             else:
-                banned_types.append(
-                    "<r<{}>>\n".format(constants.POTENTIALLY_BANNED_TYPES[btype])
+                txtbox.append(
+                    "<r<{}>>".format(constants.POTENTIALLY_BANNED_TYPES[btype])
                 )
-        banned_types.append(break_lines("Good luck with your journey. I'll be here."))
+            if len(txtbox) == 4:
+                banned_types.append("\n".join(txtbox))
+                txtbox = []
 
+        if len(txtbox) != 0:
+            banned_types.append("\n".join(txtbox))
+        banned_types.append(break_lines("I wish you luck in saving my daughter. Be safe out there."))
+
+        print(make_mutliple_textboxes(banned_types))
         self.eventpatches["103-DaiShinkan"].append(
             {
                 "name": f"Gaepora Banned Type Hint",

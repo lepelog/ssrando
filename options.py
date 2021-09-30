@@ -228,7 +228,6 @@ class Options:
         if (
             self["small-key-mode"] == "Anywhere"
             and self["boss-key-mode"] == "Anywhere"
-            and self["sword-dungeon-reward"] == False
         ):
             pass
         else:
