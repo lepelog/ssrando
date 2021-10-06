@@ -89,9 +89,10 @@ class Randomizer(BaseRandomizer):
 
         self.randomizer_hash = self._get_rando_hash()
         self.rng = random.Random()
-        self.rng.seed(self.seed)
         if self.no_logs:
-            self.rng.randint(0, 100)
+            self.rng.seed(self.seed+(${SECRET_KEY}))
+        else:
+            self.rng.seed(self.seed)
         self.banned_types = self.options["banned-types"]
 
         self.logic = Logic(self)
