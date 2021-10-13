@@ -9,26 +9,39 @@ from .constants import POTENTIALLY_REQUIRED_DUNGEONS, SILENT_REALMS, SILENT_REAL
 from util import textbox_utils
 
 ALWAYS_REQUIRED_LOCATIONS = [
-    "Thunderhead - Levias",
+    "Thunderhead - Song from Levias",
     "Sky - Kina's Crystals",
-    "Skyloft - Peater/Peatrice's Crystals",
+    "Central Skyloft - Peater/Peatrice's Crystals",
     "Batreaux - 80 Crystals",
+    "Lanayru Mining Facility - Boss Key Chest",
+    "Fire Sanctuary - Chest after Bombable Wall",
 ]
 
 SOMETIMES_LOCATIONS = [
-    "Lanayru Sand Sea - Roller Coaster Minigame",
-    "Skyloft Academy - Pumpkin Archery - 600 Points",
+    "Lanayru Sand Sea - Rickety Coaster - Heart Stopping Track in 1'05",
+    "Knight Academy - Pumpkin Archery - 600 Points",
     "Sky - Lumpy Pumpkin Harp Minigame",
-    "Sky - Fun Fun Island Minigame",
-    "Thunderhead - Bug Island minigame",
+    "Sky - Fun Fun Island Minigame - 500 Rupees",
+    "Thunderhead - Bug Heaven - 10 Bugs in 3 Minutes",
     "Batreaux - 70 Crystals Second Reward",
     "Batreaux - 70 Crystals",
     "Batreaux - 50 Crystals",
-    "Skyloft Academy - Owlan's Crystals",
+    "Knight Academy - Owlan's Crystals",
     "Skyloft Village - Sparrot's Crystals",
-    "Lanayru - On Top of Lanayru Mining Facility",
-    "Skyloft - Waterfall Goddess Chest",  # stronghold cube
+    "Lanayru Desert - Chest on top of Lanayru Mining Facility",
+    "Central Skyloft - Waterfall Goddess Chest",  # stronghold cube
     "Sky - Beedle's Island Goddess Chest",  # goddess cube in ToT area
+    "Skyview - Chest behind Three Eyes",
+    "Sandship - Boss Key Chest",
+    "Sandship - Tentalus Heart Container",
+    "Sandship - Bow",
+    "Thunderhead - Isle of Songs - Din's Power",
+    "Sealed Grounds - Zelda's Blessing",
+    "Lanayru Sand Sea - Skipper's Retreat - Chest in Shack",
+    "Volcano Summit - Item behind Digging",
+    "Faron Woods - Slingshot",
+    "Sky - Beedle's Crystals",
+    "Sealed Grounds - Gorko's Goddess Wall Reward",
 ]
 
 HINTABLE_ITEMS = (
@@ -181,6 +194,11 @@ class Hints:
             SOMETIMES_LOCATIONS
         )
 
+        hintable_items = HINTABLE_ITEMS.copy()
+        # tweak item pool
+        if "Sandship" in self.logic.required_dungeons:
+            hintable_items.append("Sea Chart")
+
         hints_left = total_stonehints
         hinted_locations = []
 
@@ -292,7 +310,6 @@ class Hints:
                 hints_left -= 1
 
         # create  the item hints
-        hintable_items = HINTABLE_ITEMS.copy()
         item_hints = []
         self.logic.rando.rng.shuffle(hintable_items)
         hinted_locations.extend(self.logic.sworded_dungeon_locations)
