@@ -1514,7 +1514,7 @@ class GamePatcher:
                 "text": make_mutliple_textboxes(max_batreaux_hint_texts),
             }
         )
-        
+
     def add_race_integrity_patches(self):
         self.add_patch_to_event(
             "599-Demo",
