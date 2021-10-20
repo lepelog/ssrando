@@ -1486,13 +1486,14 @@ class GamePatcher:
             break_lines("I wish you luck in saving my daughter. Be safe out there.")
         )
 
-        self.eventpatches["103-DaiShinkan"].append(
+        self.add_patch_to_event(
+            "103-DaiShinkan",
             {
                 "name": f"Gaepora Banned Type Hint",
                 "type": "textpatch",
                 "index": 6,
                 "text": make_mutliple_textboxes(banned_types),
-            }
+            },
         )
 
     def add_batreaux_max_hint(self):
@@ -1506,13 +1507,14 @@ class GamePatcher:
                 )
             ),
         ]
-        self.eventpatches["117-Pumpkin"].append(
+        self.add_patch_to_event(
+            "117-Pumpkin",
             {
                 "name": f"Max Batreaux Hint 1",
                 "type": "textpatch",
                 "index": 115,
                 "text": make_mutliple_textboxes(max_batreaux_hint_texts),
-            }
+            },
         )
 
     def add_race_integrity_patches(self):

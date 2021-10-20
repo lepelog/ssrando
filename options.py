@@ -208,6 +208,14 @@ class Options:
         for optkey, opt in OPTIONS.items():
             if opt["name"] in constants.NON_RANDOMIZED_SETTINGS or "permalink" in opt:
                 continue
+            elif opt["name"] == "Shop Mode":
+                # Do not allow "Always Junk" to be chosen
+                self.set_option(
+                    optkey,
+                    rando.rng.choice(
+                        [choice for choice in opt["choices"] if choice != "Always Junk"]
+                    ),
+                )
             else:
                 if opt["type"] == "boolean":
                     self.set_option(optkey, bool(rando.rng.randint(0, 1)))
