@@ -1,0 +1,67 @@
+Skyview:
+  force-tod: Day
+  stages:
+    Skyview Temple:
+      stage: D100
+      areas:
+        Entrance:
+          events:
+            Activate Skyview Goddess Wall: Can Cut Tree & Water Scale & Goddess Harp
+          logic-exits:
+            First Hub: Can Cut Tree & (Bomb Bag | (Sword & Distance Activator))
+          map-exits:
+            Deep Woods - Past Beehive: Nothing
+        First Hub:
+          macros:
+            Can Hit Vines in Skyview Left Room: Distance Activator | Bomb Bag | Goddess Sword | Whip
+            Can Raise Water: Distance Activator
+          locations:
+            Map Chest: Can Hit Vines in Skyview Left Room | (Skyview - Spider Roll Trick & Switch Activator)
+            Small Key Digging Spot: Distance Activator & Water Scale & Digging Mitts
+            Behind Two Eyes: Can Raise Water & Sword
+          logic-exits:
+            Main Hub: Can Raise Water & SV Small Key x1
+        Main Hub:
+          locations:
+            Beetle: Distance Activator & (Sword | Water Scale)
+            Behind Bars in Hub Room: Beetle | (Slingshot & Skyview Slingshot Shot Trick)
+            Behind Three Eyes: Beetle & Sword
+          logic-exits:
+            # To get accross the rope with boko babas, hang down on the rope and go accross that way.
+            # The last boko baba may be annoying but nothing too bad if you time it
+            # The Staldra can be defeated with either sword or bombs
+            # A bomb knocks the Skulltula away. A skyward strike can knock it away too.
+            # Both the Beetle and the bow can cut it down. There is no spider anymore in Skyview 2
+            # also need to be able to get past the archers 
+            Boss Door Area: "SV Small Key x2 & (Sword | Bomb Bag)
+              & (Bomb Bag | Goddess Sword | Beetle | Bow | Water Scale)
+              & (Long Range Skyward Strike | Hook Beetle | Bow)"
+        Boss Door Area:
+          locations:
+            Near Boss Door: Nothing
+            Boss Key: Distance Activator | Long Range Skyward Strike
+          map-exits:
+            Skyview Boss - Main: SV Boss Key
+
+    Skyview Boss:
+      stage: B100
+      areas:
+        Main:
+          locations:
+            Ghirahim Heart Container: Sword
+          map-exits:
+            Skyview Temple - Boss Door Area: Sword
+            Skyview Spring - Main: Sword
+    
+    Skyview Spring:
+      stage: B100_1
+      areas:
+        Main:
+          locations:
+            Ruby Tablet: Goddess Sword
+          events:
+            Goddess Cube in Skyview Spring: Goddess Sword
+            Beat Skyview Temple: Goddess Sword
+          map-exits:
+            Skyview Boss - Main: Nothing
+            Deep Woods - Past Beehive: Goddess Sword

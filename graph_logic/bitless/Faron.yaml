@@ -1,0 +1,214 @@
+Sealed Grounds:
+  force-tod: Day
+  stages:
+    Sealed Grounds Spiral:
+      stage: F401
+      areas:
+        Upper:
+          events:
+            Sealed Grounds Statue: Nothing
+          map-exits:
+            Sky - Field (Sealed Grounds Statue): Nothing
+          logic-exits:
+            Lower: Nothing
+
+        Lower:
+          events:
+            Defeat Imprisoned 2: Start Imprisoned 2 & Goddess Sword
+          map-exits:
+            Sealed Temple - Main: Nothing
+          logic-exits:
+            Upper: Beat Required Dungeons & Raise GoT
+
+    Sealed Temple:
+      stage: F402
+      areas:
+        Main:
+          events:
+            Start Imprisoned 2: Raise GoT & Beat Required Dungeons & Sword Requirement Met
+            Raise GoT: Goddess Harp
+          locations:
+            Inside Sealed Temple: Nothing
+            Ballad of the Goddess: Goddess Harp
+          map-exits:
+            Sealed Grounds Spiral - Lower: Nothing
+            Behind the Temple - Main: Nothing
+
+    Behind the Temple:
+      stage: F400
+      areas:
+        Main:
+          events:
+            Behind the Temple Statue: Nothing
+          locations:
+            Gorko's Goddess Wall Reward: Goddess Harp & Goddess Sword & Goddess Wall Trigger in SV
+          map-exits:
+            Sky - Field (Behind the Temple Statue): Nothing
+            Faron Woods - Entry: Nothing
+            Sealed Grounds Spiral - Upper: Nothing
+            Sealed Temple - Main: Nothing
+Faron Woods:
+  force-tod: Day
+  stages:
+    Faron Woods:
+      stage: F100
+      areas:
+        Entry:
+          events:
+            Faron Woods Entry Statue: Nothing
+          map-exits:
+            Sky - Field (Faron Woods Entry Statue): Nothing
+            Behind the Temple - Main: Nothing
+          logic-exits:
+            Main: Sword | Bomb Bag | Clawshots # either cut trees or clawshot vines
+
+        Main:
+          locations:
+            HP on Tree: Nothing
+            Slingshot: Bomb Bag | Sword # to kill bokos and cut grass
+            HP behind Bombable Wall: Bomb Bag
+            Chest behind Bombable Wall: Bomb Bag
+          events:
+            Viewing Platform Statue: Nothing
+            In the Woods Statue: Nothing
+            # to kill bokos and cut grass, also rock spawns in front of the crawlspace on layer 5
+            # do not include meeting owlan here, that is checked when getting
+            # the reward
+            Retrieve Oolo: Bomb Bag 
+          map-exits:
+            Sky - Field (Viewing Platform Statue): Nothing
+            Sky - Field (In the Woods Statue): Nothing
+            Deep Woods - Entry: Distance Activator
+            Lake Floria - Entrance: Talk to Yerbal & Goddess Sword & Water Scale
+          logic-exits:
+            Entry: Nothing
+            Clawshot Target Branch: Clawshots
+
+        Clawshot Target Branch:
+          events:
+            Goddess Cube on East Great Tree with Clawshots Target: Goddess Sword
+        
+        Great Tree Platforms:
+          events:
+            Goddess Cube on West Great Tree near Exit: Goddess Sword
+          map-exits:
+            Great Tree - Upper (Upper Platform): Nothing
+            Great Tree - Lower (Lower Platform): Nothing
+
+        Great Tree Top:
+          events:
+            Goddess Cube on East Great Tree with Rope: Goddess Sword # it's very far down from the top, but for logic you need to reach this area so it's put here
+            Great Tree Statue: Nothing
+            Talk to Yerbal: Slingshot | Beetle # only those 2 items (and their upgrades) work
+          map-exits:
+            Sky - Field (Great Tree Statue): Nothing
+            Great Tree - Upper (Top): Nothing
+          logic-exits:
+            Clawshot Target Branch: Nothing
+            Great Tree Platforms: Nothing
+
+    Deep Woods:
+      stage: F101 # I think, check again
+      areas:
+        Entry:
+          map-exits:
+            Faron Woods - Main: Nothing
+          logic-exits:
+            Past Beehive: Distance Activator | Goddess Sword # bomb bag?
+
+        Past Beehive:
+          locations:
+            Deep Woods Chest: Nothing
+          events:
+            Deep Woods Statue: Nothing
+            Forest Temple Statue: Nothing
+            Initial Goddess Cube: Goddess Sword
+            Goddess Cube in Deep Woods: Goddess Sword
+            Goddess Cube on top of Skyview: Goddess Sword & Clawshots
+          map-exits:
+            Sky - Field (Deep Woods Statue): Nothing
+            Sky - Field (Forest Temple Statue): Nothing
+            Skyview Temple - Entry: Distance Activator
+          logic-exits:
+            Entry: Nothing
+
+    Great Tree:
+      stage: F100_1 # check again
+      areas:
+        Entrance:
+          map-exits:
+            Faron Woods - Main: Water Scale
+          logic-exits:
+            Lower: Water Scale
+
+        Lower: # down in the water
+          logic-exits:
+            Entrance: Water Scale
+            Middle: Gust Bellows
+            Past Platforms: Gust Bellows
+        Middle: # around the chest
+          locations:
+            Great Tree Chest: Nothing
+          logic-exits:
+            Lower: Nothing
+            Past Platforms: Nothing
+        Past Platforms:
+          map-exits:
+            Faron Woods - Great Tree Platforms (Lower Platform): Nothing
+          logic-exits:
+            Lower: Nothing
+        Upper:
+          map-exits:
+            Faron Woods - Great Tree Platforms (Upper Platform): Nothing
+            Faron Woods - Great Tree Top (Top): Nothing
+          logic-exits:
+            # there is a void otherwise
+            Middle: Can Defeat Moblin
+
+Lake Floria:
+  force-tod: Day
+  stages:
+    Lake Floria:
+      stage: F102 # TODO check
+      areas:
+        Entrance:
+          logic-exits:
+            Statue Spot: Water Scale
+        Statue Spot:
+          locations:
+            Lake Floria Chest: Nothing
+          events:
+            Goddess Cube in Lake Floria: Goddess Sword
+            Lake Floria Statue: Nothing
+          map-exits:
+            Sky - Field (Lake Floria Statue): Nothing
+          logic-exits:
+            To Farore's Lair: Water Scale
+        To Farore's Lair:
+          logic-exits:
+            Statue Spot: Water Scale
+          map-exits:
+            Farore's Lair - Main: Water Scale
+    Farore's Lair:
+      stage: F102_1 # no idea
+      areas:
+        Main:
+          locations:
+            Lair South Chest: Water Scale
+            Lair East Chest: Nothing
+          map-exits:
+            Floria Waterfall - Main: Nothing
+            Lake Floria - To Farore's Lair: Water Scale
+
+    Floria Waterfall:
+      stage: F102_2
+      areas:
+        Main:
+          events:
+            Floria Waterfall Statue: Nothing
+            Goddess Cube in Floria Waterfall: Clawshots & Goddess Sword
+          map-exits:
+            Sky - Field (Floria Waterfall Statue): Nothing
+            Farore's Lair - Main: Nothing
+            Ancient Cistern - Main: Water Scale
+            Faron Woods - Main: Nothing

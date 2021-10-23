@@ -1,0 +1,81 @@
+Ancient Cistern:
+  force-tod: Day
+  stages:
+    Ancient Cistern:
+      stage: D101
+      areas:
+        Main Hub:
+          locations:
+            Chest in East Part: Water Scale & Can Unlock Combination Lock
+          logic-exits:
+            After Whip Hooks: Whip
+            Behind Waterfall: Whip & Water Scale
+            Whip Chest Room: AC Small Key x2 & (Can Lower AC Statue | Can Defeat Stalmaster)
+            Main Basement: Can Lower AC Statue
+            Spider Thread: Ancient Cistern - Cistern Clip Trick & Sword
+            Before Boss Door: AC Small Key x2 & Whip
+        After Whip Hooks:
+          locations:
+            Chest after Whip Hooks: Nothing
+          logic-exits:
+            Main Room Vines: Clawshots
+        Behind Waterfall:
+          locations:
+            Chest behind the Waterfall: Nothing
+          logic-exits:
+            Before Boko Key Door: Whip & (Water Scale | Ancient Cistern - Basement Lilypad Clip Trick) & (Bow | Beetle)
+        Before Boko Key Door:
+          locations:
+            Bokoblin: Whip
+          logic-exits:
+            After AC Gutters: AC Small Key x2 & Water Scale
+        After AC Gutters:
+          logic-exits:
+            After Whip Hooks: Nothing
+            Main Room Vines: Water Scale & Whip
+        Main Room Vines:
+          locations:
+            Chest near Vines: Nothing
+          events:
+            Can Lower AC Statue: Whip
+          logic-exits:
+            After Whip Hooks: Ancient Cistern - Map Chest Jump Trick
+        Whip Chest Room:
+          locations:
+            Whip Chest: Nothing
+        Main Basement:
+          logic-exits:
+            Spider Thread: Clawshots | Hook Beetle
+            Boss Key Chest Area: Ancient Cistern - Basement Highflip Trick
+            Before Boss Door: Whip
+        Spider Thread:
+          events:
+            Can Lower Ac Statue: Whip
+          logic-exits:
+            Boss Key Chest Area: Nothing
+            Main Basement: Nothing
+        Boss Key Chest Area:
+          locations:
+            Boss Key Chest: Nothing
+        Before Boss Door:
+          map-exits:
+            Ancient Cistern Boss - Main: AC Boss Key
+    Ancient Cistern Boss:
+      stage: B101
+      areas:
+        Main:
+          macros:
+            Can Defeat Koloktos: Whip & (Sword | Bomb Bag | Bow)
+          locations:
+            Koloktos Heart Container: Can Defeat Koloktos
+          map-exits:
+            Ancient Cistern Candle Room - Main: Can Defeat Koloktos
+    Ancient Cistern Candle Room:
+      stage: B101_1
+      areas:
+        Main:
+          locations:
+            Farore's Flame: Goddess Sword
+          events:
+            Can Beat Ancient Cistern: Goddess Sword
+    

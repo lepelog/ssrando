@@ -1,0 +1,183 @@
+Eldin:
+  force-tod: Day
+  stages:
+    Eldin Volcano:
+      stage: F200
+      areas:
+        First Room:
+          locations:
+            Behind Bombable Wall in First Room: Nothing
+          events:
+            Goddess Cube at Eldin Entrance: Goddess Sword
+            Eldin Entrance Statue: Nothing
+          map-exits:
+            Sky - Field (Eldin Entrance Statue): Nothing
+          logic-exits:
+            Volcano Ascent: Bomb Bag
+            Pre Mogma Turf: Nothing
+
+        Pre Mogma Turf:
+          locations:
+            After Crawlspace: Nothing
+            Behind Bombable Wall Near HP: Nothing
+            Heart Piece on Cliff: Nothing
+          events:
+            Goddess Cube near Mogma Turf Entrance: Goddess Sword
+            Volcano East Statue: Nothing
+          map-exits:
+            Sky - Field (Volcano East Statue): Nothing
+            Mogma Turf - Main (Skydive): Nothing
+          logic-exits:
+            First Room: Bomb Bag # can probably also use hook beetle
+            Past Mogma Turf: Bomb Bag | Hook Beetle
+
+        Past Mogma Turf:
+          events:
+            Goddess Cube near Mogma Turf Entrance: Goddess Sword
+          logic-exits:
+            Pre Mogma Turf: Nothing
+            Volcano Ascent: Nothing
+
+        Volcano Ascent:
+          locations:
+            Behind Bombable Wall Near Volcano Ascent: Nothing
+          events:
+            Volcano Ascent Statue: Nothing
+          map-exits:
+            Sky - Field (Volcano Ascent Statue): Nothing
+            Eldin Trial - Trial: Din's Power & Goddess Harp
+          logic-exits:
+            First Room: Nothing
+            Near Thrill Digger: Bow | Slingshot | Beetle | Stuttersprint Trick
+            Past Slide: Bomb Bag | Hook Beetle # Whip and trick to blow up the bolder maybe?
+
+        Near Thrill Digger:
+          map-exits:
+            Thrill Digger Cave - Main: Nothing
+          logic-exits:
+            Volcano Ascent: Nothing
+            Outside ET: Nothing
+
+        Outside ET:
+          locations:
+            Gossip Stone next to Earth Temple: Digging Mitts
+          events:
+            Sparrot's Crystal Ball: Clawshots
+            Goddess Cube West of Earth Temple Entrance: Digging Mitts
+            Goddess Cube East of Earth Temple Entrance: Nothing
+            Temple Entrance Statue: Nothing
+          map-exits:
+            Earth Temple - Entrance: Key Piece x5
+            Sky - Field (Temple Entrance Statue): Nothing
+          logic-exits:
+            Hot Cave Area: Nothing
+          locations:
+            Key Piece in Front of ET: Digging Mitts
+            Key Piece Below Tower: Digging Mitts
+            Key Piece Behind Boulder on Sandy Slope: Digging Mitts
+
+        Hot Cave Area:
+          map-exits:
+            Inside Volcano Summit - Main: Fireshield Earrings
+          logic-exits:
+            # Outside ET: Bomb Throw Trick
+            Sand Slide: Nothing
+
+        Sand Slide:
+          events:
+            Goddess Cube in Eldin Slide: Goddess Sword
+          locations:
+            Key Piece After Vents: Digging Mitts
+          logic-exits:
+            Past Slide: Nothing
+
+        Past Slide:
+          locations:
+            Key Piece After Draining Lava: Digging Mitts
+          logic-exits:
+            Eldin Volcano Ascent: Nothing
+            Hot Cave Area: Nothing
+
+    Thrill Digger Cave:
+      stage: F211
+      areas:
+        Main:
+          locations:
+            Gossip Stone in Thrill Digger Cave: Nothing
+          events:
+            High Rupee Farm: Digging Mitts
+            # Thrill Digger Gossip Stone: Nothing
+          map-exits:
+            Eldin - Near Thrill Digger: Nothing
+
+Mogma Turf: # when randomizing this, need to find a way to force the skydiving animation
+  force-tod: Day
+  stages:
+    Mogma Turf:
+      stage: F210
+      areas:
+        Main:
+          locations:
+            Free Fall Chest: Nothing
+            Behind Bombable Wall at Entrance: Nothing
+            Sand Slide Chest: Digging Mitts
+            Digging Mitts: Can defeat Bokoblins
+            Behind Bombable Wall in Lava Maze: Digging Mitts
+          events:
+            Pick up Guld: Nothing # access to kina is required to start and end the quest
+            Goddess Cube in Mogma Turf: Goddess Sword
+          map-exits:
+            Eldin Volcano - Pre Mogma Turf (Vent): Nothing
+            Eldin Volcano - Past Mogma Turf: Digging Mitts
+
+
+Volcano Summit:
+  force-tod: Day
+  stages:
+    Inside Volcano Summit:
+      stage: F2something
+      areas:
+        Main:
+          locations:
+            Boko Base Pouch Chest: Fireshield Earrings
+            Small Chest in Volcano Summit: Fireshield Earrings
+          events:
+            Goddess Cube inside Volcano Summit: Fireshield Earrings & Long Range Skyward Strike
+          map-exits:
+            Eldin - Hot Cave Area: Fireshield Earrings
+            Volcano Summit Waterfall - Main: Fireshield Earrings
+            Outside Fire Sanctuary - To Inside Summit: Fireshield Earrings
+
+    Volcano Summit Waterfall:
+      stage: F2something
+      areas:
+        Main:
+          locations:
+            Behind Bombable Wall in Waterfall Area: Clawshots
+            Gossip Stone in Waterfall Area: Clawshots
+          events:
+            Goddess Cube in Summit Waterfall: Goddess Sword
+          map-exits:
+            Inside Volcano Summit - Main: Nothing
+
+    Outside Fire Sanctuary:
+      stage: F2something
+      areas:
+        To Inside Summit:
+          map-exits:
+            Inside Volcano Summit - Main: Nothing
+          logic-exits:
+            Middle: Bottle # & Fill With Water
+        Middle:
+          locations:
+            Heart Piece Behind Digging: Mogma Mitts
+            Gossip Stone outside Fire Sanctuary: Nothing
+          logic-exits:
+            To Fire Sanctuary: Clawshots & Bottle # & Fill With Water
+        To Fire Sanctuary:
+          events:
+            Goddess Cube near FS Entrance: Clawshots & Goddess Sword
+            Inside the Volcano Statue: Nothing
+          map-exits:
+            Sky - Field (Inside the Volcano Statue): Nothing
+            Fire Sanctuary - Entry: Nothing

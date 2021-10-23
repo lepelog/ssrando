@@ -1,0 +1,144 @@
+Lanayru Mines:
+  force-tod: Day
+  stages:
+    Lanayru Mines:
+      stage: F300_1
+      areas:
+        First Half:
+          locations:
+            Behind First Landing: Clawshots
+            Near First Timeshift Stone: Distance Activator | Bomb Bag | Sword | Itemless First Timeshift Stone Trick
+            # includes activating the Timeshift stone
+            Behind Statue: Bomb Bag | Hook Beetle
+            End of Mines: Bomb Bag | Hook Beetle
+          events:
+            Lanayru Mine Entry Statue: Nothing
+          logic-exits:
+            To Caves: Clawshots
+            To Desert: Bomb Bag | Hook Beetle
+          map-exits:
+            Sky - Field (Lanayru Mine Entry Statue): Nothing
+        To Caves:
+          logic-exits:
+            First Half: Clawshots
+          map-exits:
+            Lanayru Caves - Main: Nothing
+        To Desert:
+          map-exits:
+            Lanayru Desert - Hook Beetle Area: Nothing
+
+Lanayru Desert:
+  force-tod: Day
+  stages:
+    Lanayru Desert:
+      stage: F300
+      areas:
+        Hook Beetle Area:
+          locations:
+            Chest near Party Wheel: Bomb Bag
+            Chest Before Hook Beetle: Nothings
+            Hook Beetle: Bomb Bag | Hook Beetle
+          events:
+            Party Wheel Pickup: Bomb Bag
+            Desert Entrance Statue: Nothing
+            Goddess Cube near Hook Beetle Fight: Long Range Skyward Strike | (Clawshots & Goddess Sword)
+          logic-exits:
+            Past ToT: Clawshots | Raise Lanayru Mining Facility
+            Sand Oasis: Hook Beetle | Clawshots
+          map-exits:
+            Lanayru Mines - To Desert: Bomb Bag
+            Sky - Field (Desert Entrance Statue): Nothing
+        Past ToT:
+          macros:
+            Can Reach Secret Passageway: Bomb Bag | (Hook Beetle & Long Hook Beetle Flights Trick)
+          locations:
+            NE Desert Chest: Can Reach Secret Passageway
+            Chest Next to Trial: Clawshots
+            Chest on Platform near Fire Node: Clawshots
+            On Top of Lanayru Mining Facility: Raise Lanayru Mining Facility
+          events:
+            Goddess Cube in Secret Passageway in Desert: Can Reach Secret Passageway | Clawshots | Goddess Sword
+            Activate Water Node: Bomb Bag & Sword
+            Raise Lanayru Mining Facility: Activate Water Node & Activate Fire Node & Activate Lightning Node & Sword & Bomb Bag
+            North Desert Statue: Nothing
+            Stone Cache Statue: Nothing
+          logic-exits:
+            Hook Beetle Area: Nothing
+          map-exits:
+            Lightning Node - Main: Nothing
+            Fire Node - Main: Nothing
+            Temple of Time - End: Nothing
+            Lanayru Trial - Trial: Nayru's Wisdom & Goddess Harp
+            Lanayru Mining Facility - Entrance: Raise Lanayru Mining Facility
+            Sky - Field (North Desert Statue): Nothing
+            Sky - Field (Stone Cache Statue): Nothing
+        Sand Oasis: # access to the area next to the entrance to ToT
+          locations:
+            Chest Near Sand Oasis: Clawshots
+          events:
+            Goddess Cube in Sand Oasis: Goddess Sword
+            West Desert Statue: Nothing
+          logic-exits:
+            Hook Beetle Area: Nothing
+          map-exits:
+            Sky - Field (West Desert Statue): Nothing
+            Temple of Time - Start: Nothing
+            Lanayru Caves - Main: Clawshots
+    Lightning Node:
+      stage: F300_2
+      areas:
+        Main:
+          locations:
+            Beginning of Lightning Node: Bomb Bag
+            Middle of Lightning Node: Bomb Bag
+            End of Lightning Node: Bomb Bag & (Beetle | Bow | (Bomb Bag & Lightning Node End with Bombs Trick))
+          events:
+            Activate Lightning Node: Bomb Bag & Sword
+          map-exits:
+            Lanayru Desert - Past ToT: Nothing
+    Fire Node:
+      stage: F300_3
+      areas:
+        Main:
+          locations:
+            Fire Node Shortcut Chest: Can Defeat Ampilus | Fire Node - Brakeslide Trick
+            Beginning of Fire Node: Bomb Bag
+            Middle of Fire Node: Bomb Bag
+          logic-exits:
+            End: Bomb Bag & Hook Beetle
+          map-exits:
+            Lanayru Desert - Past ToT: Nothing
+        End:
+          locations:
+            Fire Node Left Chest: Nothing
+            Fire Node Right Chest: Nothing
+          events:
+            Activate Fire Node: Sword
+
+# TODO: I forgot about ToT lol
+
+Lanayru Caves:
+  force-tod: Day
+  stages:
+    Lanayru Caves:
+      stage: F303
+      areas:
+        Main:
+          locations:
+            # with entrance rando, we should remove the
+            # clawshot requirement for his layer
+            Goloo: Nothing
+            Chest: Nothing
+            Gossip Stone in Center: Nothing
+          map-exits:
+            Lanayru Mines - To Caves: Nothing
+            Lanayru Desert - Sand Oasis: Nothing
+          logic-exits:
+            To Sand Sea: LanayruCaves Small Key x1 & Clawshots
+        To Sand Sea:
+          map-exits:
+            Sand Sea Docks - To Caves: Nothing
+          logic-exits:
+            Main: LanayruCaves Small Key x1
+
+# TODO: All of Sandsea

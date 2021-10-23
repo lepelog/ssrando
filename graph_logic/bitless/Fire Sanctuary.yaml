@@ -1,0 +1,89 @@
+Fire Sanctuary:
+  force-tod: Day
+  stages:
+    Fire Sanctuary A:
+      stage: F201
+      areas:
+        Entry:
+          map-exits:
+            Outside Fire Sanctuary - To Fire Sanctuary: Nothing
+          logic-exits:
+            Past First Water Plant: Distance Activator | Bomb Bag
+        
+        Past First Water Plant:
+          locations:
+            Chest in First Room: Can Defeat Bokoblins
+          map-exits:
+            Fire Sanctuary B - First Outside Section: FS Small Key x1
+
+        Pre Plats Area:
+          locations:
+            Plats' Chest: Mogma Mitts
+          logic-exits:
+            In Front of Boss Door: Distance Activator
+        
+        In Front of Boss Door:
+          map-exits:
+            Fire Sanctuary Boss - Main: FS Boss Key
+          logic-exits:
+            Upper Staircase Room: Can Defeat Lezalfos & Clawshots
+
+        Upper Staircase Room:
+          logic-exits:
+            In Front of Boss Door: Nothing
+          locations:
+            Chest in Staircase Room: Nothing
+            Boss Key Chest: Mogma Mitts
+
+    Fire Sanctuary B:
+      stage: F201_1
+      areas:
+        First Outside Section:
+          locations:
+            Chest in Second Room: Nothing
+            Chest on Balcony: Mogma Mitts & Sword
+          logic-exits:
+            Past Second Room with Water Fruit: Can Defeat Lezalfos & Hook Beetle
+        Past Second Room with Water Fruit:
+          locations:
+            Chest near First Trapped Mogma: Gust Bellows | Clawshots
+          logic-exits:
+            Water Fruit Room: FS Small Key x2
+        Water Fruit Room:
+          locations:
+            First Chest in Water Fruit Room: Nothing
+            Second Chest in Water Fruit Room: Nothing
+          logic-exits:
+            After Double Magmanos Fight: Sword
+        After Double Magmanos Fight:
+          locations:
+            Mogma Mitts Chest: Nothing
+          logic-exits:
+            Under Double Magmanos Fight: Mogma Mitts
+        Under Double Magmanos Fight:
+          logic-exits:
+            Last Trapped Mogma Area: Mogma Mitts & Gust Bellows
+          map-exits:
+            Fire Sanctuary A - Pre Plats Area: Mogma Mitts & Distance Activator
+        Last Trapped Mogma Area:
+          locations:
+            Chest after Second Trapped Mogma: Mogma Mitts & Sword
+            Chest after Bombable Wall: Mogma Mitts & Sword & Bomb Bag
+        
+    Fire Sanctuary Boss:
+      stage: B201
+      areas:
+        Main:
+          locations:
+            Ghirahim Heart Container: Sword
+          map-exits:
+            Fire Sanctuary Flame Room - Main: Sword
+    
+    Fire Sanctuary Flame Room:
+      stage: F201_1 # I think?
+      areas:
+        Main:
+          locations:
+            Din's Flame: Goddess Sword
+          events:
+            Can Beat Fire Sanctuary: Goddess Sword

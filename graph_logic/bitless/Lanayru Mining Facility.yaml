@@ -1,0 +1,119 @@
+Lanayru Mining Facility:
+  force-tod: Day
+  stages:
+    Lanayru Mining Facility A:
+      stage: D300
+      areas:
+        Entrance:
+          locations:
+            Chest behind Bars: Nothing
+          logic-exits:
+            Second Room: Hook Beetle | (Whip & LMF - Whip First Room Switch Trick)
+          map-exits:
+            Lanayru Desert - Past ToT: Nothing
+
+        Second Room:
+          map-exits:
+            Lanayru Mining Facility B - Near first Statue: Nothing
+          logic-exits:
+            First Key Locked Room: LMF Small Key x1
+            West Wing First Room: Gust Bellows
+
+        First Key Locked Room:
+          macros:
+            Can Access Past: 
+              Can Access LMF Key Locked Part &
+              (Hook Beetle | (Bomb Bag & LMF - Key Locked Room Bomb Throw Trick)) &
+              (Beetle | Bow | (Slingshot & LMF - Keylocked Slingshot Trickshot Trick))
+          locations:
+            Chest in Key Locked Room: Can Access Past
+          logic-exits:
+            Gust Bellows Room: Can Access Past
+
+        Gust Bellows Room:
+          macros:
+            Can Blow Up Rocks here:
+              Sword | Slingshot | Beetle | Bomb Bag | Gust Bellows | Whip | Clawshots | Bow
+              # You need to blow up at least one rock in the maze, pretty much any item will make the Froak explode
+          locations:
+            Gust Bellows: Can Blow Up Rocks here
+            Chest inside Gust Bellows Room: Can Blow Up Rocks here
+          map-exits:
+            Lanayru Mining Facility B - Near First Hub Room Chest: Can Blow Up Rocks here
+        
+        First West Room:
+          locations:
+            Chest in First West Room: Gust Bellows & Switch Activator
+          logic-exits:
+            Map Room: Gust Bellows & Can Defeat Beamos
+        
+        Map Room:
+          macros:
+            Can Beat Room:
+              (Goddess Sword | Slingshot | Whip | Bow) & Can Defeat Armos
+          locations:
+            Chest after Armos Fight: Can Beat Room
+          map-exits:
+            Lanayru Mining Facility B - West Hub: Can Beat Room
+
+    Lanayru Mining Facility B:
+      stage: D300_1
+      areas:
+        Hub Room:
+          logic-exits:
+            Near First Hub Room Chest: Hook Beetle | Bomb Bag
+        Near First Hub Room Chest:
+          locations:
+            First Chest in Hub Room: Nothing
+        West Hub:
+          locations:
+            Chest behind First Crawlspace: Gust Bellows
+            Chest in Spike Maze: Gust Bellows
+          logic-exits:
+            Near Boss Door: Gust Bellows & Switch Activator
+        Near Boss Door:
+          map-exits:
+            Lanayru Mining Facility Boss - Main: LMF Boss Key & Switch Activator
+          logic-exits:
+            Inside LMF BK Room: Gust Bellows & Can Defeat Beamos
+            After LMF BK Room: LMF - Minecart Jump Trick & (Bomb Bag | Beetle)
+        Inside LMF BK Room:
+          macros:
+            # Bomb Bag for the statues, Gust Bellows to reveal stone
+            # Sword for switches and armos
+            Can Beat Room: Bomb Bag & Gust Bellows & Sword
+          locations:
+            Boss Key Chest: Can Beat Room
+          logic-exits:
+            After LMF BK Room: Can Beat Room
+        After LMF BK Room:
+          locations:
+            Shortcut Chest in Main Hub: Nothing
+          logic-exits:
+            Inside LMF BK Room: Nothing
+            Near Boss Door: Gust Bellows & Switch Activator
+    Lanayru Mining Facility Boss:
+      stage: B300
+      areas:
+        Main:
+          locations:
+            Molderach Heart Container: Can Defeat Molderach
+          map-exits:
+            Lanayru Mining Facility to ToT - Boss Door: Can Defeat Molderach
+    
+    Lanayru Mining Facility to ToT:
+      stage: F300_5 # TODO check again
+      areas:
+        Boss Door:
+          logic-exits:
+            ToT Exit: Beetle | Bow
+        ToT Exit:
+          locations:
+            Harp: Nothing
+          events:
+            Can Beat Lanayru Mining Facility: Nothing
+          map-exits:
+            Temple of Time - After LMF: Nothing
+
+
+        

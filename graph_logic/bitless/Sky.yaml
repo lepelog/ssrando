@@ -1,0 +1,149 @@
+Sky:
+  stages:
+    Sky:
+      stage: F020
+      areas:
+        Field:
+          force-tod: Day
+          locations:
+            Lumpy Pumpkin Roof Goddess Chest: Goddess Cube in Skyview Spring
+            Goddess Chest Outside Volcanic Island: Goddess Cube in Sand Oasis
+            # Normally you would need clawshots, but you can skip them with a good dive
+            Goddess Chest Inside Volcanic Island: Goddess Cube on East Great Tree with Clawshots Target &
+              (Clawshots | Sky - Volcanic Island Dive Trick)
+            Orielle's Crystals: Bottle
+            Dodoh Crystals: Can Retrieve Party Wheel
+            Fun Fun Island Minigame: Can Retrieve Party Wheel
+            Goddess Chest Under Fun Fun Island: Goddess Cube in Floria Waterfall
+            Southwest Triple Island Upper Goddess Chest: Goddess Cube at Eldin Entrance
+            Southwest Triple Island Lower Goddess Chest: Goddess Cube near Hook Beetle Fight
+            Southwest Triple Island Cage Goddess Chest: Goddess Cube in Skipper's Retreat & Clawshots
+            Breakable Boulder near Fun Fun island: Spiral Charge
+            Breakable Boulder near Lumpy Pumpkin: Spiral Charge
+            Goddess Chest on Island Closest to Faron Pillar: Goddess Cube in Deep Woods
+            Beedle's Island Goddess Chest: Goddess Cube at Ride near Temple of Time
+            Northeast Island Goddess Chest Behind Bombable Rocks: Goddess Cube at Lanayru Mines Entrance & Bomb Bag
+            Northeast Island Cage Goddess Chest: Goddess Cube East of Earth Temple Entrance
+            Gossip Stone in Volcanic Island: Nothing
+          events:
+            High Rupee Farm: Can Retrieve Party Wheel
+          map-exits:
+            Skyloft - Central Outside: Nothing
+            Inside Bamboo Island - Main: Nothing
+            Inside Thunderhead - Main: Ballad of the Goddess & Option "open-thunderhead" Enabled
+            # Faron Entrances
+            Sealed Grounds Spiral - Upper (Sealed Grounds Statue): Emerald Tablet & Sealed Grounds Statue
+            Behind the Temple - Main (Behind the Temple Statue): Emerald Tablet & Behind the Temple Statue
+            Faron Woods - Entry (Faron Woods Entry Statue): Emerald Tablet & Faron Woods Entry Statue
+            Faron Woods - Main (Viewing Platform Statue): Emerald Tablet & Viewing Platform Statue
+            Faron Woods - Main (In the Woods Statue): Emerald Tablet & In the Woods Statue
+            Faron Woods - Great Tree Top (Great Tree Statue): Emerald Tablet & Great Tree Statue
+            Deep Woods - Past Beehive (Deep Woods Statue): Emerald Tablet & Deep Woods Statue
+            Deep Woods - Past Beehive (Forest Temple Statue): Emerald Tablet & Forest Temple Statue
+            Lake Floria - Statue Spot (Lake Floria Statue): Emerald Tablet & Lake Floria Statue
+            Floria Waterfall - Main (Floria Waterfall Statue): Emerald Tablet & Floria Waterfall Statue
+            # Eldin Entrances
+            Eldin Volcano - First Room (Eldin Entrance Statue): Ruby Tablet & Eldin Entrance Statue
+            Eldin Volcano - Pre Mogma Turf (Volcano East Statue): Ruby Tablet & Volcano East Statue
+            Eldin Volcano - Volcano Ascent (Volcano Ascent Statue): Ruby Tablet & Volcano Ascent Statue
+            Eldin Volcano - Outside ET (Temple Entrance Statue): Ruby Tablet & Temple Entrance Statue
+            Outside Fire Sanctuary - To Fire Sanctuary (Inside the Volcano Statue): Ruby Tablet & Inside the Volcano Statue
+            # Lanayru Entrances
+            Lanayru Mines - First Half (Lanayru Mine Entry Statue): Amber Tablet & Lanayru Mine Entry Statue
+            Lanayru Desert - Hook Beetle Area (Desert Entrance Statue): Amber Tablet & Desert Entrance Statue
+            Lanayru Desert - Sand Oasis (West Desert Statue): Amber Tablet & West Desert Statue
+            Lanayru Desert - Past ToT (North Desert Statue): Amber Tablet & North Desert Statue
+            Lanayru Desert - Past ToT (Stone Cache Statue): Amber Tablet & Stone Cache Statue
+            Lanayru Mines - First Half (Lanayru Mine Entry Statue): Amber Tablet & Lanayru Mine Entry Statue
+          logic-exits:
+            Outside Lumpy Pumpkin: Nothing
+            Beedle Island Cage: Sky - Beedle's Island Cage Chest Dive Trick
+
+        Beedle's Sky Home:
+          force-tod: Night # only area requiring force night
+          locations:
+            Beedle's Crystals: Horned Colossus Beetle
+            Crystal on Beedles Ship: Nighttime & Beetle
+          logic-exits:
+            Beedle Island Cage: Nothing
+
+        Beedle Island Cage:
+          locations:
+            Beedle's Island Cage Goddess Chest: Goddess Cube on top of Skyview
+
+        Outside Lumpy Pumpkin:
+          locations:
+            Crystal outside Lumpy Pumpkin: Nighttime
+            Crystal inside Lumpy Pumpkin: Nighttime
+            Kina's Crystals: Pumpkin Carrying & Goddess Harp & Pick up Guld & Daytime
+            Lumpy Pumpkin Goddess Chest: Initial Goddess Cube
+          events:
+            # assumption: delivering hot soup requires lumpy pumpkin quest start, so there is no need requiring reaching the bartender here as well
+            Pumpkin Carrying: Delivered Hot Soup
+          map-exits:
+            Lumpy Pumpkin - Main (South): Nothing
+            Lumpy Pumpkin - Main (North): Nothing
+          logic-exits:
+            Field: Daytime
+
+    Lumpy Pumpkin:
+      stage: F011r # check again
+      areas:
+        Main:
+          can-sleep: Nothing
+          locations:
+            Harp Minigame: Pumpkin Carrying & Goddess Harp
+            Chandelier: Nothing
+            Crystal inside Lumpy Pumpkin: Nighttime
+          events:
+            Lumpy Pumpkin Quest Start: Bottle
+            Pick up Levia's Soup: Spiral Charge
+          map-exits:
+            Sky - Outside Lumpy Pumpkin (South): Nothing
+            Sky - Outside Lumpy Pumpkin (North): Nothing
+
+    Inside Bamboo Island:
+      force-tod: Day # up for debate, layer is forced so *should* work at night
+      stage: F019r # I'm just guessing at this point
+      areas:
+        Main:
+          locations:
+            Gossip Stone inside Bamboo Island: Nothing
+          events:
+            Clean Cut Minigame: Sword
+
+
+Thunderhead:
+  force-tod: Day
+  stages:
+    Inside Thunderhead:
+      areas:
+        Main:
+          locations:
+            Levias: Pick up Levia's Soup & Spiral Charge
+            ## Isle of Songs
+            Goddess Chest on top of Isle of Song: Goddess Cube near FS Entrance
+            ## East Island
+            East Island Goddess Chest: Goddess Cube on East Great Tree with Rope
+            East Island Chest: Digging Mitts | Thunderhead - East Island Dive Trick
+            ## Mogma Mitts Island
+            First Goddess Chest on Mogma Mitts Island: Goddess Cube inside Volcano Summit & Mogma Mitts
+            # Inaccessible Goddess Cube
+            # Second Goddess Chest on Mogma Mitts Island: Goddess Cube in Lanayru Gorge & Mogma Mitts
+            ## Bug Rock
+            Bug Island minigame: Bug Net
+            Bug Island Goddess Chest: Goddess Cube in Summit Waterfall
+          map-exits:
+            Sky - Field: Nothing
+            Isle of Songs - Main: Sword # if this works like sword combo locks, other items work too
+
+    Isle of Songs:
+      stage: F01something
+      areas:
+        Main:
+          locations:
+            Farore's Courage: Goddess Sword
+            Nayru's Wisdom: Goddess Longsword
+            Din's Power: Goddess White Sword
+          map-exits:
+            Inside Thunderhead - Main: Nothing

@@ -1,0 +1,78 @@
+Earth Temple:
+  force-tod: Day
+  stages:
+    Earth Temple:
+      stage: D200
+      areas:
+        # up until drawbridge
+        Entrance:
+          locations:
+            First Chest: Progressive Mitts
+          logic-exits:
+            # Advanced: Maybe reduce to normal skyward strike, maybe remove Can Defeat Lezalfos from Beetle
+            # For some reason the beetle dies really fast if you stand far away from it, and if you go closer you have to fight the lezalfos
+            # Hitting the boulder with the beetle alone is very luck based when it's not upgraded
+            # Thus either you have the bow to cut the drawbridge and activate the boulder...
+            # Or you have beetle and in this case you need to defeat the lezalfos and have another item to activate the boulder other than the bow
+            Ball Rolling: Bow | (Long Range Skyward Strike & Earth Temple - Keese Yeet Trick) | (Beetle & Can Deteat Lezalfos & (Slingshot | Clawshots))
+        
+        # aka main hub
+        Ball Rolling:
+          locations:
+            Behind Boulder: Nothing
+            Left Chest after Boulder Section: Nothing
+            Map Chest: Bomb Bag | Hook Beetle
+            Bomb Bag: Can Defeat Lezalfos
+            5 Bombs From Ledd: Can Defeat Lezalfos
+          logic-exits:
+            # First, destroy the cracked wall. In this dungeon, the hook Beetle can replace the bombs everywhere.
+            # Then, you absolutely need a Beetle to cut a rope in the boulder section.
+            After Ball Rolling: (Bomb Bag | Hook Beetle) & Beetle
+
+        After Ball Rolling:
+          locations:
+            Chest Guarded By Lizalfos: Nothing
+          logic-exits:
+            # You need to dig up an air vent to blow up the boulder, or use hook beetle, or be able to Stutter Sprint
+            Boss Door Area: (Digging Mitts & Bomb Bag) | Hook Beetle | Earth Temple - Slope Stuttersprint Trick
+        
+        Boss Door Area:
+          locations:
+            Boss Key: Nothing
+          map-exits:
+            Earth Temple Boss - Main: ET Boss Key
+    
+    Earth Temple Boss:
+      stage: B200
+      areas:
+        Main:
+          macros:
+            Can Defeat Scaldera:
+              (Bomb Bag & Sword) |
+              (
+                Earth Temple - Bomb Flower Scaldera Trick &
+                (
+                  (Goddess Sword & Option "hero-mode" Enabled) |
+                  (Goddess Longsword & Option "hero-mode" Enabled) |
+                  Master Sword
+                )
+              )
+          locations:
+            Scaldera Heart Container: Can Defeat Scaldera
+          map-exits:
+            Earth Temple Spring - Main: Can Defeat Scaldera
+            # only for patching that connection back
+            Earth Temple - Boss Door Area: Impossible
+    
+    Earth Temple Spring:
+      stage: B210 # imagine being consistent
+      areas:
+        Main:
+          locations:
+            Amber Tablet: Goddess Sword
+          events:
+            Can Beat Earth Temple:  Goddess Sword
+          map-exits:
+            # just for patching the connection
+            Earth Temple Boss - Main: Impossible
+            Eldin Volcano - Outside ET: Goddess Sword
