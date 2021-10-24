@@ -69,7 +69,7 @@ Lanayru Desert:
             Fire Node - Main: Nothing
             Temple of Time - End: Nothing
             Lanayru Trial - Trial: Nayru's Wisdom & Goddess Harp
-            Lanayru Mining Facility - Entrance: Raise Lanayru Mining Facility
+            Lanayru Mining Facility - Entry: Raise Lanayru Mining Facility
             Sky - Field (North Desert Statue): Nothing
             Sky - Field (Stone Cache Statue): Nothing
         Sand Oasis: # access to the area next to the entrance to ToT
@@ -115,7 +115,40 @@ Lanayru Desert:
           events:
             Activate Fire Node: Sword
 
-# TODO: I forgot about ToT lol
+    Temple of Time:
+      stage: F300_4
+      areas:
+        Start:
+          map-exits:
+            Lanayru Desert - Sand Oasis: Nothing
+          logic-exits:
+            Near Gossip Stone: Hook Beetle | (Slingshot & Temple of Time - Slingshot Shot Trick)
+        Near Gossip Stone:
+          locations:
+            Gossip Stone in Temple of Time Area: Nothing
+          logic-exits:
+            Near Cube: (
+                Hook Beetle |
+                (Temple of Time - Bomb Throw Trick & Bomb Bag) |
+                (Temple of Time - Bomb Throw Trick & Cactus Bomb Whip Trick & Whip)
+              ) &
+              (Distance Activator | Long Range Skyward Strike)
+        Near Cube:
+          events:
+            Goddess Cube at Ride near Temple of Time: Goddess Sword
+          logic-exits:
+            End: Nothing
+        After LMF:
+          events:
+            # TODO: how does this work in full entrance rando?
+            ToT Layer 2: Nothing
+          logic-exits:
+            Near Gossip Stone: Nothing
+        End:
+          map-exits:
+            Lanayru Desert - Past ToT: Nothing
+          logic-exits:
+            Start: Distance Activator
 
 Lanayru Caves:
   force-tod: Day
@@ -140,5 +173,16 @@ Lanayru Caves:
             Sand Sea Docks - To Caves: Nothing
           logic-exits:
             Main: LanayruCaves Small Key x1
+
+Lanayru Trial:
+  stages:
+    Lanayru Trial:
+      stage: S300
+      areas:
+        Trial:
+          locations:
+            Clawshots: Nothing
+          map-exits:
+            Lanayru Desert - Past ToT: Nothing
 
 # TODO: All of Sandsea

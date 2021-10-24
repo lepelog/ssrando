@@ -1,7 +1,7 @@
 Sky Keep:
   force-tod: Day
   stages:
-    Sky Keep Entrance:
+    Sky Keep Entry:
       stage: D003_7 # idk
       areas:
         Main:

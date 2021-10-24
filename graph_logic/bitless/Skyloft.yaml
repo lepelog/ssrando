@@ -1,7 +1,5 @@
 # this logic assumes, that you can always reach outside skyloft
 
-# UPPER SKYLOFT
-
 Skyloft Central:
   stages:
     Skyloft:
@@ -37,6 +35,7 @@ Skyloft Central:
             Outside Goddess Statue: Nothing
             Outside Skyloft Village: Nothing
             Waterfall Cave Crystals: Beetle
+            To Sky Keep: Stone of Trials & (Clawshots | Sky Keep Entrance Jump Trick)
         
         Skyloft Past Waterfall Cave:
           map-exits:
@@ -49,6 +48,12 @@ Skyloft Central:
           locations:
             Crystal Past Waterfall Cave: Nighttime
             Crystal in Loftwing Prison: Nighttime
+        
+        To Sky Keep:
+          map-exits:
+            Sky Keep Entry - Main: Nothing
+          logic-exits:
+            Central Outside: Clawshots
     
     Bazaar:
       force-tod: Day

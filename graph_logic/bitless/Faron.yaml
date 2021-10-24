@@ -79,7 +79,7 @@ Faron Woods:
             Sky - Field (Viewing Platform Statue): Nothing
             Sky - Field (In the Woods Statue): Nothing
             Deep Woods - Entry: Distance Activator
-            Lake Floria - Entrance: Talk to Yerbal & Goddess Sword & Water Scale
+            Lake Floria - Entry: Talk to Yerbal & Goddess Sword & Water Scale
           logic-exits:
             Entry: Nothing
             Clawshot Target Branch: Clawshots
@@ -135,7 +135,7 @@ Faron Woods:
     Great Tree:
       stage: F100_1 # check again
       areas:
-        Entrance:
+        Entry:
           map-exits:
             Faron Woods - Main: Water Scale
           logic-exits:
@@ -143,7 +143,7 @@ Faron Woods:
 
         Lower: # down in the water
           logic-exits:
-            Entrance: Water Scale
+            Entry: Water Scale
             Middle: Gust Bellows
             Past Platforms: Gust Bellows
         Middle: # around the chest
@@ -171,7 +171,7 @@ Lake Floria:
     Lake Floria:
       stage: F102 # TODO check
       areas:
-        Entrance:
+        Entry:
           logic-exits:
             Statue Spot: Water Scale
         Statue Spot:
@@ -210,5 +210,5 @@ Lake Floria:
           map-exits:
             Sky - Field (Floria Waterfall Statue): Nothing
             Farore's Lair - Main: Nothing
-            Ancient Cistern - Main: Water Scale
+            Ancient Cistern - Main Hub: Water Scale
             Faron Woods - Main: Nothing

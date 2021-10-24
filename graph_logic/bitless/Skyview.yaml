@@ -4,7 +4,7 @@ Skyview:
     Skyview Temple:
       stage: D100
       areas:
-        Entrance:
+        Entry:
           events:
             Activate Skyview Goddess Wall: Can Cut Tree & Water Scale & Goddess Harp
           logic-exits:

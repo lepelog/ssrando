@@ -4,7 +4,7 @@ Lanayru Mining Facility:
     Lanayru Mining Facility A:
       stage: D300
       areas:
-        Entrance:
+        Entry:
           locations:
             Chest behind Bars: Nothing
           logic-exits:
