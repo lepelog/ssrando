@@ -14,10 +14,10 @@ Lanayru Mining Facility:
 
         Second Room:
           map-exits:
-            Lanayru Mining Facility B - Near first Statue: Nothing
+            Lanayru Mining Facility B - Hub Room: Nothing
           logic-exits:
             First Key Locked Room: LMF Small Key x1
-            West Wing First Room: Gust Bellows
+            First West Room: Gust Bellows
 
         First Key Locked Room:
           macros:

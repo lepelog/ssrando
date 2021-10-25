@@ -95,7 +95,7 @@ Eldin:
           locations:
             Key Piece After Draining Lava: Digging Mitts
           logic-exits:
-            Eldin Volcano Ascent: Nothing
+            Volcano Ascent: Nothing
             Hot Cave Area: Nothing
 
     Thrill Digger Cave:
@@ -108,7 +108,18 @@ Eldin:
             High Rupee Farm: Digging Mitts
             # Thrill Digger Gossip Stone: Nothing
           map-exits:
-            Eldin - Near Thrill Digger: Nothing
+            Eldin Volcano - Near Thrill Digger: Nothing
+
+Eldin Trial:
+  stages:
+    Eldin Trial:
+      stage: S200
+      areas:
+        Trial:
+          locations:
+            Fireshield Earrings: Nothing
+          map-exits:
+            Eldin Volcano - Volcano Ascent: Nothing
 
 Mogma Turf: # when randomizing this, need to find a way to force the skydiving animation
   force-tod: Day
@@ -127,8 +138,8 @@ Mogma Turf: # when randomizing this, need to find a way to force the skydiving a
             Pick up Guld: Nothing # access to kina is required to start and end the quest
             Goddess Cube in Mogma Turf: Goddess Sword
           map-exits:
-            Eldin Volcano - Pre Mogma Turf (Vent): Nothing
-            Eldin Volcano - Past Mogma Turf: Digging Mitts
+            Eldin Volcano - Pre Mogma Turf (Start Vent): Nothing
+            Eldin Volcano - Past Mogma Turf (End Vent): Digging Mitts
 
 
 Volcano Summit:
@@ -144,7 +155,7 @@ Volcano Summit:
           events:
             Goddess Cube inside Volcano Summit: Fireshield Earrings & Long Range Skyward Strike
           map-exits:
-            Eldin - Hot Cave Area: Fireshield Earrings
+            Eldin Volcano - Hot Cave Area: Fireshield Earrings
             Volcano Summit Waterfall - Main: Fireshield Earrings
             Outside Fire Sanctuary - To Inside Summit: Fireshield Earrings
 
@@ -180,4 +191,4 @@ Volcano Summit:
             Inside the Volcano Statue: Nothing
           map-exits:
             Sky - Field (Inside the Volcano Statue): Nothing
-            Fire Sanctuary - Entry: Nothing
+            Fire Sanctuary A - Entry: Nothing

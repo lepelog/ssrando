@@ -67,9 +67,9 @@ Lanayru Desert:
           map-exits:
             Lightning Node - Main: Nothing
             Fire Node - Main: Nothing
-            Temple of Time - End: Nothing
+            Temple of Time - End (End): Nothing
             Lanayru Trial - Trial: Nayru's Wisdom & Goddess Harp
-            Lanayru Mining Facility - Entry: Raise Lanayru Mining Facility
+            Lanayru Mining Facility A - Entry: Raise Lanayru Mining Facility
             Sky - Field (North Desert Statue): Nothing
             Sky - Field (Stone Cache Statue): Nothing
         Sand Oasis: # access to the area next to the entrance to ToT
@@ -82,7 +82,7 @@ Lanayru Desert:
             Hook Beetle Area: Nothing
           map-exits:
             Sky - Field (West Desert Statue): Nothing
-            Temple of Time - Start: Nothing
+            Temple of Time - Start (Start): Nothing
             Lanayru Caves - Main: Clawshots
     Lightning Node:
       stage: F300_2
@@ -120,7 +120,8 @@ Lanayru Desert:
       areas:
         Start:
           map-exits:
-            Lanayru Desert - Sand Oasis: Nothing
+            # TODO: this disambiguation kinda sucks
+            Lanayru Desert - Sand Oasis (Start): Nothing
           logic-exits:
             Near Gossip Stone: Hook Beetle | (Slingshot & Temple of Time - Slingshot Shot Trick)
         Near Gossip Stone:
@@ -146,7 +147,7 @@ Lanayru Desert:
             Near Gossip Stone: Nothing
         End:
           map-exits:
-            Lanayru Desert - Past ToT: Nothing
+            Lanayru Desert - Past ToT (End): Nothing
           logic-exits:
             Start: Distance Activator
 
@@ -186,3 +187,126 @@ Lanayru Trial:
             Lanayru Desert - Past ToT: Nothing
 
 # TODO: All of Sandsea
+Sand Sea:
+  stages:
+    Sand Sea Docks:
+      stage: F301_1 # or something like that
+      areas:
+        To Caves:
+          map-exits:
+            Lanayru Caves - To Sand Sea: Nothing
+          logic-exits:
+            Main: Clawshots
+        Main:
+          events:
+            Goddess Cube in Ancient Harbour: Clawshots & Goddess Sword
+          map-exits:
+            Sand Sea - Main: Switch Activator
+
+    Sand Sea:
+      stage: F301 # probably?
+      areas:
+        Main:
+          map-exits:
+            Sand Sea Docks - Main: Nothing
+            Sandship - Deck: Sea Chart & Sword
+            Skipper's Retreat - Start: Nothing
+            Shipyard - Main: Nothing
+            Outside Pirate's Stronghold - Main: Nothing
+
+    Skipper's Retreat:
+      stage: idk
+      areas:
+        Start:
+          map-exits:
+            Sand Sea - Main: Nothing
+          logic-exits:
+            Past Moblin: (Bomb Bag | Hook Beetle | (Whip & Cactus Bomb Whip Trick)) & Clawshots
+        Past Moblin:
+          locations:
+            Skipper's Retreat - Chest after Moblin: Nothing
+          events:
+            Goddess Cube in Skipper's Retreat: Clawshots & Goddess Sword
+          logic-exits:
+            Past Deku Baba: Whip & Clawshots & (Slingshot | Beetle | Bow | Skipper's Retreat Fast Clawshots Trick)
+        Past Deku Baba:
+          locations:
+            Skipper's Retreat - Chest on top of Cacti Pillar: Clawshots
+          logic-exits:
+            Next to Shack: Clawshots
+        Next to Shack:
+          locations:
+            Skipper's Retreat - Skydive Chest: Nothing
+          map-exits:
+            Skipper's Shack - Main: Nothing
+          logic-exits:
+            Past Deku Baba: Clawshots # TODO: can you go back?
+
+    Skipper's Shack:
+      stage: idk
+      areas:
+        Main:
+          locations:
+            Skipper's Retreat - Chest in Shack: Gust Bellows
+          map-exits:
+            Skipper's Retreat - Next to Shack: Nothing
+
+    Shipyard:
+      stage: idk
+      areas:
+        Main:
+          locations:
+            Gossip Stone in Shipyard: Nothing
+            Rickety Coaster - Heart Stopping Track in 1'05: Defeated Shipyard Molderach
+          map-exits:
+            Sand Sea - Main: Nothing
+            Shipyard Construction Bay - Lower (Lower): Nothing
+          logic-exits:
+            After Minecart Ride: Nothing
+        After Minecart Ride:
+          map-exits:
+            Shipyard Construction Bay - Upper (Upper): Nothing
+    
+    Shipyard Construction Bay:
+      stage: idk
+      areas:
+        Upper:
+          map-exits:
+            Shipyard - After Minecart Ride (Upper): Nothing
+          logic-exits:
+            Lower: Nothing
+        Lower:
+          events:
+            Defeated Shipyard Molderach: Gust Bellows & Sword
+          map-exits:
+            Shipyard - Main (Lower): Nothing
+          
+    Outside Pirate's Stronghold:
+      stage: idk
+      areas:
+        Main:
+          map-exits:
+            Sand Sea - Main: Nothing
+            Inside Pirate's Stronghold - Main (Beginning): Nothing
+          logic-exits:
+            Inside Sharkhead: Open Sharkhead
+        Inside Sharkhead:
+          events:
+            Goddess Cube in Pirate Stronghold: Clawshots & Goddess Sword
+          map-exits:
+            Inside Pirate's Stronghold - Main (End): Nothing
+
+    Inside Pirate's Stronghold:
+      stage: idk
+      areas:
+        Main:
+          locations:
+            First Chest: Nothing
+            Second Chest: Nothing
+            Third Chest: Nothing
+          events:
+            Open Sharkhead: Can Defeat Beamos & Can Defeat Armos
+          map-exits:
+            Outside Pirate's Stronghold - Main (Beginning): Nothing
+            Outside Pirate's Stronghold - Inside Sharkhead (End): Open Sharkhead
+

@@ -7,6 +7,8 @@ Ancient Cistern:
         Main Hub:
           locations:
             Chest in East Part: Water Scale & Can Unlock Combination Lock
+          map-exits:
+            Floria Waterfall - Main: Nothing
           logic-exits:
             After Whip Hooks: Whip
             Behind Waterfall: Whip & Water Scale

@@ -8,6 +8,8 @@ Earth Temple:
         Entrance:
           locations:
             First Chest: Progressive Mitts
+          map-exits:
+            Eldin Volcano - Outside ET: Nothing
           logic-exits:
             # Advanced: Maybe reduce to normal skyward strike, maybe remove Can Defeat Lezalfos from Beetle
             # For some reason the beetle dies really fast if you stand far away from it, and if you go closer you have to fight the lezalfos

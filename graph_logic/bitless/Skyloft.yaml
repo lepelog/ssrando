@@ -22,12 +22,12 @@ Skyloft Central:
             Floating Island Gossip Stone: Clawshots
           map-exits:
             Sky - Field: Daytime
-            Waterfall Cave - Main: Sword | Bomb Bag
+            Waterfall Cave - Main (Upper): Sword | Bomb Bag
             Parrow and Orielle's House - Main: Nothing
             Peatrice's House - Main: Nothing
             Wryna's House - Main: Nothing
-            Beedle's Shop - Day: Daytime & (Distance Activator | (Beedle's Shop With Bombs Trick & Bomb Bag))
-            Skyloft Trial - Main: Song of the Hero & Goddess Harp
+            Beedle's Shop - Main (Day): Daytime & (Distance Activator | (Beedle's Shop With Bombs Trick & Bomb Bag))
+            Skyloft Trial - Trial: Song of the Hero & Goddess Harp
             Bazaar - Main (North): Daytime
             Bazaar - Main (East): Daytime
             Bazaar - Main (South): Daytime
@@ -37,7 +37,7 @@ Skyloft Central:
             Waterfall Cave Crystals: Beetle
             To Sky Keep: Stone of Trials & (Clawshots | Sky Keep Entrance Jump Trick)
         
-        Skyloft Past Waterfall Cave:
+        Past Waterfall Cave:
           map-exits:
             Sky - Field: Daytime
             Waterfall Cave - Main (Lower): Nothing
@@ -143,7 +143,7 @@ Knight Academy:
           map-exits:
             Knight Academy - Main (Upper Doors): Nothing
             Knight Academy - Main (Lower Doors): Daytime
-            Knight Academy - Above Zelda's Room: Clawshots
+            Knight Academy - Above Zelda's Room (Chimney): Clawshots
             Inside Goddess Statue - Main: Nothing
             Sparring Hall - Main: Nothing
           logic-exits:
@@ -186,7 +186,7 @@ Skyloft Village:
             Batreaux' House - Main: Opened Shed # is encoded in event cause entering batreaux house is possible at day after opening the shed door
           logic-exits:
             Central Outside: Nothing
-            Skyloft Past Waterfall Cave: Waterfall Cave Jump Trick & Daytime
+            Past Waterfall Cave: Waterfall Cave Jump Trick & Daytime
 
     Bertie's House:
       areas:

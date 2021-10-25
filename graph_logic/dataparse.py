@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import List, Set, Dict, Optional, Generator, Iterable
+from typing import List, Set, Dict, Optional, Generator, Iterable, Tuple
 import yaml
 import re
 from pathlib import Path
@@ -111,16 +111,7 @@ def parse_yaml(yml) -> Iterable[Area]:
         yield from parse_region(regionname, regiondef)
 
 
-def parse_all():
-    areas = []
-    for p in Path("bitless").glob("*.yaml"):
-        if "macros" in p.parts[-1]:
-            continue
-        print(f"parsing {p}")
-        with open(p) as f:
-            yml = yaml.safe_load(f)
-            areas.extend(parse_yaml(yml))
-
+def get_bad_exits(areas: List[Area]) -> List:
     by_stage_area = {}
     for area in areas:
         by_stage_area[(area.stage, area.areaname)] = area
@@ -133,3 +124,35 @@ def parse_all():
         for map_exit in area.map_exits.keys():
             if (map_exit.stage, map_exit.area) not in by_stage_area:
                 print(f"map not found!: {map_exit.stage} - {map_exit.area}")
+
+
+def get_oneway_connections(areas: List[Area]) -> Set[Tuple[str, str]]:
+    # write out all one way connections
+    # set of (exitstage, entrancestage, disambiguation)
+    one_way_connections = set()
+    for area in areas:
+        for map_exit in area.map_exits.keys():
+            connection = (area.stage, map_exit.stage, map_exit.disambiguation)
+            rev_connection = (map_exit.stage, area.stage, map_exit.disambiguation)
+
+            if rev_connection in one_way_connections:
+                # the current connection already has a fitting counterpart!
+                # so it's not 1 way any more
+                one_way_connections.remove(rev_connection)
+            else:
+                # no counterpart, so this connection needs to find its counterpart
+                one_way_connections.add(connection)
+    return one_way_connections
+
+
+def parse_all():
+    areas = []
+    for p in Path("bitless").glob("*.yaml"):
+        if "macros" in p.parts[-1]:
+            continue
+        print(f"parsing {p}")
+        with open(p) as f:
+            yml = yaml.safe_load(f)
+            areas.extend(parse_yaml(yml))
+
+    return areas

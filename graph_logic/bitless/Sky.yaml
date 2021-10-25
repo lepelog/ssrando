@@ -64,6 +64,8 @@ Sky:
           locations:
             Beedle's Crystals: Horned Colossus Beetle
             Crystal on Beedles Ship: Nighttime & Beetle
+          map-exits:
+            Beedle's Shop - Main (Night): Nothing
           logic-exits:
             Beedle Island Cage: Nothing
 
@@ -111,6 +113,8 @@ Sky:
             Gossip Stone inside Bamboo Island: Nothing
           events:
             Clean Cut Minigame: Sword
+          map-exits:
+            Sky - Field: Nothing
 
 
 Thunderhead:

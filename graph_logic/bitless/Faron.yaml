@@ -80,6 +80,7 @@ Faron Woods:
             Sky - Field (In the Woods Statue): Nothing
             Deep Woods - Entry: Distance Activator
             Lake Floria - Entry: Talk to Yerbal & Goddess Sword & Water Scale
+            Great Tree - Entry (Tunnel): Water Scale
           logic-exits:
             Entry: Nothing
             Clawshot Target Branch: Clawshots
@@ -137,7 +138,7 @@ Faron Woods:
       areas:
         Entry:
           map-exits:
-            Faron Woods - Main: Water Scale
+            Faron Woods - Main (Tunnel): Water Scale
           logic-exits:
             Lower: Water Scale
 
