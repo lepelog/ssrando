@@ -577,3 +577,17 @@
   cosmetic: true
   help: If enabled, the WZSound.brsar file will be patched to allow custom music. Custom music must be installed manually.
   ui: option_allow_custom_music
+- name: Chest Sizes
+  command: chest-sizes
+  type: singlechoice
+  bits: 3
+  choices:
+    - Vanilla
+    - All Small
+    - All Normal
+    - All Boss Keys
+    - Matches Contents
+    - Random
+  default: Vanilla
+  help: Changes the way chest sizes are determined. Never impacts Goddess Chests
+  ui: option_chest_sizes
