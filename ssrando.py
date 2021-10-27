@@ -181,7 +181,7 @@ class Randomizer(BaseRandomizer):
                 self.logic = Logic(self)
                 self.hints = Hints(self.logic)
                 can_generate_seed = self.logic.randomize_items()
-        self.woth_locations = self.logic.get_woth_locations()
+        self.sots_locations = self.logic.get_sots_locations()
         if self.options["hint-distribution"] == "Junk":
             self.hints.do_junk_hints()
         elif self.options["hint-distribution"] == "Normal":
@@ -233,9 +233,9 @@ class Randomizer(BaseRandomizer):
         spoiler_log += "\n\n"
 
         # Write way of the hero (100% required) locations
-        spoiler_log += "WotH:\n"
-        for wothloc, item in self.woth_locations.items():
-            spoiler_log += "  %-53s %s\n" % (wothloc + ":", item)
+        spoiler_log += "SotS:\n"
+        for sotsloc, item in self.sots_locations.items():
+            spoiler_log += "  %-53s %s\n" % (sotsloc + ":", item)
 
         spoiler_log += "\n\n"
 
@@ -381,7 +381,7 @@ class Randomizer(BaseRandomizer):
             return
         spoiler_log["starting-items"] = self.logic.starting_items
         spoiler_log["required-dungeons"] = self.logic.required_dungeons
-        spoiler_log["woth-locations"] = self.woth_locations
+        spoiler_log["sots-locations"] = self.sots_locations
         spoiler_log[
             "playthrough"
         ] = self.logic.calculate_playthrough_progression_spheres()
@@ -601,7 +601,7 @@ class Randomizer(BaseRandomizer):
                     useful_text = "It's probably not too important..."
                     # print(f'{item} in {trial_check} is not useful')
             elif hint_mode == "Advanced":
-                if randomized_trial_check in self.woth_locations:
+                if randomized_trial_check in self.sots_locations:
                     useful_text = "Your spirit will grow by completing this trial"
                 elif item in self.logic.all_progress_items:
                     useful_text = "You might need what it reveals..."

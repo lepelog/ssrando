@@ -209,7 +209,7 @@ NON_RANDOMIZED_SETTINGS = [
     "Enabled Tricks Glitched",
     # Hints (done separately)
     "Hint Distribution",
-    "Way of the Hero Hints",
+    "Spirit of the Sword Hints",
     "Sometimes Hints",
     "Barren",
     "Location Hints",
@@ -218,7 +218,7 @@ NON_RANDOMIZED_SETTINGS = [
 
 HINT_SETTINGS = [
     "Hint Distribution",
-    "Way of the Hero Hints",
+    "Spirit of the Sword Hints",
     "Sometimes Hints",
     "Barren",
     "Location Hints",

@@ -246,7 +246,7 @@ class Options:
         )
 
         # Randomize hint distribution
-        hint_types = ["woth-hints", "barren-hints", "location-hints", "item-hints"]
+        hint_types = ["sots-hints", "barren-hints", "location-hints", "item-hints"]
         for ht in hint_types:
             self.set_option(ht, 0)  # Reset hints in case of a reshuffle
         for i in range(30):
