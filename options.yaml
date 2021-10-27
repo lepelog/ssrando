@@ -71,7 +71,7 @@
   bits: 3
   help: The number of dungeons that are required, to beat the seed
   ui: option_required_dungeon_count
-- name: Imp 2
+- name: Skip Imp 2
   command: imp2-skip
   type: boolean
   default: true
