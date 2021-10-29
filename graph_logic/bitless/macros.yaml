@@ -82,6 +82,44 @@ Bottle:
 80 Gratitude Crystals:
   Gratitude Crystal x15 & Gratitude Crystal Pack x13
 
+# Can afford
+
+Can High Rupee Farm:
+  Can Retrieve Party Wheel | Can Play Thrill Digger
+
+Can Medium Rupee Farm:
+  Can Play Clean Cut | Can High Rupee Farm
+
+Can Afford 50 Rupees:
+  Nothing
+
+Can Afford 100 Rupees:
+  Nothing
+
+Can Afford 300 Rupees:
+  Can Medium Rupee Farm
+
+Can Afford 600 Rupees:
+  Can High Rupee Farm & (Extra Wallet x1 | Big Wallet)
+
+Can Afford 800 Rupees:
+  Can High Rupee Farm & (Extra Wallet x2 | (Medium Wallet & Extra Wallet x1) | Big Wallet)
+
+Can Afford 1000 Rupees:
+  Can High Rupee Farm & (Extra Wallet x3 | (Medium Wallet & Extra Wallet x2) | Big Wallet)
+
+Can Afford 1200 Rupees:
+  Can High Rupee Farm &
+  (
+    Extra Wallet x3 |
+    (Medium Wallet & Extra Wallet x3) |
+    (Big Wallet & Extra Wallet x1) |
+    Giant Wallet
+  )
+
+Can Afford 1600 Rupees:
+  Can High Rupee Farm & ((Big Wallet & Extra Wallet x2) | Giant Wallet)
+
 Sword:
   Practice Sword
 

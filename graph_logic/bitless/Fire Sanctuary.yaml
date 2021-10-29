@@ -57,7 +57,7 @@ Fire Sanctuary:
             After Double Magmanos Fight: Sword
         After Double Magmanos Fight:
           locations:
-            Mogma Mitts Chest: Nothing
+            Mogma Mitts: Nothing
           logic-exits:
             Under Double Magmanos Fight: Mogma Mitts
         Under Double Magmanos Fight:

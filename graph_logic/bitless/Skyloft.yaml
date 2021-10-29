@@ -1,22 +1,22 @@
 # this logic assumes, that you can always reach outside skyloft
 
-Skyloft Central:
+Central Skyloft:
   stages:
     Skyloft:
       stage: F000
       areas:
         Central Outside:
           locations:
-            Crystal inbetween wooden Planks: Nighttime
+            Crystal between Wooden Planks: Nighttime
             Crystal on West Cliff: Nighttime
             Crystal on Light Tower: Nighttime
             Crystal on Waterfall Island: Nighttime & Clawshots
             West Cliff Goddess Chest: Goddess Cube on West Great Tree near Exit
-            Parrow's Bottle: Talk to Orielle & Daytime # we can ignore parrow in his house. Talking to orielle requires sky access
+            Parrow's Gift: Talk to Orielle & Daytime # we can ignore parrow in his house. Talking to orielle requires sky access
             Parrow's Crystals: Save Orielle & Daytime
             Shed Chest: Water Scale
             Shed Goddess Chest: Water Scale & Goddess Cube in Eldin Slide
-            Baby Rattle: (Clawshots & Gust Bellows) | (Beetle & Baby Rattle from Beedle's Shop Trick & Gust Bellows)
+            Item in Bird Nest: (Clawshots & Gust Bellows) | (Beetle & Baby Rattle from Beedle's Shop Trick & Gust Bellows)
             Waterfall Goddess Chest: Goddess Cube in Pirate Stronghold & Clawshots
             Floating Island Goddess Chest: Goddess Cube in Lake Floria & Clawshots
             Floating Island Gossip Stone: Clawshots
@@ -27,7 +27,7 @@ Skyloft Central:
             Peatrice's House - Main: Nothing
             Wryna's House - Main: Nothing
             Beedle's Shop - Main (Day): Daytime & (Distance Activator | (Beedle's Shop With Bombs Trick & Bomb Bag))
-            Skyloft Trial - Trial: Song of the Hero & Goddess Harp
+            Skyloft Silent Realm - Trial: Song of the Hero & Goddess Harp
             Bazaar - Main (North): Daytime
             Bazaar - Main (East): Daytime
             Bazaar - Main (South): Daytime
@@ -46,7 +46,7 @@ Skyloft Central:
 
         Waterfall Cave Crystals:
           locations:
-            Crystal Past Waterfall Cave: Nighttime
+            Crystal after Waterfall Cave: Nighttime
             Crystal in Loftwing Prison: Nighttime
         
         To Sky Keep:
@@ -60,10 +60,10 @@ Skyloft Central:
       areas:
         Main:
           locations:
-            Bazaar Potion Lady: Nothing
+            Potion Lady's Gift: Nothing
             Bazaar Goddess Chest: Goddess Cube in Ancient Harbour
           events:
-            Endurance Potion: Beat Dungeon Entrance in Lanayru Desert & Bottle
+            Endurance Potion: Lanayru Desert Dungeon Beaten & Bottle
             Talk to Peatrice in Bazaar: Nothing
           map-exits:
             Skyloft - Central Outside (North): Nothing
@@ -74,7 +74,7 @@ Skyloft Central:
       areas:
         Main:
           locations:
-            Crystal in Parrow and Orielle's House: Nothing
+            Crystal in Orielle and Parrow's House: Nothing
           map-exits:
             Skyloft - Central Outside: Nothing
 
@@ -98,8 +98,8 @@ Skyloft Central:
       areas:
         Main:
           locations:
-            First Chest: Nothing
-            Second Chest: Nothing
+            Waterfall Cave First Chest: Nothing
+            Waterfall Cave Second Chest: Nothing
           map-exits:
             Skyloft - Past Waterfall Cave (Lower): Nothing
             Skyloft - Central Outside (Upper): Nothing
@@ -113,14 +113,14 @@ Knight Academy:
         Main:
           can-sleep: true
           locations:
-            Fledge: Nothing
+            Fledge's Gift: Nothing
             Crystal in Link's Room: Nighttime
             Crystal in Knight Academy Plant: Nighttime
             Owlan's Crystals: Retrieve Oolo & Daytime
             Cawlin's Letter: Goddess Harp & Nighttime & Daytime
             Ghost/Pipit's Crystals: Cawlin's Letter & Daytime
             Crystal in Zelda's Room: Unlocked Zelda's Room & Nighttime
-            Zelda Heartpiece: Unlocked Zelda's Room
+            In Zelda's Closet: Unlocked Zelda's Room
             Fledge's Crystals: Endurance Potion & Nighttime
           map-exits:
             Skyloft - Outside Goddess Statue (Upper Doors): Nothing
@@ -137,8 +137,8 @@ Knight Academy:
       areas:
         Outside Goddess Statue: # border is 2 bridges leading from main to academy area
           locations:
-            Owlan's Shield: Daytime
-            Small Chest on Cliffs Near Goddess Statue: Nothing
+            Owlan's Gift: Daytime
+            Chest near Goddess Statue: Nothing
             Pumpkin Archery - 600 Points: Bow & Daytime
           map-exits:
             Knight Academy - Main (Upper Doors): Nothing
@@ -154,7 +154,7 @@ Knight Academy:
         Main:
           locations:
             Crystal in Sparring Hall: Beetle & Nighttime
-            Practice Sword: Nothing
+            Sparring Hall Chest: Nothing
           events:
             Delivered Hot Soup: Lumpy Pumpkin Quest Start
           map-exits:
@@ -164,7 +164,7 @@ Knight Academy:
       areas:
         Main:
           locations:
-            Goddess Sword: Nothing
+            Chest in Goddess Statue: Nothing
           map-exits:
             Skyloft - Outside Goddess Statue: Nothing
 
@@ -192,7 +192,7 @@ Skyloft Village:
       areas:
         Main:
           locations:
-            Bertie's Crystals: Baby Ratte & Nighttime
+            Bertie's Crystals: Baby Rattle & Nighttime
           map-exits:
             Skyloft - Central Outside: Nothing
 
@@ -222,6 +222,7 @@ Batreaux:
             10 Crystals: 10 Gratitude Crystals
             30 Crystals: 30 Gratitude Crystals
             30 Crystals Chest: 30 Gratitude Crystals
+            40 Crystals: 40 Gratitude Crystals
             50 Crystals: 50 Gratitude Crystals
             70 Crystals: 70 Gratitude Crystals
             70 Crystals Second Reward: 70 Gratitude Crystals
@@ -252,9 +253,9 @@ Beedle:
             Sky - Beedle's Sky Home (Night): Nighttime
             Skyloft - Central Outside (Day): Daytime
 
-Skyloft Trial:
+Skyloft Silent Realm:
   stages:
-    Skyloft Trial:
+    Skyloft Silent Realm:
       areas:
         Trial:
           locations:

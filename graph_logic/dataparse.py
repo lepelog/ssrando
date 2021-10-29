@@ -1,9 +1,19 @@
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, Flag
 from typing import List, Set, Dict, Optional, Generator, Iterable, Tuple
 import yaml
 import re
 from pathlib import Path
+from .logic_expression import (
+    LogicExpression,
+    OrLogicExpression,
+    AndLogicExpression,
+    RawExpression,
+    parse_logic_expression,
+    parse_and_specialize,
+)
+from .item_types import ALL_ITEM_NAMES
+from .logic_types import Area, Areakey, Passageway, ForceTod, Checkname
 
 lowest_level_keys = set(
     (
@@ -18,36 +28,10 @@ lowest_level_keys = set(
 )
 
 
-@dataclass(frozen=True, eq=True)
-class MapExit:
-    stage: str
-    area: str
-    disambiguation: Optional[str]
-
-
-class ForceTod(Enum):
-    Both = "Both"
-    Day = "Day"
-    Night = "Night"
-
-
-@dataclass
-class Area:
-    region: str
-    stage: str
-    areaname: str
-    force_tod: ForceTod
-    can_sleep: bool
-    locations: Dict[str, "LogicExpression"]
-    events: Dict[str, "LogicExpression"]
-    map_exits: Dict[MapExit, "LogicExpression"]
-    logic_exits: Dict[str, "LogicExpression"]
-
-
 DISAMBIGUATION = re.compile(r"(.*) \((.*)\)")
 
 
-def parse_map_exit(map_exit: str) -> MapExit:
+def parse_map_exit(map_exit: str) -> Passageway:
     if not " - " in map_exit:
         raise Exception(f"bad map exit: {map_exit}")
     stage, area = map_exit.split(" - ", 1)
@@ -56,7 +40,7 @@ def parse_map_exit(map_exit: str) -> MapExit:
     if match:
         area = match.group(1)
         disambiguation = match.group(2)
-    return MapExit(stage, area, disambiguation)
+    return Passageway(Areakey(stage, area), disambiguation)
 
 
 def parse_area(
@@ -66,49 +50,70 @@ def parse_area(
     areadef,
     force_tod: ForceTod,
     can_sleep: bool,
+    macros,
 ) -> Area:
     a = areadef.keys() - lowest_level_keys
     assert not a, f"{stagename}-{areaname}{a}"
+    local_macros = dict(
+        (k, parse_and_specialize(v, macros))
+        for (k, v) in areadef.get("macros", {}).items()
+    )
+    local_macros.update(macros)
     return Area(
         regionname,
         stagename,
         areaname,
-        areadef.get("force-tod", force_tod),
+        f"{stagename} - {areaname}",
+        ForceTod(areadef.get("force-tod", force_tod)),
         areadef.get("can-sleep", can_sleep),
-        areadef.get("locations", {}),
-        areadef.get("events", {}),
-        dict((parse_map_exit(k), v) for k, v in areadef.get("map-exits", {}).items()),
-        areadef.get("logic-exits", {}),
+        dict(
+            (Checkname(regionname, k), parse_and_specialize(v, local_macros))
+            for (k, v) in areadef.get("locations", {}).items()
+        ),
+        dict(
+            (k, parse_and_specialize(v, local_macros))
+            for (k, v) in areadef.get("events", {}).items()
+        ),
+        dict(
+            (parse_map_exit(k), parse_and_specialize(v, local_macros))
+            for k, v in areadef.get("map-exits", {}).items()
+        ),
+        dict(
+            (Areakey(stagename, k), parse_and_specialize(v, local_macros))
+            for (k, v) in areadef.get("logic-exits", {}).items()
+        ),
     )
 
 
 def parse_stage(
-    regionname: str, stagename: str, stagedef, force_tod: ForceTod
+    regionname: str, stagename: str, stagedef, force_tod: ForceTod, macros
 ) -> Iterable[Area]:
     a = stagedef.keys() - ("areas", "force-tod", "can-sleep", "stage")
     assert not a, f"{stagename}{a}"
     force_tod = stagedef.get("force-tod", force_tod)
     can_sleep = stagedef.get("can-sleep", False)
     for areaname, areadef in stagedef["areas"].items():
-        yield parse_area(regionname, stagename, areaname, areadef, force_tod, can_sleep)
+        yield parse_area(
+            regionname, stagename, areaname, areadef, force_tod, can_sleep, macros
+        )
 
 
-def parse_region(regionname: str, regiondef) -> Iterable[Area]:
+def parse_region(regionname: str, regiondef, macros) -> Iterable[Area]:
     a = regiondef.keys() - ("stages", "force-tod")
     assert not a, a
     force_tod = regiondef.get("force-tod", ForceTod.Both)
     for stagename, stagedef in regiondef["stages"].items():
-        yield from parse_stage(regionname, stagename, stagedef, force_tod)
+        yield from parse_stage(regionname, stagename, stagedef, force_tod, macros)
 
 
 # Endgoal: areamap[area]: AREA^
-def parse_yaml(yml) -> Iterable[Area]:
+def parse_yaml(yml, macros) -> Iterable[Area]:
     region = None
     stage = None
     force_tod = "Both"
     can_sleep = False
     for regionname, regiondef in yml.items():
-        yield from parse_region(regionname, regiondef)
+        yield from parse_region(regionname, regiondef, macros)
 
 
 def get_bad_exits(areas: List[Area]) -> List:
@@ -145,14 +150,51 @@ def get_oneway_connections(areas: List[Area]) -> Set[Tuple[str, str]]:
     return one_way_connections
 
 
+def get_event_names(areas: List[Area]) -> Set[str]:
+    events = set()
+    for area in areas:
+        events.update(area.events.keys())
+    return events
+
+
+def _get_raw_req(expr: LogicExpression, s: Set[str]):
+    if isinstance(expr, OrLogicExpression) or isinstance(expr, AndLogicExpression):
+        for req in expr.requirements:
+            _get_raw_req(req, s)
+    elif isinstance(expr, RawExpression):
+        s.add(expr.name)
+
+
+def get_raw_requirements(areas: List[Area]) -> Set[str]:
+    reqs = set()
+    for area in areas:
+        for loc in area.locations.values():
+            _get_raw_req(loc, reqs)
+        for loc in area.events.values():
+            _get_raw_req(loc, reqs)
+        for loc in area.logic_exits.values():
+            _get_raw_req(loc, reqs)
+        for loc in area.map_exits.values():
+            _get_raw_req(loc, reqs)
+    return reqs
+
+
 def parse_all():
     areas = []
-    for p in Path("bitless").glob("*.yaml"):
+    path = Path(__file__).parent
+    with open(path / "bitless" / "macros.yaml") as f:
+        macros = yaml.safe_load(f)
+        parsed_macros = {}
+        for name, macro in macros.items():
+            parsed_macros[name] = parse_logic_expression(macro).specialize(
+                parsed_macros
+            )
+    for p in (path / "bitless").glob("*.yaml"):
         if "macros" in p.parts[-1]:
             continue
         print(f"parsing {p}")
         with open(p) as f:
             yml = yaml.safe_load(f)
-            areas.extend(parse_yaml(yml))
+            areas.extend(parse_yaml(yml, parsed_macros))
 
     return areas

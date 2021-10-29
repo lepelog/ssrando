@@ -44,7 +44,7 @@ Ancient Cistern:
             After Whip Hooks: Ancient Cistern - Map Chest Jump Trick
         Whip Chest Room:
           locations:
-            Whip Chest: Nothing
+            Whip: Nothing
         Main Basement:
           logic-exits:
             Spider Thread: Clawshots | Hook Beetle

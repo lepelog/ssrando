@@ -21,8 +21,7 @@ Lanayru Mining Facility:
 
         First Key Locked Room:
           macros:
-            Can Access Past: 
-              Can Access LMF Key Locked Part &
+            Can Access Past:
               (Hook Beetle | (Bomb Bag & LMF - Key Locked Room Bomb Throw Trick)) &
               (Beetle | Bow | (Slingshot & LMF - Keylocked Slingshot Trickshot Trick))
           locations:
@@ -96,6 +95,8 @@ Lanayru Mining Facility:
       stage: B300
       areas:
         Main:
+          macros:
+            Can Defeat Molderach: (Gust Bellows | LMF - Molderach without Gust Bellows Trick) & Sword
           locations:
             Molderach Heart Container: Can Defeat Molderach
           map-exits:
@@ -109,7 +110,7 @@ Lanayru Mining Facility:
             ToT Exit: Beetle | Bow
         ToT Exit:
           locations:
-            Harp: Nothing
+            Goddess Harp: Nothing
           events:
             Can Beat Lanayru Mining Facility: Nothing
           map-exits:

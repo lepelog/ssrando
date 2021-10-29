@@ -1,4 +1,4 @@
-Eldin:
+Eldin Volcano:
   force-tod: Day
   stages:
     Eldin Volcano:
@@ -6,7 +6,7 @@ Eldin:
       areas:
         First Room:
           locations:
-            Behind Bombable Wall in First Room: Nothing
+            Chest behind Bombable Wall in First Room: Nothing
           events:
             Goddess Cube at Eldin Entrance: Goddess Sword
             Eldin Entrance Statue: Nothing
@@ -18,9 +18,9 @@ Eldin:
 
         Pre Mogma Turf:
           locations:
-            After Crawlspace: Nothing
-            Behind Bombable Wall Near HP: Nothing
-            Heart Piece on Cliff: Nothing
+            Chest after Crawlspace: Nothing
+            Chest behind Bombable Wall near Cliff: Nothing
+            Item on Cliff: Nothing
           events:
             Goddess Cube near Mogma Turf Entrance: Goddess Sword
             Volcano East Statue: Nothing
@@ -40,12 +40,12 @@ Eldin:
 
         Volcano Ascent:
           locations:
-            Behind Bombable Wall Near Volcano Ascent: Nothing
+            Chest behind Bombable Wall near Volcano Ascent: Nothing
           events:
             Volcano Ascent Statue: Nothing
           map-exits:
             Sky - Field (Volcano Ascent Statue): Nothing
-            Eldin Trial - Trial: Din's Power & Goddess Harp
+            Eldin Silent Realm - Trial: Din's Power & Goddess Harp
           logic-exits:
             First Room: Nothing
             Near Thrill Digger: Bow | Slingshot | Beetle | Stuttersprint Trick
@@ -61,8 +61,11 @@ Eldin:
         Outside ET:
           locations:
             Gossip Stone next to Earth Temple: Digging Mitts
+            Digging Spot in front of Earth Temple: Digging Mitts
+            Digging Spot below Tower: Digging Mitts
+            Digging Spot behind Boulder on Sandy Slope: Digging Mitts
           events:
-            Sparrot's Crystal Ball: Clawshots
+            Retrieve Crystal Ball: Clawshots
             Goddess Cube West of Earth Temple Entrance: Digging Mitts
             Goddess Cube East of Earth Temple Entrance: Nothing
             Temple Entrance Statue: Nothing
@@ -71,10 +74,6 @@ Eldin:
             Sky - Field (Temple Entrance Statue): Nothing
           logic-exits:
             Hot Cave Area: Nothing
-          locations:
-            Key Piece in Front of ET: Digging Mitts
-            Key Piece Below Tower: Digging Mitts
-            Key Piece Behind Boulder on Sandy Slope: Digging Mitts
 
         Hot Cave Area:
           map-exits:
@@ -87,13 +86,13 @@ Eldin:
           events:
             Goddess Cube in Eldin Slide: Goddess Sword
           locations:
-            Key Piece After Vents: Digging Mitts
+            Digging Spot after Vents: Digging Mitts
           logic-exits:
             Past Slide: Nothing
 
         Past Slide:
           locations:
-            Key Piece After Draining Lava: Digging Mitts
+            Digging Spot after Draining Lava: Digging Mitts
           logic-exits:
             Volcano Ascent: Nothing
             Hot Cave Area: Nothing
@@ -110,9 +109,9 @@ Eldin:
           map-exits:
             Eldin Volcano - Near Thrill Digger: Nothing
 
-Eldin Trial:
+Eldin Silent Realm:
   stages:
-    Eldin Trial:
+    Eldin Silent Realm:
       stage: S200
       areas:
         Trial:
@@ -130,10 +129,10 @@ Mogma Turf: # when randomizing this, need to find a way to force the skydiving a
         Main:
           locations:
             Free Fall Chest: Nothing
-            Behind Bombable Wall at Entrance: Nothing
+            Chest behind Bombable Wall at Entrance: Nothing
             Sand Slide Chest: Digging Mitts
-            Digging Mitts: Can defeat Bokoblins
-            Behind Bombable Wall in Lava Maze: Digging Mitts
+            Digging Mitts Fight: Can Defeat Bokoblins
+            Chest behind Bombable Wall in Fire Maze: Digging Mitts
           events:
             Pick up Guld: Nothing # access to kina is required to start and end the quest
             Goddess Cube in Mogma Turf: Goddess Sword
@@ -164,7 +163,7 @@ Volcano Summit:
       areas:
         Main:
           locations:
-            Behind Bombable Wall in Waterfall Area: Clawshots
+            Chest behind Bombable Wall in Waterfall Area: Clawshots
             Gossip Stone in Waterfall Area: Clawshots
           events:
             Goddess Cube in Summit Waterfall: Goddess Sword
@@ -181,7 +180,7 @@ Volcano Summit:
             Middle: Bottle # & Fill With Water
         Middle:
           locations:
-            Heart Piece Behind Digging: Mogma Mitts
+            Item behind Digging: Mogma Mitts
             Gossip Stone outside Fire Sanctuary: Nothing
           logic-exits:
             To Fire Sanctuary: Clawshots & Bottle # & Fill With Water

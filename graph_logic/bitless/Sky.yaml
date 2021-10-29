@@ -6,27 +6,34 @@ Sky:
         Field:
           force-tod: Day
           locations:
-            Lumpy Pumpkin Roof Goddess Chest: Goddess Cube in Skyview Spring
-            Goddess Chest Outside Volcanic Island: Goddess Cube in Sand Oasis
+            Lumpy Pumpkin - Goddess Chest on the Roof: Goddess Cube in Skyview Spring
+            Goddess Chest outside Volcanic Island: Goddess Cube in Sand Oasis
             # Normally you would need clawshots, but you can skip them with a good dive
-            Goddess Chest Inside Volcanic Island: Goddess Cube on East Great Tree with Clawshots Target &
+            Goddess Chest inside Volcanic Island: Goddess Cube on East Great Tree with Clawshots Target &
               (Clawshots | Sky - Volcanic Island Dive Trick)
             Orielle's Crystals: Bottle
-            Dodoh Crystals: Can Retrieve Party Wheel
-            Fun Fun Island Minigame: Can Retrieve Party Wheel
-            Goddess Chest Under Fun Fun Island: Goddess Cube in Floria Waterfall
+            Dodoh's Crystals: Can Retrieve Party Wheel
+            Fun Fun Island Minigame - 500 Rupees: Can Retrieve Party Wheel
+            Goddess Chest under Fun Fun Island: Goddess Cube in Floria Waterfall
             Southwest Triple Island Upper Goddess Chest: Goddess Cube at Eldin Entrance
             Southwest Triple Island Lower Goddess Chest: Goddess Cube near Hook Beetle Fight
             Southwest Triple Island Cage Goddess Chest: Goddess Cube in Skipper's Retreat & Clawshots
-            Breakable Boulder near Fun Fun island: Spiral Charge
-            Breakable Boulder near Lumpy Pumpkin: Spiral Charge
             Goddess Chest on Island Closest to Faron Pillar: Goddess Cube in Deep Woods
             Beedle's Island Goddess Chest: Goddess Cube at Ride near Temple of Time
             Northeast Island Goddess Chest Behind Bombable Rocks: Goddess Cube at Lanayru Mines Entrance & Bomb Bag
             Northeast Island Cage Goddess Chest: Goddess Cube East of Earth Temple Entrance
+            Bamboo Island Goddess Chest: Goddess Cube West of Earth Temple Entrance
+            Goddess Chest on Island next to Bamboo Island: Goddess Cube near Mogma Turf Entrance
+            Goddess Chest in Cave on Island Next to Bamboo Island: Goddess Cube in Secret Passageway in Desert & Water Scale
+            Northeast Island Goddess Chest behind Bombable Rocks: Goddess Cube at Lanayru Mines Entrance & Bomb Bag
+
+            Chest in Breakable Boulder near Fun Fun Island: Spiral Charge
+            Chest in Breakable Boulder near Lumpy Pumpkin: Spiral Charge
             Gossip Stone in Volcanic Island: Nothing
           events:
             High Rupee Farm: Can Retrieve Party Wheel
+            Talk to Orielle: Nothing
+            Save Orielle: Bottle
           map-exits:
             Skyloft - Central Outside: Nothing
             Inside Bamboo Island - Main: Nothing
@@ -63,7 +70,7 @@ Sky:
           force-tod: Night # only area requiring force night
           locations:
             Beedle's Crystals: Horned Colossus Beetle
-            Crystal on Beedles Ship: Nighttime & Beetle
+            Crystal on Beedle's Ship: Nighttime & Beetle
           map-exits:
             Beedle's Shop - Main (Night): Nothing
           logic-exits:
@@ -78,7 +85,7 @@ Sky:
             Crystal outside Lumpy Pumpkin: Nighttime
             Crystal inside Lumpy Pumpkin: Nighttime
             Kina's Crystals: Pumpkin Carrying & Goddess Harp & Pick up Guld & Daytime
-            Lumpy Pumpkin Goddess Chest: Initial Goddess Cube
+            Lumpy Pumpkin - Outside Goddess Chest: Initial Goddess Cube
           events:
             # assumption: delivering hot soup requires lumpy pumpkin quest start, so there is no need requiring reaching the bartender here as well
             Pumpkin Carrying: Delivered Hot Soup
@@ -94,8 +101,8 @@ Sky:
         Main:
           can-sleep: Nothing
           locations:
-            Harp Minigame: Pumpkin Carrying & Goddess Harp
-            Chandelier: Nothing
+            Lumpy Pumpkin Harp Minigame: Pumpkin Carrying & Goddess Harp
+            Lumpy Pumpkin - Chandelier: Nothing
             Crystal inside Lumpy Pumpkin: Nighttime
           events:
             Lumpy Pumpkin Quest Start: Bottle
@@ -112,7 +119,7 @@ Sky:
           locations:
             Gossip Stone inside Bamboo Island: Nothing
           events:
-            Clean Cut Minigame: Sword
+            Can Play Clean Cut: Sword
           map-exits:
             Sky - Field: Nothing
 
@@ -124,9 +131,10 @@ Thunderhead:
       areas:
         Main:
           locations:
-            Levias: Pick up Levia's Soup & Spiral Charge
+            Song from Levias: Pick up Levia's Soup & Spiral Charge
             ## Isle of Songs
-            Goddess Chest on top of Isle of Song: Goddess Cube near FS Entrance
+            Goddess Chest on top of Isle of Songs: Goddess Cube near FS Entrance
+            Goddess Chest outside Isle of Songs: Goddess Cube in Mogma Turf
             ## East Island
             East Island Goddess Chest: Goddess Cube on East Great Tree with Rope
             East Island Chest: Digging Mitts | Thunderhead - East Island Dive Trick
@@ -135,8 +143,8 @@ Thunderhead:
             # Inaccessible Goddess Cube
             # Second Goddess Chest on Mogma Mitts Island: Goddess Cube in Lanayru Gorge & Mogma Mitts
             ## Bug Rock
-            Bug Island minigame: Bug Net
-            Bug Island Goddess Chest: Goddess Cube in Summit Waterfall
+            Bug Heaven - 10 Bugs in 3 Minutes: Bug Net
+            Bug Heaven Goddess Chest: Goddess Cube in Summit Waterfall
           map-exits:
             Sky - Field: Nothing
             Isle of Songs - Main: Sword # if this works like sword combo locks, other items work too
@@ -146,8 +154,8 @@ Thunderhead:
       areas:
         Main:
           locations:
-            Farore's Courage: Goddess Sword
-            Nayru's Wisdom: Goddess Longsword
-            Din's Power: Goddess White Sword
+            Isle of Songs - Farore's Courage: Goddess Sword
+            Isle of Songs - Nayru's Wisdom: Goddess Longsword
+            Isle of Songs - Din's Power: Goddess White Sword
           map-exits:
             Inside Thunderhead - Main: Nothing

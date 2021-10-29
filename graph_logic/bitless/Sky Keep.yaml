@@ -6,10 +6,10 @@ Sky Keep:
       areas:
         Main:
           events:
-            Can Beat Sky Keep: Can Access Skykeep & Clawshots & SK Small Key x1 &
+            Can Beat Sky Keep: Clawshots & SK Small Key x1 &
               Bow & Gust Bellows & Whip & Practice Sword
           locations:
             First Chest: Nothing
-            Small Key Chest: Gust Bellows & Whip & Bow & Clawshots & Practice Sword
+            Chest after Dreadfuse: Gust Bellows & Whip & Bow & Clawshots & Practice Sword
           map-exits:
             Skyloft - To Sky Keep: Nothing

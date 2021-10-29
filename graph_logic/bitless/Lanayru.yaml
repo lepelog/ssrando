@@ -6,13 +6,14 @@ Lanayru Mines:
       areas:
         First Half:
           locations:
-            Behind First Landing: Clawshots
-            Near First Timeshift Stone: Distance Activator | Bomb Bag | Sword | Itemless First Timeshift Stone Trick
+            Chest behind First Landing: Clawshots
+            Chest near First Timeshift Stone: Distance Activator | Bomb Bag | Sword | Itemless First Timeshift Stone Trick
             # includes activating the Timeshift stone
-            Behind Statue: Bomb Bag | Hook Beetle
-            End of Mines: Bomb Bag | Hook Beetle
+            Chest behind Statue: Bomb Bag | Hook Beetle
+            Chest at the End of Mines: Bomb Bag | Hook Beetle
           events:
             Lanayru Mine Entry Statue: Nothing
+            Goddess Cube at Lanayru Mines Entrance: Goddess Sword
           logic-exits:
             To Caves: Clawshots
             To Desert: Bomb Bag | Hook Beetle
@@ -36,10 +37,10 @@ Lanayru Desert:
         Hook Beetle Area:
           locations:
             Chest near Party Wheel: Bomb Bag
-            Chest Before Hook Beetle: Nothings
-            Hook Beetle: Bomb Bag | Hook Beetle
+            Chest near Hook Beetle Fight: Nothing
+            Hook Beetle Fight: Bomb Bag | Hook Beetle
           events:
-            Party Wheel Pickup: Bomb Bag
+            Can Retrieve Party Wheel: Bomb Bag
             Desert Entrance Statue: Nothing
             Goddess Cube near Hook Beetle Fight: Long Range Skyward Strike | (Clawshots & Goddess Sword)
           logic-exits:
@@ -52,10 +53,10 @@ Lanayru Desert:
           macros:
             Can Reach Secret Passageway: Bomb Bag | (Hook Beetle & Long Hook Beetle Flights Trick)
           locations:
-            NE Desert Chest: Can Reach Secret Passageway
-            Chest Next to Trial: Clawshots
+            Secret Passageway Chest: Can Reach Secret Passageway
+            Chest on Platform near Lightning Node: Clawshots
             Chest on Platform near Fire Node: Clawshots
-            On Top of Lanayru Mining Facility: Raise Lanayru Mining Facility
+            Chest on top of Lanayru Mining Facility: Raise Lanayru Mining Facility
           events:
             Goddess Cube in Secret Passageway in Desert: Can Reach Secret Passageway | Clawshots | Goddess Sword
             Activate Water Node: Bomb Bag & Sword
@@ -68,13 +69,13 @@ Lanayru Desert:
             Lightning Node - Main: Nothing
             Fire Node - Main: Nothing
             Temple of Time - End (End): Nothing
-            Lanayru Trial - Trial: Nayru's Wisdom & Goddess Harp
+            Lanayru Silent Realm - Trial: Nayru's Wisdom & Goddess Harp
             Lanayru Mining Facility A - Entry: Raise Lanayru Mining Facility
             Sky - Field (North Desert Statue): Nothing
             Sky - Field (Stone Cache Statue): Nothing
         Sand Oasis: # access to the area next to the entrance to ToT
           locations:
-            Chest Near Sand Oasis: Clawshots
+            Chest near Sand Oasis: Clawshots
           events:
             Goddess Cube in Sand Oasis: Goddess Sword
             West Desert Statue: Nothing
@@ -89,9 +90,9 @@ Lanayru Desert:
       areas:
         Main:
           locations:
-            Beginning of Lightning Node: Bomb Bag
-            Middle of Lightning Node: Bomb Bag
-            End of Lightning Node: Bomb Bag & (Beetle | Bow | (Bomb Bag & Lightning Node End with Bombs Trick))
+            Lightning Node - First Chest: Bomb Bag
+            Lightning Node - Second Chest: Bomb Bag
+            Lightning Node - Raised Chest near Generator: Bomb Bag & (Beetle | Bow | (Bomb Bag & Lightning Node End with Bombs Trick))
           events:
             Activate Lightning Node: Bomb Bag & Sword
           map-exits:
@@ -101,17 +102,17 @@ Lanayru Desert:
       areas:
         Main:
           locations:
-            Fire Node Shortcut Chest: Can Defeat Ampilus | Fire Node - Brakeslide Trick
-            Beginning of Fire Node: Bomb Bag
-            Middle of Fire Node: Bomb Bag
+            Fire Node - Shortcut Chest: Can Defeat Ampilus | Fire Node - Brakeslide Trick
+            Fire Node - First Small Chest: Bomb Bag
+            Fire Node - Second Small Chest: Bomb Bag
           logic-exits:
             End: Bomb Bag & Hook Beetle
           map-exits:
             Lanayru Desert - Past ToT: Nothing
         End:
           locations:
-            Fire Node Left Chest: Nothing
-            Fire Node Right Chest: Nothing
+            Fire Node - Left Ending Chest: Nothing
+            Fire Node - Right Ending Chest: Nothing
           events:
             Activate Fire Node: Sword
 
@@ -142,7 +143,7 @@ Lanayru Desert:
         After LMF:
           events:
             # TODO: how does this work in full entrance rando?
-            ToT Layer 2: Nothing
+            Lanayru Desert Dungeon Beaten: Nothing
           logic-exits:
             Near Gossip Stone: Nothing
         End:
@@ -161,7 +162,7 @@ Lanayru Caves:
           locations:
             # with entrance rando, we should remove the
             # clawshot requirement for his layer
-            Goloo: Nothing
+            Golo's Gift: Nothing
             Chest: Nothing
             Gossip Stone in Center: Nothing
           map-exits:
@@ -175,9 +176,9 @@ Lanayru Caves:
           logic-exits:
             Main: LanayruCaves Small Key x1
 
-Lanayru Trial:
+Lanayru Silent Realm:
   stages:
-    Lanayru Trial:
+    Lanayru Silent Realm:
       stage: S300
       areas:
         Trial:
@@ -186,8 +187,7 @@ Lanayru Trial:
           map-exits:
             Lanayru Desert - Past ToT: Nothing
 
-# TODO: All of Sandsea
-Sand Sea:
+Lanayru Sand Sea:
   stages:
     Sand Sea Docks:
       stage: F301_1 # or something like that
@@ -301,9 +301,9 @@ Sand Sea:
       areas:
         Main:
           locations:
-            First Chest: Nothing
-            Second Chest: Nothing
-            Third Chest: Nothing
+            Pirate Stronghold - First Chest: Nothing
+            Pirate Stronghold - Second Chest: Nothing
+            Pirate Stronghold - Third Chest: Nothing
           events:
             Open Sharkhead: Can Defeat Beamos & Can Defeat Armos
           map-exits:

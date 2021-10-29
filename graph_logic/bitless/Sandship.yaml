@@ -6,10 +6,10 @@ Sandship:
       areas:
         Deck:
           locations:
-            Bow Chest: SS Small Key x2 & Sword
+            Bow: SS Small Key x2 & Sword
             Boss Key Chest: SS Small Key x2 & Bow
             Chest at the Stern: (Clawshots | Sandship - Mast Jump Trick) & Can Freely Change Sandship Temporality
-            Sandship - Chest before 4-Door Corridor: Can Freely Change Sandship Temporality & Bow
+            Chest before 4-Door Corridor: Can Freely Change Sandship Temporality & Bow
           events:
             Can Freely Change Sandship Temporality: Bow & (Sword | SS Small Key x2)
           map-exits:
@@ -41,5 +41,6 @@ Sandship:
         Main:
           locations:
             Tentalus Heart Container: Bow
+            Nayru's Flame: Bow
           events:
             Can Beat Sandship: Bow

@@ -28,11 +28,19 @@ Sealed Grounds:
             Start Imprisoned 2: Raise GoT & Beat Required Dungeons & Sword Requirement Met
             Raise GoT: Goddess Harp
           locations:
-            Inside Sealed Temple: Nothing
-            Ballad of the Goddess: Goddess Harp
+            Chest inside Sealed Temple: Nothing
+            Song from Impa: Goddess Harp
           map-exits:
             Sealed Grounds Spiral - Lower: Nothing
             Behind the Temple - Main: Nothing
+            Hylia's Temple - Main: Defeat Imprisoned 2
+
+    Hylia's Temple:
+      stage: F404
+      areas:
+        Main:
+          locations:
+            Zelda's Blessing: Nothing
 
     Behind the Temple:
       stage: F400
@@ -41,12 +49,13 @@ Sealed Grounds:
           events:
             Behind the Temple Statue: Nothing
           locations:
-            Gorko's Goddess Wall Reward: Goddess Harp & Goddess Sword & Goddess Wall Trigger in SV
+            Gorko's Goddess Wall Reward: Goddess Harp & Goddess Sword & Activate Skyview Goddess Wall
           map-exits:
             Sky - Field (Behind the Temple Statue): Nothing
             Faron Woods - Entry: Nothing
             Sealed Grounds Spiral - Upper: Nothing
             Sealed Temple - Main: Nothing
+
 Faron Woods:
   force-tod: Day
   stages:
@@ -64,10 +73,10 @@ Faron Woods:
 
         Main:
           locations:
-            HP on Tree: Nothing
+            Item on Tree: Nothing
             Slingshot: Bomb Bag | Sword # to kill bokos and cut grass
-            HP behind Bombable Wall: Bomb Bag
-            Chest behind Bombable Wall: Bomb Bag
+            Item behind Bombable Rock: Bomb Bag
+            Chest behind Bombable Rocks near Erla: Bomb Bag
           events:
             Viewing Platform Statue: Nothing
             In the Woods Statue: Nothing
@@ -81,6 +90,7 @@ Faron Woods:
             Deep Woods - Entry: Distance Activator
             Lake Floria - Entry: Talk to Yerbal & Goddess Sword & Water Scale
             Great Tree - Entry (Tunnel): Water Scale
+            Faron Silent Realm - Trial: Farore's Courage & Goddess Harp
           logic-exits:
             Entry: Nothing
             Clawshot Target Branch: Clawshots
@@ -149,7 +159,7 @@ Faron Woods:
             Past Platforms: Gust Bellows
         Middle: # around the chest
           locations:
-            Great Tree Chest: Nothing
+            Chest inside Great Tree: Nothing
           logic-exits:
             Lower: Nothing
             Past Platforms: Nothing
@@ -164,7 +174,18 @@ Faron Woods:
             Faron Woods - Great Tree Top (Top): Nothing
           logic-exits:
             # there is a void otherwise
-            Middle: Can Defeat Moblin
+            Middle: Can Defeat Moblins
+
+Faron Silent Realm:
+  stages:
+    Faron Silent Realm:
+      stage: S100
+      areas:
+        Trial:
+          locations:
+            Water Scale: Nothing
+          map-exits:
+            Faron Woods - Main: Nothing
 
 Lake Floria:
   force-tod: Day
@@ -195,8 +216,8 @@ Lake Floria:
       areas:
         Main:
           locations:
-            Lair South Chest: Water Scale
-            Lair East Chest: Nothing
+            Dragon Lair South Chest: Water Scale
+            Dragon Lair East Chest: Nothing
           map-exits:
             Floria Waterfall - Main: Nothing
             Lake Floria - To Farore's Lair: Water Scale

@@ -16,16 +16,16 @@ Skyview:
             Can Hit Vines in Skyview Left Room: Distance Activator | Bomb Bag | Goddess Sword | Whip
             Can Raise Water: Distance Activator
           locations:
-            Map Chest: Can Hit Vines in Skyview Left Room | (Skyview - Spider Roll Trick & Switch Activator)
-            Small Key Digging Spot: Distance Activator & Water Scale & Digging Mitts
-            Behind Two Eyes: Can Raise Water & Sword
+            Chest on Tree Branch: Can Hit Vines in Skyview Left Room | (Skyview - Spider Roll Trick & Switch Activator)
+            Digging Spot in Crawlspace: Distance Activator & Water Scale & Digging Mitts
+            Chest behind Two Eyes: Can Raise Water & Sword
           logic-exits:
             Main Hub: Can Raise Water & SV Small Key x1
         Main Hub:
           locations:
             Beetle: Distance Activator & (Sword | Water Scale)
-            Behind Bars in Hub Room: Beetle | (Slingshot & Skyview Slingshot Shot Trick)
-            Behind Three Eyes: Beetle & Sword
+            Item behind Bars: Beetle | (Slingshot & Skyview Slingshot Shot Trick)
+            Chest behind Three Eyes: Beetle & Sword
           logic-exits:
             # To get accross the rope with boko babas, hang down on the rope and go accross that way.
             # The last boko baba may be annoying but nothing too bad if you time it
@@ -38,8 +38,8 @@ Skyview:
               & (Long Range Skyward Strike | Hook Beetle | Bow)"
         Boss Door Area:
           locations:
-            Near Boss Door: Nothing
-            Boss Key: Distance Activator | Long Range Skyward Strike
+            Chest near Boss Door: Nothing
+            Boss Key Chest: Distance Activator | Long Range Skyward Strike
           map-exits:
             Skyview Boss - Main: SV Boss Key
 

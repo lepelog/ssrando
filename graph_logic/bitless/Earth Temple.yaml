@@ -7,7 +7,7 @@ Earth Temple:
         # up until drawbridge
         Entrance:
           locations:
-            First Chest: Progressive Mitts
+            Vent Chest: Progressive Mitts
           map-exits:
             Eldin Volcano - Outside ET: Nothing
           logic-exits:
@@ -16,16 +16,16 @@ Earth Temple:
             # Hitting the boulder with the beetle alone is very luck based when it's not upgraded
             # Thus either you have the bow to cut the drawbridge and activate the boulder...
             # Or you have beetle and in this case you need to defeat the lezalfos and have another item to activate the boulder other than the bow
-            Ball Rolling: Bow | (Long Range Skyward Strike & Earth Temple - Keese Yeet Trick) | (Beetle & Can Deteat Lezalfos & (Slingshot | Clawshots))
+            Ball Rolling: Bow | (Long Range Skyward Strike & Earth Temple - Keese Yeet Trick) | (Beetle & Can Defeat Lezalfos & (Slingshot | Clawshots))
         
         # aka main hub
         Ball Rolling:
           locations:
-            Behind Boulder: Nothing
-            Left Chest after Boulder Section: Nothing
-            Map Chest: Bomb Bag | Hook Beetle
+            Chest behind Bombable Rock: Nothing
+            Chest Left of Main Room Bridge: Nothing
+            Chest in West Room: Bomb Bag | Hook Beetle
             Bomb Bag: Can Defeat Lezalfos
-            5 Bombs From Ledd: Can Defeat Lezalfos
+            Ledd's Gift: Can Defeat Lezalfos
           logic-exits:
             # First, destroy the cracked wall. In this dungeon, the hook Beetle can replace the bombs everywhere.
             # Then, you absolutely need a Beetle to cut a rope in the boulder section.
@@ -33,14 +33,14 @@ Earth Temple:
 
         After Ball Rolling:
           locations:
-            Chest Guarded By Lizalfos: Nothing
+            Chest Guarded by Lizalfos: Nothing
           logic-exits:
             # You need to dig up an air vent to blow up the boulder, or use hook beetle, or be able to Stutter Sprint
             Boss Door Area: (Digging Mitts & Bomb Bag) | Hook Beetle | Earth Temple - Slope Stuttersprint Trick
         
         Boss Door Area:
           locations:
-            Boss Key: Nothing
+            Boss Key Chest: Nothing
           map-exits:
             Earth Temple Boss - Main: ET Boss Key
     
