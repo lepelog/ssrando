@@ -159,3 +159,68 @@ ALL_TYPES = [
     "summit goddess",
     "sand sea goddess",
 ]
+
+POTENTIALLY_BANNED_TYPES = {
+    "dungeon": "Dungeons",
+    "mini dungeon": "Mini Dungeons",
+    "free gift": "Free Gifts",
+    "freestanding": "Freestanding Items",
+    "miscellaneous": "Miscellaneous",
+    "silent realm": "Silent Realms",
+    "digging": "Digging Spots",
+    "bombable": "Bombable Walls",
+    "combat": "Combat Rewards",
+    "song": "Songs",
+    "spiral charge": "Spiral Charge Chests",
+    "minigame": "Minigames",
+    "short": "Short Quests",
+    "long": "Long Quests",
+    "fetch": "Fetch Quests",
+    "crystal quest": "Gratitude Crystal Quests",
+    "scrapper": "Scrapper Quests",
+    "peatrice": "Peatrice",
+    "beedle": "Beedle's Shop",
+    "cheap": "Cheap Purchases in Beedle's Shop",
+    "medium": "Medium Purchases in Beedle's Shop",
+    "expensive": "Expensive Purchases in Beedle's Shop",
+    "goddess": "All Goddess Chests",
+    "faron goddess": "Goddess Cubes in Faron Woods",
+    "eldin goddess": "Goddess Cubes in Eldin Volcano",
+    "lanayru goddess": "Goddess Cubes in Lanayru Desert",
+    "floria goddess": "Goddess Cubes in Lake Floria",
+    "summit goddess": "Goddess Cubes in Volcano Summit",
+    "sand sea goddess": "Goddess Cubes in Lanayru Sand Sea",
+}
+
+NON_RANDOMIZED_SETTINGS = [
+    "No Spoiler Log",
+    "Fix BiT crashes",
+    "Randomize Settings",
+    "Banned Types",  # done separately
+    # Currently unavailable
+    "Gate of Time Starting State",
+    "Gate of Time Dungeon Requirements",
+    "Horde",
+    "Ghirahim 3",
+    "Demise",
+    # Unrandomized
+    "Logic Mode",
+    "Enabled Tricks BiTless",
+    "Enabled Tricks Glitched",
+    # Hints (done separately)
+    "Hint Distribution",
+    "Spirit of the Sword Hints",
+    "Sometimes Hints",
+    "Barren",
+    "Location Hints",
+    "Item Hints",
+]
+
+HINT_SETTINGS = [
+    "Hint Distribution",
+    "Spirit of the Sword Hints",
+    "Sometimes Hints",
+    "Barren",
+    "Location Hints",
+    "Item Hints",
+]

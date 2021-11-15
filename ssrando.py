@@ -72,6 +72,16 @@ class Randomizer(BaseRandomizer):
     def __init__(self, options: Options, progress_callback=dummy_progress_callback):
         super().__init__(progress_callback)
         self.options = options
+        self.seed = self.options["seed"]
+        if self.seed == -1:
+            self.seed = random.randint(0, 1000000)
+        self.options.set_option("seed", self.seed)
+        self.rng = random.Random()
+        self.rng.seed(self.seed)
+
+        if self.options["randomize-settings"]:
+            self.options.randomize_settings(self)
+
         # hack: if shops are vanilla, disable them as banned types because of bug net and progressive pouches
         if self.options["shop-mode"] == "Vanilla":
             banned_types = self.options["banned-types"]
@@ -82,14 +92,8 @@ class Randomizer(BaseRandomizer):
 
         self.dry_run = bool(self.options["dry-run"])
         self.no_logs = self.options["no-spoiler-log"]
-        self.seed = self.options["seed"]
-        if self.seed == -1:
-            self.seed = random.randint(0, 1000000)
-        self.options.set_option("seed", self.seed)
 
         self.randomizer_hash = self._get_rando_hash()
-        self.rng = random.Random()
-        self.rng.seed(self.seed)
         if self.no_logs:
             for _ in range(100):
                 self.rng.random()
@@ -158,7 +162,25 @@ class Randomizer(BaseRandomizer):
 
     def randomize(self):
         self.progress_callback("randomizing items...")
-        self.logic.randomize_items()
+        can_generate_seed = self.logic.randomize_items()
+        if self.options["randomize-settings"]:
+            while not can_generate_seed:
+                print(
+                    "The seed could not be generated; reshuffling settings and trying again..."
+                )
+                self.options.randomize_settings(self)
+
+                # hack: if shops are vanilla, disable them as banned types because of bug net and progressive pouches
+                if self.options["shop-mode"] == "Vanilla":
+                    banned_types = self.options["banned-types"]
+                    for unban_shop_item in ["beedle", "cheap", "medium", "expensive"]:
+                        if unban_shop_item in banned_types:
+                            banned_types.remove(unban_shop_item)
+                    self.options.set_option("banned-types", banned_types)
+
+                self.logic = Logic(self)
+                self.hints = Hints(self.logic)
+                can_generate_seed = self.logic.randomize_items()
         self.sots_locations = self.logic.get_sots_locations()
         if self.options["hint-distribution"] == "Junk":
             self.hints.do_junk_hints()
@@ -312,6 +334,40 @@ class Randomizer(BaseRandomizer):
                 hintlocation + ":",
                 hint.to_spoiler_log_text(),
             )
+
+        spoiler_log += "\n\n\n"
+
+        # Write randomized settings
+        if self.options["randomize-settings"]:
+            spoiler_log += "Randomized Settings:\n"
+            for optkey, opt in OPTIONS.items():
+                if (
+                    opt["name"] in constants.NON_RANDOMIZED_SETTINGS
+                    or "permalink" in opt
+                ):
+                    if opt["name"] not in constants.HINT_SETTINGS:
+                        continue
+                spoiler_log += "  {}: {}\n".format(opt["name"], self.options[optkey])
+
+            spoiler_log += "\nBanned Types:\n"
+
+            if len(self.options["banned-types"]) == 0:
+                spoiler_log += "  None\n"
+            for banned_type in self.options["banned-types"]:
+                if (
+                    banned_type.endswith("goddess")
+                    and banned_type != "goddess"
+                    and "goddess" in self.options["banned-types"]
+                ):
+                    continue
+                if (
+                    banned_type in ["cheap", "medium", "expensive"]
+                    and "beedle" in self.options["banned-types"]
+                ):
+                    continue
+                spoiler_log += "  {}\n".format(
+                    constants.POTENTIALLY_BANNED_TYPES[banned_type]
+                )
 
         spoiler_log += "\n\n\n"
 
@@ -582,6 +638,33 @@ class Randomizer(BaseRandomizer):
             for (k, v) in self.logic.done_item_locations.items()
             if v != "Gratitude Crystal"
         )
+        for (k, v) in self.logic.done_item_locations.items():
+            size_setting = self.options["chest-sizes"]
+            if size_setting == "Vanilla":
+                plcmt_file.chest_sizes[k] = -1
+            elif size_setting == "All Small":
+                plcmt_file.chest_sizes[k] = 1
+            elif size_setting == "All Normal":
+                plcmt_file.chest_sizes[k] = 0
+            elif size_setting == "All Boss Keys":
+                plcmt_file.chest_sizes[k] = 2
+            elif size_setting == "Matches Contents":
+                if v in self.logic.all_progress_items:
+                    if v == "Gratitude Crystal":
+                        plcmt_file.chest_sizes[k] = 1
+                    elif "Key" in v:
+                        plcmt_file.chest_sizes[k] = 2
+                    else:
+                        plcmt_file.chest_sizes[k] = 0
+                else:
+                    plcmt_file.chest_sizes[k] = 1
+            else:
+                plcmt_file.chest_sizes[k] = self.rng.randint(0, 2)
+
+            # overwrite goddess chests to be subtype 3 regardless of setting otherwise they break
+            if "Goddess Chest" in k:
+                plcmt_file.chest_sizes[k] = 3
+
         plcmt_file.options = self.options
         plcmt_file.required_dungeons = self.logic.required_dungeons
         plcmt_file.starting_items = self.logic.starting_items

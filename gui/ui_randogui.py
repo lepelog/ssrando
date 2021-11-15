@@ -32,7 +32,6 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
         font = QFont()
-        font.setFamilies([u"Segoe UI"])
         font.setPointSize(9)
         MainWindow.setFont(font)
         self.centralwidget = QWidget(MainWindow)
@@ -110,10 +109,10 @@ class Ui_MainWindow(object):
 
         self.groupBox_12 = QGroupBox(self.tab)
         self.groupBox_12.setObjectName(u"groupBox_12")
-        self.groupBox_12.setGeometry(QRect(10, 130, 181, 111))
+        self.groupBox_12.setGeometry(QRect(10, 130, 181, 131))
         self.verticalLayoutWidget_13 = QWidget(self.groupBox_12)
         self.verticalLayoutWidget_13.setObjectName(u"verticalLayoutWidget_13")
-        self.verticalLayoutWidget_13.setGeometry(QRect(10, 20, 166, 89))
+        self.verticalLayoutWidget_13.setGeometry(QRect(10, 20, 175, 89))
         self.verticalLayout_33 = QVBoxLayout(self.verticalLayoutWidget_13)
         self.verticalLayout_33.setObjectName(u"verticalLayout_33")
         self.verticalLayout_33.setContentsMargins(0, 0, 0, 0)
@@ -138,10 +137,10 @@ class Ui_MainWindow(object):
 
         self.groupBox_13 = QGroupBox(self.tab)
         self.groupBox_13.setObjectName(u"groupBox_13")
-        self.groupBox_13.setGeometry(QRect(210, 130, 131, 111))
+        self.groupBox_13.setGeometry(QRect(210, 130, 131, 131))
         self.verticalLayoutWidget_14 = QWidget(self.groupBox_13)
         self.verticalLayoutWidget_14.setObjectName(u"verticalLayoutWidget_14")
-        self.verticalLayoutWidget_14.setGeometry(QRect(10, 20, 111, 81))
+        self.verticalLayoutWidget_14.setGeometry(QRect(10, 20, 111, 101))
         self.verticalLayout_34 = QVBoxLayout(self.verticalLayoutWidget_14)
         self.verticalLayout_34.setObjectName(u"verticalLayout_34")
         self.verticalLayout_34.setContentsMargins(0, 0, 0, 0)
@@ -156,7 +155,7 @@ class Ui_MainWindow(object):
 
         self.groupBox_14 = QGroupBox(self.tab)
         self.groupBox_14.setObjectName(u"groupBox_14")
-        self.groupBox_14.setGeometry(QRect(360, 130, 131, 111))
+        self.groupBox_14.setGeometry(QRect(360, 130, 131, 131))
         self.verticalLayoutWidget_8 = QWidget(self.groupBox_14)
         self.verticalLayoutWidget_8.setObjectName(u"verticalLayoutWidget_8")
         self.verticalLayoutWidget_8.setGeometry(QRect(10, 20, 111, 80))
@@ -174,10 +173,10 @@ class Ui_MainWindow(object):
 
         self.groupBox_15 = QGroupBox(self.tab)
         self.groupBox_15.setObjectName(u"groupBox_15")
-        self.groupBox_15.setGeometry(QRect(510, 130, 181, 111))
+        self.groupBox_15.setGeometry(QRect(510, 130, 181, 131))
         self.verticalLayoutWidget_11 = QWidget(self.groupBox_15)
         self.verticalLayoutWidget_11.setObjectName(u"verticalLayoutWidget_11")
-        self.verticalLayoutWidget_11.setGeometry(QRect(10, 20, 161, 89))
+        self.verticalLayoutWidget_11.setGeometry(QRect(10, 20, 161, 104))
         self.verticalLayout_35 = QVBoxLayout(self.verticalLayoutWidget_11)
         self.verticalLayout_35.setObjectName(u"verticalLayout_35")
         self.verticalLayout_35.setContentsMargins(0, 0, 0, 0)
@@ -200,6 +199,11 @@ class Ui_MainWindow(object):
         self.option_cutoff_gameover_music.setObjectName(u"option_cutoff_gameover_music")
 
         self.verticalLayout_35.addWidget(self.option_cutoff_gameover_music)
+
+        self.option_allow_custom_music = QCheckBox(self.verticalLayoutWidget_11)
+        self.option_allow_custom_music.setObjectName(u"option_allow_custom_music")
+
+        self.verticalLayout_35.addWidget(self.option_allow_custom_music)
 
         self.verticalSpacer_16 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -538,7 +542,7 @@ class Ui_MainWindow(object):
         self.groupBox_7.setGeometry(QRect(620, 10, 201, 251))
         self.verticalLayoutWidget_7 = QWidget(self.groupBox_7)
         self.verticalLayoutWidget_7.setObjectName(u"verticalLayoutWidget_7")
-        self.verticalLayoutWidget_7.setGeometry(QRect(10, 20, 181, 221))
+        self.verticalLayoutWidget_7.setGeometry(QRect(10, 20, 185, 221))
         self.verticalLayout_10 = QVBoxLayout(self.verticalLayoutWidget_7)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
         self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
@@ -728,33 +732,13 @@ class Ui_MainWindow(object):
 
         self.groupBox_9 = QGroupBox(self.tab_4)
         self.groupBox_9.setObjectName(u"groupBox_9")
-        self.groupBox_9.setGeometry(QRect(10, 270, 201, 241))
+        self.groupBox_9.setGeometry(QRect(220, 270, 201, 241))
         self.verticalLayoutWidget_5 = QWidget(self.groupBox_9)
         self.verticalLayoutWidget_5.setObjectName(u"verticalLayoutWidget_5")
-        self.verticalLayoutWidget_5.setGeometry(QRect(10, 20, 181, 211))
+        self.verticalLayoutWidget_5.setGeometry(QRect(10, 20, 182, 211))
         self.verticalLayout_15 = QVBoxLayout(self.verticalLayoutWidget_5)
         self.verticalLayout_15.setObjectName(u"verticalLayout_15")
         self.verticalLayout_15.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_28 = QVBoxLayout()
-        self.verticalLayout_28.setObjectName(u"verticalLayout_28")
-        self.label_for_option_starting_sword = QLabel(self.verticalLayoutWidget_5)
-        self.label_for_option_starting_sword.setObjectName(u"label_for_option_starting_sword")
-
-        self.verticalLayout_28.addWidget(self.label_for_option_starting_sword)
-
-        self.option_starting_sword = QComboBox(self.verticalLayoutWidget_5)
-        self.option_starting_sword.setObjectName(u"option_starting_sword")
-
-        self.verticalLayout_28.addWidget(self.option_starting_sword)
-
-
-        self.verticalLayout_15.addLayout(self.verticalLayout_28)
-
-        self.option_start_pouch = QCheckBox(self.verticalLayoutWidget_5)
-        self.option_start_pouch.setObjectName(u"option_start_pouch")
-
-        self.verticalLayout_15.addWidget(self.option_start_pouch)
-
         self.verticalLayout_16 = QVBoxLayout()
         self.verticalLayout_16.setObjectName(u"verticalLayout_16")
         self.label_for_option_rupoor = QLabel(self.verticalLayoutWidget_5)
@@ -770,6 +754,21 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_15.addLayout(self.verticalLayout_16)
 
+        self.verticalLayout_31 = QVBoxLayout()
+        self.verticalLayout_31.setObjectName(u"verticalLayout_31")
+        self.label_4 = QLabel(self.verticalLayoutWidget_5)
+        self.label_4.setObjectName(u"label_4")
+
+        self.verticalLayout_31.addWidget(self.label_4)
+
+        self.option_chest_sizes = QComboBox(self.verticalLayoutWidget_5)
+        self.option_chest_sizes.setObjectName(u"option_chest_sizes")
+
+        self.verticalLayout_31.addWidget(self.option_chest_sizes)
+
+
+        self.verticalLayout_15.addLayout(self.verticalLayout_31)
+
         self.option_fix_bit_crashes = QCheckBox(self.verticalLayoutWidget_5)
         self.option_fix_bit_crashes.setObjectName(u"option_fix_bit_crashes")
 
@@ -780,9 +779,47 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_15.addWidget(self.option_hero_mode)
 
+        self.option_randomize_settings = QCheckBox(self.verticalLayoutWidget_5)
+        self.option_randomize_settings.setObjectName(u"option_randomize_settings")
+
+        self.verticalLayout_15.addWidget(self.option_randomize_settings)
+
         self.verticalSpacer_6 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_15.addItem(self.verticalSpacer_6)
+
+        self.groupBox_16 = QGroupBox(self.tab_4)
+        self.groupBox_16.setObjectName(u"groupBox_16")
+        self.groupBox_16.setGeometry(QRect(10, 270, 201, 241))
+        self.verticalLayoutWidget_15 = QWidget(self.groupBox_16)
+        self.verticalLayoutWidget_15.setObjectName(u"verticalLayoutWidget_15")
+        self.verticalLayoutWidget_15.setGeometry(QRect(10, 20, 182, 211))
+        self.verticalLayout_37 = QVBoxLayout(self.verticalLayoutWidget_15)
+        self.verticalLayout_37.setObjectName(u"verticalLayout_37")
+        self.verticalLayout_37.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_38 = QVBoxLayout()
+        self.verticalLayout_38.setObjectName(u"verticalLayout_38")
+        self.label_for_option_starting_sword = QLabel(self.verticalLayoutWidget_15)
+        self.label_for_option_starting_sword.setObjectName(u"label_for_option_starting_sword")
+
+        self.verticalLayout_38.addWidget(self.label_for_option_starting_sword)
+
+        self.option_starting_sword = QComboBox(self.verticalLayoutWidget_15)
+        self.option_starting_sword.setObjectName(u"option_starting_sword")
+
+        self.verticalLayout_38.addWidget(self.option_starting_sword)
+
+
+        self.verticalLayout_37.addLayout(self.verticalLayout_38)
+
+        self.option_start_pouch = QCheckBox(self.verticalLayoutWidget_15)
+        self.option_start_pouch.setObjectName(u"option_start_pouch")
+
+        self.verticalLayout_37.addWidget(self.option_start_pouch)
+
+        self.verticalSpacer_17 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_37.addItem(self.verticalSpacer_17)
 
         self.tabWidget.addTab(self.tab_4, "")
         self.tab_5 = QWidget()
@@ -900,7 +937,7 @@ class Ui_MainWindow(object):
         self.groupBox_10.setGeometry(QRect(10, 10, 191, 231))
         self.verticalLayoutWidget_12 = QWidget(self.groupBox_10)
         self.verticalLayoutWidget_12.setObjectName(u"verticalLayoutWidget_12")
-        self.verticalLayoutWidget_12.setGeometry(QRect(10, 20, 171, 207))
+        self.verticalLayoutWidget_12.setGeometry(QRect(10, 20, 187, 207))
         self.verticalLayout_22 = QVBoxLayout(self.verticalLayoutWidget_12)
         self.verticalLayout_22.setObjectName(u"verticalLayout_22")
         self.verticalLayout_22.setContentsMargins(0, 0, 0, 0)
@@ -1133,7 +1170,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(4)
+        self.tabWidget.setCurrentIndex(0)
         self.option_randomize_entrances.setCurrentIndex(-1)
 
 
@@ -1161,6 +1198,7 @@ class Ui_MainWindow(object):
         self.groupBox_15.setTitle(QCoreApplication.translate("MainWindow", u"Randomize Music", None))
         self.label_for_option_music_rando.setText(QCoreApplication.translate("MainWindow", u"Randomize Music", None))
         self.option_cutoff_gameover_music.setText(QCoreApplication.translate("MainWindow", u"Cutoff Game Over Music", None))
+        self.option_allow_custom_music.setText(QCoreApplication.translate("MainWindow", u"Allow Custom Music", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Setup", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"What areas of the world should progress items appear?", None))
         self.progression_skyloft.setText(QCoreApplication.translate("MainWindow", u"Skyloft", None))
@@ -1233,11 +1271,14 @@ class Ui_MainWindow(object):
         self.option_randomize_entrances.setCurrentText("")
         self.option_randomize_trials.setText(QCoreApplication.translate("MainWindow", u"Randomize Silent Realms", None))
         self.groupBox_9.setTitle(QCoreApplication.translate("MainWindow", u"Additional Options", None))
-        self.label_for_option_starting_sword.setText(QCoreApplication.translate("MainWindow", u"Starting Sword", None))
-        self.option_start_pouch.setText(QCoreApplication.translate("MainWindow", u"Start with Adventure Pouch", None))
         self.label_for_option_rupoor.setText(QCoreApplication.translate("MainWindow", u"Rupoor Mode", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Chest Sizes", None))
         self.option_fix_bit_crashes.setText(QCoreApplication.translate("MainWindow", u"Fix BiT crashes", None))
         self.option_hero_mode.setText(QCoreApplication.translate("MainWindow", u"Hero Mode", None))
+        self.option_randomize_settings.setText(QCoreApplication.translate("MainWindow", u"Randomize Settings", None))
+        self.groupBox_16.setTitle(QCoreApplication.translate("MainWindow", u"Starting Items", None))
+        self.label_for_option_starting_sword.setText(QCoreApplication.translate("MainWindow", u"Starting Sword", None))
+        self.option_start_pouch.setText(QCoreApplication.translate("MainWindow", u"Start with Adventure Pouch", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), QCoreApplication.translate("MainWindow", u"Additional Settings", None))
         self.label_for_option_logic_mode.setText(QCoreApplication.translate("MainWindow", u"Logic Mode", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Exclude Locations", None))

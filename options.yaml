@@ -71,7 +71,7 @@
   bits: 3
   help: The number of dungeons that are required, to beat the seed
   ui: option_required_dungeon_count
-- name: Imp 2
+- name: Skip Imp 2
   command: imp2-skip
   type: boolean
   default: true
@@ -542,6 +542,12 @@
   default: false
   help: If activated, the final check of a required dungeon will be a sword (if possible). If there aren't enough swords to place, or there are more than 4 swords to place, some required dungeons will not force a sword at the end.
   ui: option_sword_dungeon_reward
+- name: Randomize Settings
+  command: randomize-settings
+  type: boolean
+  default: false
+  help: If enabled, all settings will be randomized, excluding logic settings and cosmetic/setup settings. If the seed fails to generate, try again with a different seed. It is uncommon for generation to fail, but some combinations of settings can cause this.
+  ui: option_randomize_settings
 - name: Randomize Music
   command: music-rando
   type: singlechoice
@@ -563,3 +569,25 @@
   cosmetic: true
   help: If enabled, the game over music will cutoff when it normally would. If disabled, the music will continue to play until the end of the song, even after pressing continue.
   ui: option_cutoff_gameover_music
+- name: Allow Custom Music
+  command: allow-custom-music
+  type: boolean
+  default: false
+  permalink: false
+  cosmetic: true
+  help: If enabled, the WZSound.brsar file will be patched to allow custom music. Custom music must be installed manually.
+  ui: option_allow_custom_music
+- name: Chest Sizes
+  command: chest-sizes
+  type: singlechoice
+  bits: 3
+  choices:
+    - Vanilla
+    - All Small
+    - All Normal
+    - All Boss Keys
+    - Matches Contents
+    - Random
+  default: Vanilla
+  help: Changes the way chest sizes are determined. Never impacts Goddess Chests
+  ui: option_chest_sizes
