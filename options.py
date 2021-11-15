@@ -246,6 +246,7 @@ class Options:
         )
 
         # Randomize hint distribution
+        self.set_option("hint-distribution", "Normal")
         hint_types = ["sots-hints", "barren-hints", "location-hints", "item-hints"]
         for ht in hint_types:
             self.set_option(ht, 0)  # Reset hints in case of a reshuffle

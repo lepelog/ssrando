@@ -200,9 +200,6 @@ NON_RANDOMIZED_SETTINGS = [
     # Currently unavailable
     "Gate of Time Starting State",
     "Gate of Time Dungeon Requirements",
-    "Horde",
-    "Ghirahim 3",
-    "Demise",
     # Unrandomized
     "Logic Mode",
     "Enabled Tricks BiTless",
