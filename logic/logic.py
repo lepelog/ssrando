@@ -198,7 +198,7 @@ class Logic:
         swords_left = 6 - STARTING_SWORD_COUNT[self.rando.options["starting-sword"]]
         self.sworded_dungeon_locations = []
         if self.rando.options["sword-dungeon-reward"] and (
-            "dungeon" not in self.rando.banned_types
+            "dungeon" not in self.rando.options["banned-types"]
         ):
             sworded_dungeons = self.rando.rng.sample(
                 self.required_dungeons,
@@ -432,7 +432,7 @@ class Logic:
 
     def get_num_progression_locations(self):
         return Logic.get_num_progression_locations_static(
-            self.item_locations, self.rando.banned_types
+            self.item_locations, self.rando.options["banned-types"]
         )
 
     @staticmethod
@@ -687,7 +687,7 @@ class Logic:
         return Logic.filter_locations_for_progression_static(
             locations_to_filter,
             self.item_locations,
-            self.rando.banned_types,
+            self.rando.options["banned-types"],
         )
 
     @staticmethod
@@ -805,7 +805,7 @@ class Logic:
                 if not loc in self.race_mode_banned_locations
             ),
             self.item_locations,
-            self.rando.banned_types,
+            self.rando.options["banned-types"],
         )
 
         # print(progress_locations)
