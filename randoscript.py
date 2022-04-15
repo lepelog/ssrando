@@ -144,6 +144,8 @@ def main():
             options.set_option("dry-run", True)
 
             def randothread(start, end, local_opts):
+                from ssrando import Randomizer
+
                 for i in range(start, end):
                     local_opts.set_option("seed", i)
                     rando = Randomizer(local_opts)
