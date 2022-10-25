@@ -1274,6 +1274,20 @@ F100: # Faron main area
     objtype: OBJ
     object:
       trigstoryfid: 206 # scale
+  - name: Floria door puzzle hint 1
+    type: objmove
+    id: 0xFEF9
+    layer: 4
+    destlayer: 0
+    room: 0
+    objtype: STAG
+  - name: Floria door puzzle hint 2
+    type: objmove
+    id: 0xFEF5
+    layer: 4
+    destlayer: 0
+    room: 0
+    objtype: STAG
   - name: Trial
     type: oarcadd
     oarc: PLHarpPlay
