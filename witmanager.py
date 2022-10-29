@@ -9,8 +9,9 @@ from pathlib import Path
 import subprocess
 import shutil
 from hashlib import md5
+from paths import RANDO_ROOT_PATH
 
-WIT_PROGRESS_REGEX = re.compile(rb" +([0-9]+)%.*")
+PROGRESS_REGEX = re.compile(rb"\[([0-9]+)/([0-9]+) ([0-9]+)%]")
 CLEAN_NTSC_U_1_00_ISO_HASH = "e7c39bb46cf938a5a030a01a677ef7d1"
 
 WRONG_VERSION_HASHES = {
@@ -39,55 +40,30 @@ class WrongChecksumException(Exception):
 class WitManager:
     def __init__(self, rootpath: Path):
         self.rootpath = rootpath
-        self.witcommand = None
-        self.update_wit_command()
-
-    def update_wit_command(self):
-        if not self.witcommand is None:
-            return
-        # check globally installed wit
-        try:
-            completed = subprocess.run(["wit", "--version"])
-            if completed.returncode == 0:
-                self.witcommand = "wit"
-                return
-        except FileNotFoundError:
-            pass
-        if self.get_local_wit_path().is_file():
-            self.witcommand = str(self.get_local_wit_path().resolve())
-            return
-        self.witcommand = None
-
-    def get_local_wit_path(self) -> Path:
         if IS_WINDOWS:
-            return self.rootpath / "wit-v3.03a-r8245-cygwin" / "bin" / "wit.exe"
+            path = (
+                RANDO_ROOT_PATH
+                / "native-patcher"
+                / "target"
+                / "release"
+                / "native-patcher.exe"
+            )
+            if not path.is_file():
+                path = RANDO_ROOT_PATH / "bin" / "native-patcher.exe"
+            self.patchercommand = path
         else:
-            return self.rootpath / "wit-v3.03a-r8245-x86_64" / "bin" / "wit"
+            path = (
+                RANDO_ROOT_PATH
+                / "native-patcher"
+                / "target"
+                / "release"
+                / "native-patcher"
+            )
+            if not path.is_file():
+                path = RANDO_ROOT_PATH / "bin" / "native-patcher"
+            self.patchercommand = path
 
-    def ensure_wit_installed(self):
-        self.update_wit_command()
-        if self.witcommand is None:
-            print("wit not installed, installing")
-            if IS_WINDOWS:
-                with zipfile.ZipFile(
-                    BytesIO(
-                        request.urlopen(
-                            "https://wit.wiimm.de/download/wit-v3.03a-r8245-cygwin.zip"
-                        ).read()
-                    )
-                ) as wit_zip:
-                    wit_zip.extractall(self.rootpath)
-            else:
-                with tarfile.open(
-                    mode="r:gz",
-                    fileobj=BytesIO(
-                        request.urlopen(
-                            "https://wit.wiimm.de/download/wit-v3.03a-r8245-x86_64.tar.gz"
-                        ).read()
-                    ),
-                ) as wit_zip:
-                    wit_zip.extractall(self.rootpath)
-            self.update_wit_command()
+        assert self.patchercommand.is_file()
 
     def iso_integrity_check(self, iso_path, progress_cb=NOP):
         hsh = md5()
@@ -127,38 +103,27 @@ class WitManager:
         if not self.actual_extract_already_exists():
             extract_process = subprocess.Popen(
                 [
-                    self.witcommand,
-                    "-P",
+                    self.patchercommand,
                     "extract",
                     iso_path,
-                    str(self.rootpath / "actual-extract"),
+                    self.rootpath / "actual-extract",
                 ],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             )
             while True:
-                current_progress_str = bytearray()
-                char = b""
-                while (
-                    char != b"\r" and extract_process.poll() is None
-                ):  # \r is written by wit to reset the line, so a new one begins
-                    char = extract_process.stdout.read(1)
-                    current_progress_str.extend(char)
-                progress_match = WIT_PROGRESS_REGEX.match(current_progress_str)
+                progress_match = PROGRESS_REGEX.match(extract_process.stdout.readline())
                 if progress_match:
                     # get the percentage out of the log
-                    percent = int(progress_match[1].decode("ascii"))
+                    percent = int(progress_match[3].decode("ascii"))
                     progress_cb("Extracting files...", percent)
                 return_code = extract_process.poll()
                 if not return_code is None:
                     if return_code != 0:
                         raise WitException(
-                            f'ERROR: {extract_process.stderr.read().decode("UTF-8")}'
+                            extract_process.stderr.read().decode("UTF-8")
                         )
                     break
-            # delete all videos, they take up way too much space
-            for hint_vid in (datapath / "files" / "THP").glob("*.thp"):
-                os.remove(str(hint_vid))
 
     def modified_extract_already_exists(self):
         return (
@@ -196,40 +161,31 @@ class WitManager:
     def reapack_game(
         self, modified_iso_dir: Path, seed, use_wbfs=False, progress_cb=NOP
     ):
-        filename = f"SOUE01.wbfs" if use_wbfs else f"SS Randomizer {seed}.iso"
+        filename = f"SS Randomizer {seed}.iso"
         modified_iso_path = modified_iso_dir / filename
         if modified_iso_path.is_file():
-            os.remove(str(modified_iso_path))
+            os.remove(modified_iso_path)
         extract_process = subprocess.Popen(
             [
-                self.witcommand,
-                "-P",
-                "copy",
-                "--split",
-                str(self.rootpath / "modified-extract"),
-                str(modified_iso_path),
+                self.patchercommand,
+                "rebuild",
+                # TODO: splitting shouldn't be needed?
+                # "--split",
+                self.rootpath / "modified-extract",
+                modified_iso_path,
             ],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
         while True:
-            current_progress_str = bytearray()
-            char = b""
-            while (
-                char != b"\r" and extract_process.poll() is None
-            ):  # \r is written by wit to reset the line, so a new one begins
-                char = extract_process.stdout.read(1)
-                current_progress_str.extend(char)
-            progress_match = WIT_PROGRESS_REGEX.match(current_progress_str)
+            progress_match = PROGRESS_REGEX.match(extract_process.stdout.readline())
             if progress_match:
                 # get the percentage out of the log
-                percent = int(progress_match[1].decode("ascii"))
+                percent = int(progress_match[3].decode("ascii"))
                 progress_cb("Writing patched game...", percent)
             return_code = extract_process.poll()
             if not return_code is None:
                 if return_code != 0:
-                    raise WitException(
-                        f'ERROR: {extract_process.stderr.read().decode("UTF-8")}'
-                    )
+                    raise WitException(extract_process.stderr.read().decode("UTF-8"))
                 break
         assert return_code == 0

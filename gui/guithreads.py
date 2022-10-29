@@ -51,15 +51,6 @@ class RandomizerThread(QThread):
             print(traceback.format_exc())
             return
         if not dry_run:
-            try:
-                self.wit_manager.ensure_wit_installed()
-            except (HTTPError, URLError) as e:
-                self.error_abort.emit(str(e))
-                print(str(e))
-                import traceback
-
-                print(traceback.format_exc())
-                return
             default_ui_progress_callback("repacking game...")
             repack_progress_cb = self.create_ui_progress_callback(
                 self.randomizer.get_total_progress_steps
@@ -102,38 +93,26 @@ class ExtractSetupThread(QThread):
         return progress_cb
 
     def run(self):
-        total_steps = 2 + 100 + 100 + 100  # wit + done, verify, extract, copy
+        total_steps = 2 + 100 + 100  # wit + done, extract (also verifies), copy
         self.update_total_steps.emit(total_steps)
         default_ui_progress_callback = self.create_ui_progress_callback(0)
-        default_ui_progress_callback("setting up wiimms ISO tools...")
-        try:
-            self.wit_manager.ensure_wit_installed()
-        except (HTTPError, URLError) as e:
-            self.error_abort.emit(str(e))
-            import traceback
-
-            print(traceback.format_exc())
-            return
 
         default_ui_progress_callback("extracting game...")
         if not self.wit_manager.actual_extract_already_exists():
             try:
-                self.wit_manager.iso_integrity_check(
-                    self.clean_iso_path, self.create_ui_progress_callback(1)
-                )
                 self.wit_manager.extract_game(
-                    self.clean_iso_path, self.create_ui_progress_callback(101)
+                    self.clean_iso_path, self.create_ui_progress_callback(1)
                 )
             except (WitException, WrongChecksumException) as e:
                 print(e)
                 self.error_abort.emit(str(e))
                 return
         else:
-            default_ui_progress_callback("already extracted", 201)
+            default_ui_progress_callback("already extracted", 101)
 
         default_ui_progress_callback("copying extract...")
         if not self.wit_manager.modified_extract_already_exists():
-            self.wit_manager.copy_to_modified(self.create_ui_progress_callback(201))
+            self.wit_manager.copy_to_modified(self.create_ui_progress_callback(101))
         else:
-            default_ui_progress_callback("already copied", 301)
+            default_ui_progress_callback("already copied", 201)
         self.extract_complete.emit()
