@@ -7,22 +7,25 @@ Sealed Grounds Spiral:
   Upper Part:
     locations:
       Unlock Statue: Nothing
-    exits:
-      Statue: Nothing
+    stage-exits:
+      Sky - Field (Sealed Grounds): Nothing
+    logic-exits:
       Lower Part: Nothing
 
   Lower Part:
     locations:
       Defeat Imprisoned 2: Sealed Temple - Start Imprisoned 2 & Goddess Sword
-    exits:
+    logic-exits:
       # TODO: only having beaten the required dungeons and raised is enough
       Upper Part: Defeat Imprisoned 2
-      Door: Nothing
+    stage-exits:
+      Sealed Temple: Nothing
 
   Ledge To Behind the Temple:
-    exits:
+    logic-exits:
       Upper Part: Nothing
-      Shortcut Exit to Behind the Temple: Nothing
+    stage-exits:
+      Behind the Temple: Nothing
 
 Sealed Temple:
   hint-region: Sealed Grounds
@@ -31,10 +34,10 @@ Sealed Temple:
     Song from Impa: Goddess Harp
     Raise Gate of Time: GoT Raising Requirement
     Start Imprisoned 2: Raise Gate of Time & GoT Opening Requirement
-  exits:
-    Main Exit: Nothing
-    Side Exit: Nothing
-    Gate of Time:
+  stage-exits:
+    Sealed Grounds Spiral - Lower Part: Nothing
+    Behind the Temple: Nothing
+    Hylia's Temple:
       Raise Gate of Time & GoT Opening Requirement & (Sealed Grounds Spiral - Defeat Imprisoned 2 | Option "imp2-skip" Enabled)
 
 Hylia's Temple:
@@ -42,8 +45,8 @@ Hylia's Temple:
   locations:
     Zelda's Blessing: Nothing
     Defeat Demise: Horde Door Requirement & Sword
-  exits:
-    Gate of Time: Nothing
+  stage-exits:
+    Sealed Temple: Nothing
 
 Behind the Temple:
   hint-region: Sealed Grounds
@@ -51,39 +54,42 @@ Behind the Temple:
     Unlock Statue: Nothing
     Gossip Stone: Nothing
     Gorko's Goddess Wall Reward: Goddess Harp & Ballad of the Goddess & Goddess Sword
-  exits:
-    Statue: Nothing
-    Door: Nothing
-    Exit to Faron Woods: Nothing
-    Shortcut Exit to Spiral: Nothing
+  stage-exits:
+    Sky - Field (Behind the Temple): Nothing
+    Sealed Temple: Nothing
+    Faron Woods - Entry: Nothing
+    Sealed Grounds Spiral - Ledge To Behind the Temple: Nothing
 
 Faron Woods:
   hint-region: Faron Woods
   Entry:
     locations:
       Unlock Statue: Nothing
-    exits:
-      Faron Woods Entry Statue Entrance: Nothing
-      Main: Sword | Bomb Bag | Clawshots
+    logic-exits:
       # Either cut trees or clawshot vines
-      Exit to Behind the Temple: Nothing
+      Main: Sword | Bomb Bag | Clawshots
+    stage-exits:
+      Sky - Field (Faron Entry): Nothing
+      Behind the Temple: Nothing
 
   Ledge to Lake Floria:
-    exits:
+    logic-exits:
       Main: Nothing
-      Shortcut Exit to Floria Waterfall: Nothing
+    stage-exits:
+      Floria Waterfall: Nothing
 
   Main:
-    exits:
+    logic-exits:
       Entry: Nothing
-      In the Woods Statue Entrance: Nothing
-      Viewing Platform Statue Entrance: Nothing
       Ledge To Deep Woods: Distance Activator
-      Trial Gate: Goddess Harp & Farore's Courage
-      Great Tree - Underwater: Water Scale
       Great Tree Platforms: Clawshots
       Clawshot Target Branch: Clawshots
-      Lake Floria Dive: Faron Woods - Talk to Yerbal & Goddess Sword
+    stage-exits:
+      Sky - Field (In the Woods): Nothing
+      Sky - Field (Viewing Platform): Nothing
+      Faron Silent Realm: Goddess Harp & Farore's Courage
+      Great Tree - Underwater: Water Scale
+      Lake Floria - Above Rock: Faron Woods - Talk to Yerbal & Goddess Sword
     locations:
       Unlock Viewing Platform Statue: Nothing
       Unlock In the Woods Statue: Nothing
@@ -100,16 +106,18 @@ Faron Woods:
         Skyloft - Knight Academy - Start Owlan's Quest & Bomb Bag
 
   Ledge To Deep Woods:
-    exits:
+    logic-exits:
       Main: Nothing
-      Exit to Deep Woods: Nothing
+    stage-exits:
+      Deep Woods - Entry: Nothing
 
   Great Tree Platforms:
-    exits:
-      Lower Exit to Great Tree: Nothing
-      Upper Exit to Great Tree: Nothing
+    logic-exits:
       West Branch: Nothing
       Main: Nothing
+    stage-exits:
+      Inside Great Tree - Near Middle Exit: Nothing
+      Inside Great Tree - Upper Area: Nothing
 
   Great Tree Top:
     locations:
@@ -117,36 +125,36 @@ Faron Woods:
       Rupee on North Branch: Beetle
       Rupee on West Branch: Beetle
       Talk to Yerbal: Water Scale & (Slingshot | Beetle) # only those 2 items (and their upgrades) work
-    exits:
-      The Great Tree Statue Entrance: Nothing
-      Top Exit to Great Tree: Nothing
+    logic-exits:
       Great Tree Platforms: Nothing
       Rope Branch: Nothing
       Clawshot Target Branch: Nothing
+    stage-exits:
+      Sky - Field (Great Tree): Nothing
+      Inside Great Tree - Upper Area: Nothing
 
   West Branch:
-    exits:
+    logic-exits:
       Main: Nothing
     locations:
       Goddess Cube on West Great Tree near Exit: Goddess Sword
 
   Clawshot Target Branch:
-    exits:
+    logic-exits:
       Main: Nothing
     locations:
       Goddess Cube on East Great Tree with Clawshots Target: Goddess Sword
 
   Rope Branch:
-    exits:
+    logic-exits:
       Main: Nothing
     locations:
       Goddess Cube on East Great Tree with Rope: Goddess Sword
 
 Faron Silent Realm:
   hint-region: Faron Silent Realm
-  exits:
-    Entrance: Nothing
-    Exit: Nothing
+  stage-exits:
+    Faron Woods - Main: Nothing
   locations:
     Water Scale: Nothing
 
@@ -155,12 +163,13 @@ Inside Great Tree:
   hint-region: Faron Woods
 
   Underwater:
-    exits:
-      Faron Woods - Main: Water Scale
+    logic-exits:
       Lower Area: Water Scale
+    stage-exits:
+      Faron Woods - Main: Water Scale
 
   Lower Area: # down in the water
-    exits:
+    logic-exits:
       Underwater: Water Scale
       # TODO: need something to deal with quadri baba
       Around Chest: Gust Bellows
@@ -169,30 +178,31 @@ Inside Great Tree:
   Around Chest:
     locations:
       Chest: Nothing
-    exits:
+    logic-exits:
       Lower Area: Nothing
       Near Middle Exit: Nothing
 
   Near Middle Exit:
-    exits:
+    logic-exits:
       Lower Area: Nothing
-      Lower Exit to Platforms: Nothing
+    stage-exits:
+      Faron Woods - Great Tree Platforms: Nothing
 
   Upper Area: # top with the moblin
     locations:
       Remove Void Plane: Can Defeat Moblins
-    exits:
+    logic-exits:
       Lower Area: Remove Void Plane
-      Lower Area - Around Chest: Remove Void Plane
-      Exit to Flooded Faron Woods: Water Scale
-      Upper Exit to Platforms: Nothing
-      Exit to Top: Nothing
+      Around Chest: Remove Void Plane
+    stage-exits:
+      Flooded Faron Woods: Water Scale
+      Faron Woods - Great Tree Platforms: Nothing
+      Faron Woods - Great Tree Top: Nothing
 
 Flooded Faron Woods:
   hint-region: Flooded Faron Woods
-  exits:
-    Entrance: Nothing
-    Exit: Nothing
+  stage-exits:
+    Inside Great Tree - Upper Area: Nothing
   locations:
     Water Dragon's Reward: Water Scale
     Faron Woods - Retrieve Oolo: Skyloft - Knight Academy - Start Owlan's Quest
@@ -204,9 +214,10 @@ Deep Woods:
   Entry:
     locations:
       Hornet Larvae Farming: Nothing # Bonk the tree
-    exits:
-      Exit to Woods: Nothing
+    logic-exits:
       Past Beehive: Distance Activator | Goddess Sword # bomb bag?
+    stage-exits:
+      Faron Woods - Ledge To Deep Woods: Nothing
 
   Past Beehive:
     locations:
@@ -217,11 +228,12 @@ Deep Woods:
       Initial Goddess Cube: Goddess Sword
       Goddess Cube in Deep Woods: Goddess Sword
       Goddess Cube on top of Skyview: Goddess Sword & Clawshots
-    exits:
-      Deep Woods Statue Entrance: Nothing
-      Forest Temple Statue Entrance: Nothing
+    logic-exits:
       Entry: Nothing
-      Exit to Skyview Temple: Distance Activator
+    stage-exits:
+      Sky - Field (Deep Woods): Nothing
+      Sky - Field (Forest Temple): Nothing
+      Skyview - Entry: Distance Activator
 
 
 
@@ -234,8 +246,7 @@ Lake Floria:
       Left Rupee behind Northwest Boulder: Water Scale
       Right Rupee behind Northwest Boulder: Water Scale
       Rupee under Central Boulder: Water Scale
-    exits:
-      Dive from Faron Woods: Impossible
+    logic-exits:
       Bird Statue Emerged Area: Water Scale
 
   Bird Statue Emerged Area:
@@ -243,15 +254,17 @@ Lake Floria:
       Chest: Nothing
       Goddess Cube in Lake Floria: Goddess Sword
       Unlock Statue: Nothing
-    exits:
-      Statue: Nothing
+    logic-exits:
       Below Rock: Water Scale
+    stage-exits:
+      Sky - Field (Lake Floria): Nothing
 
   Below Rock:
-    exits:
+    logic-exits:
       Emerged Area: Water Scale
       Above Rock: Water Scale
-      Exit to Farore's Lair: Water Scale
+    stage-exits:
+      Farore's Lair: Water Scale
 
 Farore's Lair:
   hint-region: Lake Floria
@@ -259,9 +272,9 @@ Farore's Lair:
     South Chest: Water Scale
     East Chest: Nothing
     Talk to Farore: Nothing
-  exits:
-    Exit to Waterfall: Nothing
-    Exit to Lake Floria: Water Scale
+  stage-exits:
+    Lake Floria Waterfall: Nothing
+    Lake Floria - Below Rock: Water Scale
 
 Lake Floria Waterfall:
   hint-region: Lake Floria
@@ -270,8 +283,8 @@ Lake Floria Waterfall:
     Gossip Stone: Nothing
     Goddess Cube in Floria Waterfall: Clawshots & Goddess Sword
     Rupee on High Ledge: Beetle
-  exits:
-    Statue: Nothing
-    Exit to Farore's Lair: Nothing
-    Exit to Woods: Nothing
-    Exit to Ancient Cistern: Water Scale
+  stage-exits:
+    Sky - Field (Floria Waterfall): Nothing
+    Farore's Lair: Nothing
+    Faron Woods - Ledge To Floria Waterfall: Nothing
+    Ancient Cistern - Main: Water Scale
