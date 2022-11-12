@@ -59,10 +59,10 @@ North East:
     exits:
       Entrance:                       Impossible
       First Time Dive:                Ruby Tablet
-      Volcano Entrance Statue Dive:   Ruby Tablet & Eldin - Volcano - Entry - Unlock Statue
-      Volcano East Statue Dive:       Ruby Tablet & Eldin - Volcano - East - Unlock Statue
-      Volcano Ascent Statue Dive:     Ruby Tablet & Eldin - Volcano - Ascent - Unlock Statue
-      Temple Entrance Statue Dive:    Ruby Tablet & Eldin - Volcano - Near Temple Entrance - Unlock Statue
+      Volcano Entrance Statue Dive:   Ruby Tablet & Eldin - Eldin Volcano - Entry - Unlock Statue
+      Volcano East Statue Dive:       Ruby Tablet & Eldin - Eldin Volcano - East - Unlock Statue
+      Volcano Ascent Statue Dive:     Ruby Tablet & Eldin - Eldin Volcano - Ascent - Unlock Statue
+      Temple Entrance Statue Dive:    Ruby Tablet & Eldin - Eldin Volcano - Near Temple Entrance - Unlock Statue
       Inside the Volcano Statue Dive: Ruby Tablet & Eldin - Volcano Summit - Unlock Statue
       Fire Sanctuary Statue Dive:     Ruby Tablet & Fire Sanctuary - Main - Front of Boss Door - Unlock Statue
 
@@ -129,16 +129,16 @@ South East:
     exits:
       Entrance:                      Impossible
       First Time Dive:               Emerald Tablet
-      Sealed Grounds Statue Dive:    Emerald Tablet & Faron - Sealed Grounds - Upper Part - Unlock Statue
-      Behind the Temple Statue Dive: Emerald Tablet & Faron - Behind the Temple - Unlock Statue
-      Faron Woods Entry Statue Dive: Emerald Tablet & Faron - Woods - Entry - Unlock Statue
-      Viewing Platform Statue Dive:  Emerald Tablet & Faron - Woods - Unlock Viewing Platform Statue
-      In the Woods Statue Dive:      Emerald Tablet & Faron - Woods - Unlock In the Woods Statue
-      Deep Woods Statue Dive:        Emerald Tablet & Faron - Deep Woods - Unlock Deep Woods Statue
-      Forest Temple Statue Dive:     Emerald Tablet & Faron - Deep Woods - Unlock Forest Temple Statue
-      The Great Tree Statue Dive:    Emerald Tablet & Faron - Great Tree - Unlock Statue
-      Lake Floria Statue Dive:       Emerald Tablet & Faron - Lake Floria - Below Rock - Unlock Statue
-      Floria Waterfall Statue Dive:  Emerald Tablet & Faron - Lake Floria - Waterfall - Unlock Statue
+      Sealed Grounds Statue Dive:    Emerald Tablet & Sealed Grounds - Upper Part - Unlock Statue
+      Behind the Temple Statue Dive: Emerald Tablet & Behind the Temple - Unlock Statue
+      Faron Woods Entry Statue Dive: Emerald Tablet & Faron Woods - Entry - Unlock Statue
+      Viewing Platform Statue Dive:  Emerald Tablet & Faron Woods - Unlock Viewing Platform Statue
+      In the Woods Statue Dive:      Emerald Tablet & Faron Woods - Unlock In the Woods Statue
+      Deep Woods Statue Dive:        Emerald Tablet & Deep Woods - Unlock Deep Woods Statue
+      Forest Temple Statue Dive:     Emerald Tablet & Deep Woods - Unlock Forest Temple Statue
+      The Great Tree Statue Dive:    Emerald Tablet & Great Tree - Unlock Statue
+      Lake Floria Statue Dive:       Emerald Tablet & Lake Floria - Emerged Area - Unlock Statue
+      Floria Waterfall Statue Dive:  Emerald Tablet & Floria Waterfall - Unlock Statue
 
       South East: Nothing
 
@@ -192,7 +192,7 @@ South West:
       Sky - South West: Day
 
     locations:
-      Upper Goddess Chest: Eldin - Volcano - Entry - Goddess Cube
+      Upper Goddess Chest: Eldin - Eldin Volcano - Entry - Goddess Cube
       Lower Goddess Chest: Lanayru - Desert - Near Hook Beetle Fight - Goddess Cube
       Cage Goddess Chest: Lanayru - Sand Sea - Skipper's Retreat - Goddess Cube & Clawshots
 

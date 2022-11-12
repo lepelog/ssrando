@@ -8,14 +8,12 @@ macros:
 Main:
   Main Room:
     locations:
-      Lock Combination Knowledge: Nothing
-      Lever to East Part: Nothing
       Lever to Block Waterfall: Whip
       Rupee in Left Hand: Water Scale
       Rupee in Right Hand: Water Scale
     exits:
       Main Exit: Nothing
-      East Part: Lever to East Part
+      East Part: Nothing
       After Whip Hooks: Whip
       Vines Area: Vines Area - Activate Water Geyser | Whip & Clawshots
       Behind the Waterfall: Lever to Block Waterfall & Water Scale
@@ -56,14 +54,10 @@ Main:
     After Gutters:
       locations:
         Lower Lever: Nothing
-        Flip First Lilypad: Water Scale & Whip
-        Flip Second Lilypad 1: Flip First Lilypad
-        Rupee under Lilypad: Flip Second Lilypad 1 & Water Scale & Impossible  # Can be skipped
-        Activate Water Geyser: Flip Second Lilypad 1 & Water Scale
-        Flip Second Lilypad 2: Flip First Lilypad & Activate Water Geyser & Whip
+        Rupee under Lilypad: Water Scale & Whip & Impossible  # Can be skipped
       exits:
         After Whip Hooks: Nothing
-        Upper Area: Flip First Lilypad & Activate Water Geyser & Flip Second Lilypad 2
+        Upper Area: Water Scale & Whip
 
       Upper Area:
         locations:
@@ -82,24 +76,20 @@ Main:
         Basement: Nothing
 
   East Part:
-    locations:
-      Unlock Combination Lock Door: Can Unlock Combination Lock & Main Room - Lock Combination Knowledge
     exits:
       Main Room: Nothing
-      Second Room: Unlock Combination Lock Door
+      Second Room: Can Unlock Combination Lock
 
     Second Room:
       locations:
-        Flip Side Lilypad: Nothing
-        Flip Main Lilypad: Nothing
-        Rupee in Cubby: Flip Side Lilypad & Water Scale
+        Rupee in Cubby: Water Scale
         First Rupee in Short Tunnel: Water Scale
         Second Rupee in Short Tunnel: Water Scale
         Third Rupee in Short Tunnel: Water Scale
-        Rupee in Main Tunnel: Flip Main Lilypad & Water Scale
+        Rupee in Main Tunnel: Water Scale
       exits:
         East Part: Nothing
-        East Part - Chest Ledge: Flip Main Lilypad & Water Scale  # or Lilypad Skip
+        East Part - Chest Ledge: Water Scale  # or Lilypad Skip
 
     Chest Ledge:
       exits:
@@ -108,11 +98,9 @@ Main:
         Chest: Nothing
 
   Basement Gutters:
-    locations:
-      Can Get Past Skulltula: Beetle | Bow
     exits:
       Past Skulltula:
-        Can Get Past Skulltula & Water Scale # | Ancient Cistern - Basement Lilypad Clip Trick)
+        (Beetle | Bow) & Water Scale # | Ancient Cistern - Basement Lilypad Clip Trick)
 
     Past Skulltula:
       locations:
@@ -123,12 +111,11 @@ Main:
 
   # Implies statue is lowered
   Basement:
-    locations:
-      Stop Cursed Waterfall: Beetle
-      Blow Rock: Hook Beetle | Bomb Bag & Bomb Throws Trick
     exits:
       Inside Statue: Nothing
-      Rotating Vines: Whip & Blow Rock | Clawshots
+      # In the Basement you can either clawshot around the boulder, or use hook Beetle to blow it up.
+      # A very precise bomb throw also works (not in logic).
+      Rotating Vines: (Whip & Hook Beetle) | Clawshots
       Spider Thread: Spider Thread - Activate Water Geyser | Ancient Cistern - Basement Highflip Trick
       Under the Statue: Ancient Cistern - Basement Highflip Trick
 
@@ -154,12 +141,10 @@ Main:
         Basement: Nothing
 
   Inside Statue:
-    locations:
-      Activate Water Geysers: Whip
     exits:
       Basement: Can Lower Statue
-      Main Room: Activate Water Geysers
-      Boss Door: Ancient Cistern Boss Key & Activate Water Geysers
+      Main Room: Whip
+      Boss Door: Ancient Cistern Boss Key & Whip
       Whip Chest Room: Ancient Cistern Small Key x 2 & (Can Defeat Stalmaster | Can Lower Statue)
 
     Whip Chest Room:

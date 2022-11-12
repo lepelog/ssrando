@@ -7,21 +7,17 @@ macros:
 Main:
   First Room:
     locations:
-      Left Lever: Hook Beetle | (Whip & LMF - Whip First Room Switch Trick)
-      Right Lever: Nothing
-      Chest behind Bars: Right Lever
+      Chest behind Bars: Nothing
     exits:
-      First Hub: Left Lever
+      First Hub: Hook Beetle | (Whip & LMF - Whip First Room Switch Trick)
       Main Exit: Nothing
 
   First Hub:
-    locations:
-      Push Box on Switch: Gust Bellows
     exits:
       First Room: Nothing
       Exit to Big Hub: Nothing
       Key Locked Room: Lanayru Mining Facility Small Key
-      First West Room: Push Box on Switch
+      First West Room: Gust Bellows
 
   Key Locked Room:
     locations:
@@ -46,9 +42,8 @@ Main:
     Near Exit:
       locations:
         Push Shortcut Box: Nothing
-        Remove Dust Pile at Door: Nothing  # Present in vanilla, removed in rando
       exits:
-        Exit to Big Hub: Remove Dust Pile at Door
+        Exit to Big Hub: Nothing # there is a dust pile in vanilla, removed in rando
 
   First West Room:
     locations:
@@ -67,11 +62,9 @@ Main:
 
   Big Hub:
     Entry:
-      locations:
-        Blow Up Boxes: Bomb Bag | Hook Beetle
       exits:
         Exit to First Hub: Nothing
-        After Wooden Boxes: Blow Up Boxes
+        After Wooden Boxes: Bomb Bag | Hook Beetle
         Past West Gate: Past West Gate - Open Gate
         Between Wind Gates: Between Wind Gates - Open First Wind Gate
 
@@ -91,22 +84,19 @@ Main:
 
     Past West Gate:
       locations:
-        Blow Off Pile for First Crawlspace: Gust Bellows
-        Blow Off Pile for Second Crawlspace: Gust Bellows
         Open Gate: Nothing
-        Chest behind First Crawlspace: Blow Off Pile for First Crawlspace
+        Chest behind First Crawlspace: Gust Bellows
       exits:
         Entry: Open Gate
         Exit to Armos Fight Room: Nothing
-        Sand Spike Maze: Blow Off Pile for Second Crawlspace
+        Sand Spike Maze: Gust Bellows
 
     Sand Spike Maze:
       # Also includes the platform in Big Hub after the door
       locations:
-        Switch under Sand: Gust Bellows
         Chest: Gust Bellows
       exits:
-        Near Boss Door: Switch under Sand & Can Activate Minecart Timeshift Stone
+        Near Boss Door: Gust Bellows & Can Activate Minecart Timeshift Stone
 
     Near Boss Key Room First Exit:
       exits:

@@ -51,10 +51,11 @@ Mines:
 
     In Minecart:
       locations:
-        Blow up Rock on Track: Bomb Bag & Lanayru Mines - Quick Bomb Trick
+        End - Blow up Rock on Track: Bomb Bag & Sword & Lanayru Mines - Quick Bomb Trick
       entrance:
         Blow up Rock on Track
       exits:
+        End: Blow up Rock on Track
         Exit to Desert: Nothing
 
 Desert:
@@ -64,18 +65,17 @@ Desert:
     Shared Statue Exit: Impossible  # Common for all, so placed here
 
   Entry:
-
     High Ledge after Vines:
       entrance: Entry - Timeshift Stone
-      exit: { Entry: Nothing }
+      exits:
+        Entry: Nothing
       locations:
         Retrieve Party Wheel: Sky - Fun Fun Island - Start Dodoh's Quest
         Chest: Nothing
 
     locations:
       Unlock Statue: Nothing
-      Blow up Rock for Timeshift Stone: Bomb Bag
-      Timeshift Stone: Blow up Rock for Timeshift Stone & Can Hit Timeshift Stone
+      Timeshift Stone: Bomb Bag & Can Hit Timeshift Stone
 
     exits:
       Exit to Mines: Timeshift Stone # I can't assume the minecart is available, right ?
@@ -87,9 +87,7 @@ Desert:
     locations:
       Chest: Nothing
       Goddess Cube: Long Range Skyward Strike # Also accessible elsewhere
-      Blow up Rock for Timeshift Stone: Bomb Bag | Hook Beetle
-      Timeshift Stone: Blow up Rock for Timeshift Stone & Nothing # Use the nearby bombflower ?
-      Hook Beetle Fight: Timeshift Stone & Can Defeat Bokoblins
+      Hook Beetle Fight: (Bomb Bag | Hook Beetle) & Can Defeat Bokoblins
 
       Defeat Spume to Sand Oasis: Long Range Skyward Strike | Bomb Bag | Bow | Hook Beetle | (Goddess Sword & Lanayru Desert - Spume Brakeslide Trick)
       Blow Statues to Sand Oasis Down: Hook Beetle
@@ -163,29 +161,24 @@ Desert:
   North Part:
     locations:
       Water Node: (Bomb Bag | Hook Beetle) & Sword
-      Blow up Master Generator Timeshift Stone Rock: Bomb Bag | Hook Beetle
-      Master Generator Timeshift Stone: Blow up Master Generator Timeshift Stone Rock & Can Hit Timeshift Stone
+      Master Generator Timeshift Stone: Bomb Bag | Hook Beetle
       Activate Master Generator: All Three Nodes & Master Generator Timeshift Stone & Sword
       Unlock Statue: Nothing
-      Open Trial Gate: Nayru's Wisdom & Goddess Harp
-      Open Secret Passageway: Bomb Bag | Hook Beetle & Secret Passageway Hook Beetle Opening Trick | Tough Beetle
-
 
       Chest on Platform near Lightning Node: Clawshots
-      Open Lightning Node: Nothing # There's a bombflower nearby
 
     exits:
+      Secret Passageway: Bomb Bag | (Hook Beetle & Secret Passageway Hook Beetle Opening Trick) | Tough Beetle
       North Exit to Temple of Time: Nothing
       East: Nothing
       Top of LMF: Raise Lanayru Mining Facility
       Desert - Shared Statue Exit: Unlock Statue
       North Desert Statue Entrance: Impossible
-      Trial Gate: Open Trial Gate
-      Lightning Node: Open Lightning Node
+      Trial Gate: Nayru's Wisdom & Goddess Harp
+      Lightning Node: Nothing
 
 
     Secret Passageway:
-      entrance: Open Secret Passageway
       exits:
         North Part: Nothing
       locations:
@@ -193,30 +186,16 @@ Desert:
         Goddess Cube: Clawshots
 
     Lightning Node:
-      Present:
-        exits:
-          Exit: Nothing
-          Past: Timeshift Stone
-        locations:
-          Blow up Rock for Timeshift Stone: Bomb Bag
-          Timeshift Stone: Blow up Rock for Timeshift Stone & Can Hit Timeshift Stone
-
-      Past:
-        exits:
-          Present - Exit: Nothing
-          Present: Projectile Item
-          Present from afar: Beetle | Bow | Bomb Bag
-        locations:
-          First Chest: Nothing
-          Second Chest: Nothing
-          Lightning Node: Sword
-
-      Present from afar:
-        locations:
-          Raised Chest near Generator: Nothing
-        exits:
-          Past: Beetle | Bow
-          Present: Nothing # Deathwarp
+      locations:
+        Timeshift Stone: Bomb Bag
+        First Chest: Timeshift Stone
+        Second Chest: Timeshift Stone
+        # needs a way to deactivate the timeshift stone while being
+        # in the back room
+        Raised Chest near Generator: Timeshift Stone & (Beetle | Bow | Bomb Bag)
+        Lightning Node: Timeshift Stone & Sword
+      exits:
+        Exit: Nothing
 
 
   East:
@@ -235,51 +214,23 @@ Desert:
 
 
     Fire Node:
-      Present:
-        exits:
-          Exit: Nothing
-          Past: Timeshift Stone
-          Present after Sand:
-            Can Defeat Ampilus | Fire Node - Brakeslide Trick | Present after Sand - Push Box
-        locations:
-          Blow up Rock for Timeshift Stone: Bomb Bag
-          Timeshift Stone: Blow up Rock for Timeshift Stone & Can Hit Timeshift Stone
+      locations:
+        Timeshift Stone: Bomb Bag
+        Can Cross Sand: Can Defeat Ampilus | Fire Node - Brakeslide Trick
 
-      Present after Sand:
-        exits:
-          Past after Void: Present - Timeshift Stone & Projectile Item
-          Present: Nothing
-
-        locations:
-          Shortcut Chest: Nothing
-          Push Box: Nothing
-
-
-      Past:
-        exits:
-          Present - Exit: Nothing
-          Present: Projectile Item | Bomb Bag
-          Past after Void: Present after Sand - Push Box
-        locations:
-          First Chest: Nothing
-          Second Chest: Nothing
-
-      Past after Void:
-        locations:
-          Open Grate: Hook Beetle
-
-        exits:
-          Past: Nothing
-          Past after Grate: Open Grate
+        Shortcut Chest: Nothing
+        First Chest: Timeshift Stone
+        Second Chest: Timeshift Stone
+      
+      exits:
+        Past after Grate: Timeshift Stone & Can Cross Sand & Hook Beetle
+        Exit: Nothing
 
       Past after Grate:
         locations:
           Left Ending Chest: Nothing
           Right Ending Chest: Nothing
           Fire Node: Sword
-        exits:
-          Past after Void: Nothing
-
 
 
 Temple of Time:
@@ -299,9 +250,8 @@ Temple of Time:
     locations:
       Gossip Stone: Nothing
       Blow up Rock for Timeshift Stone:
-        Hook Beetle | Bomb Throws Trick & (Bomb Bag | Cactus Bomb Whip Trick & Whip)
+        (Hook Beetle | Bomb Throws Trick) & ((Bomb Bag | Cactus Bomb Whip Trick) & Whip)
       Timeshift Stone: Blow up Rock for Timeshift Stone & Distance Activator
-      Save Robot: Timeshift Stone & Can Defeat Bokoblins
       Near Goddess Cube - Timeshift Stone: Long Range Skyward Strike | Distance Activator
 
     exits:
@@ -414,12 +364,11 @@ Sand Sea:
       locations:
         Chest after Moblin: Nothing
         Goddess Cube: Clawshots & Goddess Sword
-        Whip Peahat: Clawshots & Whip
         Deal with Boko Baba: Slingshot | Beetle | Bow | Skipper's Retreat Fast Clawshots Trick
 
       exits:
         Skipper's Retreat: Nothing
-        Top Part: Clawshots & Whip Peahat & Deal with Boko Baba
+        Top Part: Clawshots & Whip & Deal with Boko Baba
 
     Top Part:
       locations:

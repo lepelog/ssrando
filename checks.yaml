@@ -753,7 +753,7 @@ Flooded Faron Woods - Water Dragon's Reward:
     - oarc/F103_1/l0
 
 
-Eldin Volcano - First Room - Chest behind Bombable Wall:
+Eldin Volcano - Entry - Chest behind Bombable Wall:
   original item: Red Rupee
   type: eldin, bombable
   Paths:
@@ -785,13 +785,13 @@ Eldin Volcano - Entry - Rupee on Ledge:
   Paths:
     - stage/F200/r0/l0/Item/41
 
-Eldin Volcano - First Room - Rupee behind Bombable Wall:
+Eldin Volcano - Entry - Rupee behind Bombable Wall:
   original item: "Blue Rupee #8"
   type: eldin, freestanding, bombable
   Paths:
     - stage/F200/r1/l0/Item/13
 
-Eldin Volcano - First Room - Rupee in Crawlspace:
+Eldin Volcano - Entry - Rupee in Crawlspace:
   original item: "Blue Rupee #9"
   type: eldin, freestanding, bombable
   Paths:
@@ -1595,7 +1595,7 @@ Fire Sanctuary - Second Trapped Mogma Room - Reward:
   Paths:
     - stage/D201_1/r2/l0/TBox/65
     - stage/D201/r2/l0/TBox/65
-Fire Sanctuary - Second Trapped Mogma Room - Past Bombable Wall - Chest:
+Fire Sanctuary - Second Trapped Mogma Room - Chest after Bombable Wall:
   original item: "Fire Sanctuary Small Key #2"
   type: eldin, dungeon
   Paths:

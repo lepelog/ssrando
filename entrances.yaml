@@ -1237,7 +1237,7 @@ Sky - Faron Pillar - Deep Woods Statue Dive:
 Sky - Faron Pillar - Lake Floria Statue Dive:
   type: exit
   subtype: statue
-  vanilla: Lake Floria - Below Rock - Statue Entrance
+  vanilla: Lake Floria - Emerged Area - Statue Entrance
   stage: F020
   room: 0
   index: 47
@@ -2040,7 +2040,7 @@ Deep Woods - Exit to Skyview Temple:
 
 ## Lake Floria
 
-Lake Floria - Below Rock - Statue Entrance:
+Lake Floria - Emerged Area - Statue Entrance:
   type: entrance
   stage: F102
   room: 3
@@ -2055,7 +2055,7 @@ Lake Floria - Floria Waterfall <<Alternate>> Statue Entrance:
   layer: 0
   entrance: 5
 
-Lake Floria - Below Rock - Statue Exit:
+Lake Floria - Emerged Area - Statue Exit:
   type: exit
   subtype: statue
   vanilla: Sky - Faron Pillar - Entrance

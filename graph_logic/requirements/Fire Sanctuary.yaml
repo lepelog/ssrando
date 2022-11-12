@@ -12,8 +12,7 @@ Main:
       entrance: Hit Water Plant
       locations:
         First Room - Hit Water Plant: Distance Activator | Bomb Bag
-        Defeat Last Bokoblin: Can Defeat Bokoblins
-        Chest: Defeat Last Bokoblin
+        Chest: Can Defeat Bokoblins
       exits:
         First Room: Hit Water Plant
         Exit to Second Room: Fire Sanctuary Small Key
@@ -85,7 +84,7 @@ Main:
       Second Chest: Nothing
       Hydrate Frog: Sword
       Room with Water Plant - Unlock Key Door:
-        Fire Sanctuary Small Key x 2  # Would need better key logic to be exact
+        Fire Sanctuary Small Key x 2
     exits:
       Room with Water Plant - Past Lava:
         Room with Water Plant - Unlock Key Door
@@ -106,8 +105,7 @@ Main:
     Lower Part:
       locations:
         Unlock Key Door: Fire Sanctuary Small Key x 3
-        Uncover Dig Spot: Gust Bellows
-        Move Sliding Door: Uncover Dig Spot & Mogma Mitts
+        Move Sliding Door: Gust Bellows & Mogma Mitts
       exits:
         First Trapped Mogma Room - Lower Area: Mogma Mitts
         Past Sliding Door: Move Sliding Door
@@ -140,21 +138,8 @@ Main:
 
   Second Trapped Mogma Room:
     locations:
-      Move Sliding Doors Correctly: Mogma Mitts
-      Hydrate Frog: Move Sliding Doors Correctly & Sword
-      Rescue Mogma: Hydrate Frog
-      Reward: Rescue Mogma
-      Blow up Wall: Hydrate Frog & Bomb Bag # & Fire Sanctuary - Map
-
-    exits:
-      Second Bridge - Right: Nothing
-      Past Bombable Wall: Hydrate Frog & Blow up Wall & Mogma Mitts
-
-    Past Bombable Wall:
-      locations:
-        Chest: Nothing
-      exits:
-        Second Trapped Mogma Room: Nothing
+      Reward: Mogma Mitts & Sword
+      Chest after Bombable Wall: Mogma Mitts & Sword & Bomb Bag # & Fire Sanctuary - Map
 
   West of Boss Door:
     Entry:
@@ -167,14 +152,13 @@ Main:
 
     locations:
       Hit Water Plant: Distance Activator | Bomb Bag
-      Catch Plats: Mogma Mitts
-      Plats' Chest: Catch Plats
+      Plats' Chest: Mogma Mitts
 
     exits:
       Entry: Hit Water Plant
       Front of Boss Door: Hit Water Plant & Past Plats - Release Lava
       Past Plats:
-        Catch Plats & (Distance Activator | Bomb Bag) |
+        (Mogma Mitts & (Distance Activator | Bomb Bag)) |
         Past Plats - Unlock Shortcut to Pre Plats
 
     Past Plats:
