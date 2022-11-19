@@ -18,7 +18,7 @@ Main:
         Kill Pyrups: Bomb Bag | Hook Beetle | Bow
         Left Exit: Nothing
       exits:
-        End: Whip & Free Rope & Clawshots & Kill Pyrups & Gust Bellows | End - Lever
+        End: (Whip & Free Rope & Clawshots & Kill Pyrups & Gust Bellows) | End - Lever
 
     End:
       locations:
@@ -96,12 +96,9 @@ Main:
         Right Exit: Nothing
       exits:
         First Platform: Beetle | First Platform - Lever
-        OoB: Clawshots & Sky Keep - FS Room Clawshots Vine Clip Trick
-        Triforce Room: Triforce Room - Upper Lever
-
-    OoB:
-      exits:
-        Triforce Room: Clawshots
+        Triforce Room: Triforce Room - Upper Lever | (
+          Clawshots & Sky Keep - FS Room Clawshots Vine Clip Trick
+        )
 
     First Platform:
       locations:

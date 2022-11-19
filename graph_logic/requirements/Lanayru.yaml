@@ -250,7 +250,7 @@ Temple of Time:
     locations:
       Gossip Stone: Nothing
       Blow up Rock for Timeshift Stone:
-        (Hook Beetle | Bomb Throws Trick) & ((Bomb Bag | Cactus Bomb Whip Trick) & Whip)
+        Hook Beetle | (Bomb Throws Trick & (Bomb Bag | (Cactus Bomb Whip Trick & Whip)))
       Timeshift Stone: Blow up Rock for Timeshift Stone & Distance Activator
       Near Goddess Cube - Timeshift Stone: Long Range Skyward Strike | Distance Activator
 
@@ -290,22 +290,19 @@ Caves:
   toplevel-alias: Lanayru Caves
   hint-region: Lanayru Caves
   locations:
-    Unlock Door to Sand Sea: Lanayru Caves Small Key
     Chest: Nothing
     Golo's Gift: Nothing
     Gossip Stone in Center: Nothing
 
   exits:
-    Past Door to Sand Sea: Clawshots & Unlock Door to Sand Sea
+    Past Door to Sand Sea: Clawshots & Lanayru Caves Small Key
     Past Crawlspace: Nothing
     Exit to Mines: Nothing
     Exit to Desert: Nothing
 
   Past Door to Sand Sea:
-    locations:
-      Caves - Unlock Door to Sand Sea: Lanayru Caves Small Key
     exits:
-      Caves: Caves - Unlock Door to Sand Sea
+      Caves: Lanayru Caves Small Key
       Exit to Sand Sea: Nothing
 
   Past Crawlspace:
