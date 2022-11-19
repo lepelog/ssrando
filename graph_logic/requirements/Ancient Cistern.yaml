@@ -15,24 +15,21 @@ Main:
       Main Exit: Nothing
       East Part: Nothing
       After Whip Hooks: Whip
-      Vines Area: Vines Area - Activate Water Geyser | (Whip & Clawshots)
       Behind the Waterfall: Lever to Block Waterfall & Water Scale
       Inside Statue: Can Lower Statue | Ancient Cistern Small Key x 2
-      Basement - Under the Statue: Ancient Cistern - Cistern Clip Trick
-      Inside Statue - Whip Chest Room: Ancient Cistern - Cistern Clip Trick & Ancient Cistern - Cistern Whip Room Clip Trick
+      Basement - Under the Statue: Ancient Cistern - Cistern Clip Trick & Sword
+      Inside Statue - Whip Chest Room: Ancient Cistern - Cistern Clip Trick & Sword & Ancient Cistern - Cistern Whip Room Clip Trick
 
     After Whip Hooks:
       locations:
         Chest: Nothing
       exits:
         Vines Area: Clawshots
-        After Gutters: After Gutters - Lower Lever
         Main Room: Nothing
 
     Vines Area:
       locations:
         Chest: Nothing
-        Activate Water Geyser: Whip
         Ancient Cistern - Can Lower Statue: Whip
         Main Room - Lever to Block Waterfall: Ancient Cistern - Lever Jump Trick
       exits:
@@ -45,15 +42,11 @@ Main:
     Behind the Waterfall:
       locations:
         Chest: Nothing
-        First Lever: Whip
-        Second Lever: First Lever & Whip
-        Toilet Flush: First Lever & Second Lever & Whip
       exits:
-        Basement Gutters: Toilet Flush
+        Basement Gutters: Whip
 
     After Gutters:
       locations:
-        Lower Lever: Nothing
         Rupee under Lilypad: Water Scale & Whip & Impossible  # Can be skipped
       exits:
         After Whip Hooks: Nothing
