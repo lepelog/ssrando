@@ -41,6 +41,19 @@ lhz r3, 0x147a(r26)
 addi r0, r3, 1
 sth r0, 0x147a(r26)
 
+; Change starting location to remove intro cutscenes
+.org 0x801bb960 ; Change starting stage
+subi r3, r13, 0x5b44 ; previously 0x601c (F405 -> F001r)
+
+.org 0x801bb964 ; Change starting roomID
+li r4, 1 ; Room 0 -> 1
+
+.org 0x801bb968 ; Change starting layer
+li r5, 3 ; Layer 0 -> 3
+
+.org 0x801bb96c ; Change starting entrance
+li r6, 5 ; Entrance 0 -> 5
+
 ; remove sword item from sword pedestal and give new story flag 951
 .org 0x801d45ec
 bl set_goddess_sword_pulled_scene_flag
