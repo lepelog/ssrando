@@ -47,3 +47,4 @@ TextManager__setNumericArgs = 0x800b8a60;
 TextManager__setStringArg = 0x800b7fa0;
 LYT_MSG_MANAGER = 0x80575488;
 checkStoryflagIsSet = 0x80141e90;
+getKeyPieceCount = 0x802522f0;
