@@ -182,6 +182,7 @@ b setStoryflagToValue
 .global process_startflags
 .global handle_bk_map_dungeonflag
 .global textbox_a_pressed_or_b_held
+.global set_goddess_sword_pulled_scene_flag
 
 .close
 
