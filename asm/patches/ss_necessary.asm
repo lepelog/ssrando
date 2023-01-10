@@ -13,6 +13,11 @@ bl textbox_a_pressed_or_b_held ; change button function
 .org 0x80115f98 ; final text box
 bl textbox_a_pressed_or_b_held ; change button function
 
+; Make all skippable event be skippable without waiting 4 frames
+.org 0x800a0968 ; if 2 button is being held
+li r3, 1 ; return true instead of waiting 4 frames
+b 0x800a09a0
+
 ; Show all text in a textbox at once
 .org 0x80115A04 ; in some function that is text advancing related
 li r4, 1 ; enables instant text
