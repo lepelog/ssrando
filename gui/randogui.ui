@@ -67,7 +67,7 @@
      <number>-6</number>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>3</number>
     </property>
     <property name="usesScrollButtons">
      <bool>true</bool>
@@ -647,7 +647,7 @@
         <rect>
          <x>10</x>
          <y>20</y>
-         <width>178</width>
+         <width>179</width>
          <height>471</height>
         </rect>
        </property>
@@ -996,7 +996,7 @@
         <rect>
          <x>10</x>
          <y>20</y>
-         <width>176</width>
+         <width>177</width>
          <height>221</height>
         </rect>
        </property>
@@ -1086,7 +1086,7 @@
         <rect>
          <x>10</x>
          <y>20</y>
-         <width>171</width>
+         <width>172</width>
          <height>221</height>
         </rect>
        </property>
@@ -1197,7 +1197,7 @@
         <rect>
          <x>10</x>
          <y>20</y>
-         <width>180</width>
+         <width>183</width>
          <height>221</height>
         </rect>
        </property>
@@ -1292,13 +1292,6 @@
          </item>
          <item>
           <widget class="QComboBox" name="option_logic_mode"/>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="option_hero_mode">
-           <property name="text">
-            <string>Hero Mode</string>
-           </property>
-          </widget>
          </item>
          <item>
           <spacer name="hspace_misc_logic_settings">
