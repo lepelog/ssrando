@@ -67,6 +67,8 @@ global:
     - 159 # Sky Keep Intro Cutscene
     - storyflag: 134 # Horde defeated
       onlyif: Option "skip-horde" Enabled
+    - storyflag: 347 # Horde cutscene watched - must be set because the cutscene forces the horde fight
+      onlyif: Option "skip-horde" Enabled
     - storyflag: 486 # Ghirahim 3 defeated
       onlyif: Option "skip-g3" Enabled
     - storyflag: 8 # LMF rising CS watched
