@@ -120,7 +120,6 @@ global:
       - 62 # Ancient Cistern Intro Cutscene
     Eldin Volcano:
       - 2 # gets rid of first digging mitts mogma text
-      - 32 # impa bridge switch pressed down
       - 58 # digging mitts mogma cutscene watched
     Eldin Volcano Summit: # VS + Boko Base
       - 70 # Initial panning cutscene watched
