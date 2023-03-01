@@ -1442,7 +1442,7 @@ class GamePatcher:
         self.patcher.set_event_text_patch(self.text_patch)
         self.patcher.progress_callback = self.progress_callback
         self.patcher.objpackoarcadd = self.patches["global"].get("objpackoarcadd", [])
-        self.patcher.do_patch()
+        # self.patcher.do_patch()
 
         self.do_dol_patch()
         self.do_rel_patch()
@@ -2092,7 +2092,7 @@ class GamePatcher:
                 "name": "Fi Required Dungeon Text",
                 "type": "textadd",
                 "unk1": 2,
-                "text": required_dungeons_text,
+                "text": "phase: <numeric arg4>, err: <numeric arg0>,\nreq fd: <numeric arg1>, top fd: <numeric arg2>\nip: <numeric arg3>",
             }
         )
         if fi_hint_chunks:

@@ -146,6 +146,28 @@ main.dol:
     GXSetChanCtrl: 0x803bea00
     __GXSetIndirectMask: 0x803c0340
     GXSetChanMatColor: 0x803be8f0
+    ss_printf: 0x802df060
+    OSGetTick: 0x803adb10
+    OSSetPeriodicAlarm: 0x803a36d0
+    OSInsertAlarm: 0x803a3660
+    OSThreadStart: 0x803ad3d0
+    OSThreadCreate: 0x803acca0
+    OSYieldThread: 0x803acc60
+    OSLockMutex: 0x803aaad0
+    OSUnlockMutex: 0x803aabb0
+    OSTryLockMutex: 0x803aacf0
+    OSRegisterShutdownFunction: 0x803aae40
+    IOS_Open: 0x80426170
+    IOS_OpenAsync: 0x80426050
+    IOS_Ioctlv: 0x80426ea0
+    IOS_IoctlvAsync: 0x80426db0
+    IOS_Ioctl: 0x80426b40
+    IOS_IoctlAsync: 0x80426a00
+    IOS_Close: 0x80426360
+    IOS_CloseAsync: 0x804262a0
+    iosAllocAligned: 0x804273e0
+    iosFree: 0x804275f0
+    IOS_HEAP: 0x80574d9c
 d_a_shop_sampleNP.rel:
     SHOP_ITEMS: 0x6D8C
 d_a_obj_time_boatNP.rel:

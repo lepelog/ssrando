@@ -410,6 +410,13 @@ li r3, 0
 .word 0x000A ; use sceneflags for sealed grounds
 .word 0x0023 ; sceneflag 5x08
 
+; .org 0x80055024
+.org 0x80237e38
+b do_init_chain
+
+.org 0x803af588
+b net_mgr_shutdown
+
 .close
 
 
