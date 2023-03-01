@@ -2091,7 +2091,7 @@ class GamePatcher:
                 "name": "Fi Required Dungeon Text",
                 "type": "textadd",
                 "unk1": 2,
-                "text": required_dungeons_text,
+                "text": "phase: <numeric arg4>, err: <numeric arg0>,\nreq fd: <numeric arg1>, top fd: <numeric arg2>\nip: <numeric arg3>",
             }
         )
         if fi_hint_chunks:

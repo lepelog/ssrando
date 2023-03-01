@@ -29,6 +29,7 @@ rel_arc = U8File.parse_u8(
 
 all_rel_info = {}
 free_start_offsets = {}
+rel_ids = {}
 
 # it's possible to calculate that, not necessary though
 free_start_offsets["main.dol"] = 0x806782C0
@@ -51,10 +52,16 @@ for relpath in rel_arc.get_all_paths():
             # print(f'{section_names[sec_num]}: offset 0x{section.offset:04x}, length 0x{section.length:04x}')
     all_rel_info[relname] = rel_info
     free_start_offsets[relname] = free_start_offset
+    rel_ids[relname] = rel.id
 
 with open("rel_info.yaml", "w") as f:
     yaml.dump(
         all_rel_info, f, Dumper=yaml.CDumper, default_flow_style=False, sort_keys=False
+    )
+
+with open("rel_ids.yaml", "w") as f:
+    yaml.dump(
+        rel_ids, f, Dumper=yaml.CDumper, default_flow_style=False, sort_keys=False
     )
 
 with open("free_space_start_offsets2.txt", "w") as f:

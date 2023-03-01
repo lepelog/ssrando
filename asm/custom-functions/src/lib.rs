@@ -14,6 +14,7 @@ use message::{text_manager_set_num_args, text_manager_set_string_arg, FlowElemen
 
 mod filemanager_gen;
 mod message;
+mod rvl_os;
 mod text_print;
 
 #[repr(C)]

@@ -313,6 +313,7 @@ class AllPatcher:
         return arc_data
 
     def do_patch(self):
+        # return
         self.modified_extract_path.mkdir(parents=True, exist_ok=True)
 
         self.patch_custom_models()

@@ -377,6 +377,9 @@ li r3, 1
 .org 0x8016c808
 li r3, 1
 
+.org 0x80055024
+b do_init_chain
+
 .close
 
 
