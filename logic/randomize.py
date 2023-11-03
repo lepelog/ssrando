@@ -25,18 +25,6 @@ from .placements import *
 from .pools import *
 
 
-def shuffle_indices(self, list, indices=None):
-    if indices is None:
-        return self.shuffle(list)
-    else:
-        n = len(indices)
-        for i in range(n - 1):
-            j = self.randint(i, n - 1)
-            ii, jj = indices[i], indices[j]
-            list[ii], list[jj] = list[jj], list[ii]
-        return
-
-
 class Rando:
     def __init__(self, areas: Areas, options: Options, rng: random.Random):
         self.options = options

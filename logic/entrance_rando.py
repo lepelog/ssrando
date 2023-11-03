@@ -20,6 +20,18 @@ from .placements import *
 from .pools import *
 
 
+def shuffle_indices(self, list, indices=None):
+    if indices is None:
+        return self.shuffle(list)
+    else:
+        n = len(indices)
+        for i in range(n - 1):
+            j = self.randint(i, n - 1)
+            ii, jj = indices[i], indices[j]
+            list[ii], list[jj] = list[jj], list[ii]
+        return
+
+
 @dataclass
 class EROptions:
     randomize_dungeons: "None" | "Required Dungeons Separately" | "All Surface Dungeons" | "All Surface Dungeons + Sky Keep"
@@ -161,11 +173,11 @@ class EntranceRando:
             )
         ]
         possible_start_entrances.append(
-            self.areas.map_exits[self.norm(START)]["vanilla"]
+            self.norm(self.areas.map_exits[self.norm(START)]["vanilla"])
         )
 
         start_entrance = self.rng.choice(possible_start_entrances)
-        self.placement.map_transitions[self.norm(START)] = self.norm(start_entrance)
+        self.placement.map_transitions[self.norm(START)] = start_entrance
 
     def hacky_entrance_rando(self):
         entrances = list(k for k, v in self.areas.map_entrances.items() if "stage" in v)
