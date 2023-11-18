@@ -2609,6 +2609,12 @@ class GamePatcher:
             else:
                 RANDO_PATCH_FUNCS[objname](bzs["LAY "][f"l{layer}"], itemid, objid)
 
+        if stage[1] != "0" and room is None:
+            # all stages not X0XX
+            for lyse in bzs.get("LYSE", []):
+                lyse["night"] = 2
+                modified = True
+
         if modified:
             # print(json.dumps(bzs))
             return bzs
