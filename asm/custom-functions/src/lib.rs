@@ -1,5 +1,6 @@
 #![no_std]
 #![feature(split_array)]
+#![feature(ip_in_core)]
 
 use core::{
     ffi::{c_char, c_double, c_ushort, c_void},
@@ -7,6 +8,7 @@ use core::{
 };
 
 use cstr::cstr;
+use rvl_os::INIT_CHAIN_DATA_PTR;
 use text_print::write_to_screen;
 use wchar::wchz;
 
@@ -748,6 +750,16 @@ fn get_glow_color(item_id: u32) -> u32 {
 // A Common Place where Custom code can be injected to run once per frame
 #[no_mangle]
 fn custom_main_additions() {
+    unsafe {
+        if !INIT_CHAIN_DATA_PTR.is_null() {
+            write_to_screen(format_args!("{:#?}", *INIT_CHAIN_DATA_PTR), 10, 10);
+            let ip = (*INIT_CHAIN_DATA_PTR).ip;
+            if ip != 0 {
+                let addr = core::net::IpAddr::from(ip.to_be_bytes());
+                write_to_screen(format_args!("ip: {addr}"), 300, 10);
+            }
+        }
+    }
     // write_text_on_screen(); // This is test print code
 }
 

@@ -1441,7 +1441,7 @@ class GamePatcher:
         self.patcher.set_event_text_patch(self.text_patch)
         self.patcher.progress_callback = self.progress_callback
         self.patcher.objpackoarcadd = self.patches["global"].get("objpackoarcadd", [])
-        self.patcher.do_patch()
+        # self.patcher.do_patch()
 
         self.do_dol_patch()
         self.do_rel_patch()

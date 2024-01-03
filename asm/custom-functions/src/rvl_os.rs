@@ -1,7 +1,8 @@
 use core::{
     ffi::{c_char, c_int, c_uint, c_ushort, c_void},
+    fmt::Debug,
     mem::{align_of, size_of, MaybeUninit},
-    ptr::{addr_of_mut, null_mut},
+    ptr::{addr_of, addr_of_mut, null_mut},
 };
 
 use cstr::cstr;
@@ -112,7 +113,7 @@ extern "C" {
     pub static IOS_HEAP: *const c_void;
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum InitChainState {
     OpenManageFd,
     GetLinkStatus,
@@ -123,6 +124,9 @@ pub enum InitChainState {
     NWC24Startup, // needed?
     SocketStartup,
     CheckIp,
+    CreateSocket,
+    ConnectSocket,
+    SendSocketMessage,
 }
 
 impl InitChainState {
@@ -138,6 +142,9 @@ impl InitChainState {
             NWC24Startup => cstr!("NWC24Startup"),
             SocketStartup => cstr!("SocketStartup"),
             CheckIp => cstr!("CheckIp"),
+            CreateSocket => cstr!("CreateSocket"),
+            ConnectSocket => cstr!("ConnectSocket"),
+            SendSocketMessage => cstr!("SendSocketMessage"),
         }
         .as_ptr()
     }
@@ -153,11 +160,15 @@ impl InitChainState {
             NWC24Startup => "NWC24Startup",
             SocketStartup => "SocketStartup",
             CheckIp => "CheckIp",
+            CreateSocket => "CreateSocket",
+            ConnectSocket => "ConnectSocket",
+            SendSocketMessage => "SendSocketMessage",
         }
     }
 }
 
 #[derive(Clone, Copy)]
+#[repr(C)]
 struct IoctlvMac {
     buf_ptr: *mut u8,
     buf_len: u32,
@@ -166,6 +177,7 @@ struct IoctlvMac {
 }
 
 #[derive(Clone, Copy)]
+#[repr(C)]
 struct IoctlvLinkStatus {
     buf_ptr: *mut u8,
     buf_len: u32,
@@ -182,11 +194,46 @@ impl<const SIZE: usize> Default for AlignedBuf<SIZE> {
     }
 }
 
+// https://github.com/devkitPro/libogc/blob/master/gc/lwip/sockets.h#L38
+// https://github.com/devkitPro/libogc/blob/dab81d801174e08b846cffe4531fe0325d1f5f8c/libogc/network_wii.c#L134
+#[repr(C)]
+#[derive(Clone, Copy)]
+struct SocketConnectParams {
+    socket:     u32,
+    has_addr:   u32,
+    sin_len:    u8,
+    sin_family: u8,
+    sin_port:   u16,
+    sin_addr:   u32,
+    sin_zero:   [u8; 20],
+}
+
+#[repr(C)]
+#[derive(Default, Clone, Copy)]
+struct SocketSendToParams {
+    socket:       u32,
+    flags:        u32,
+    has_destaddr: u32,
+    destaddr:     [u8; 28],
+}
+
+#[repr(C)]
+#[derive(Clone, Copy)]
+struct SocketSendToIoctlv {
+    msg_ptr:    *const u8,
+    msg_len:    u32,
+    params_ptr: *const u8,
+    params_len: u32,
+}
+
 #[repr(C, align(0x20))]
 union IoctlvUnion {
-    none:      (),
-    mac:       IoctlvMac,
-    netstatus: IoctlvLinkStatus,
+    none:           (),
+    mac:            IoctlvMac,
+    netstatus:      IoctlvLinkStatus,
+    sock_init:      [c_int; 3],
+    connect_params: SocketConnectParams,
+    send_to_params: SocketSendToIoctlv,
 }
 
 #[repr(C, align(0x20))]
@@ -196,6 +243,7 @@ pub struct NetInitData {
     pub top_fd:      c_int,
     pub request_fd:  c_int,
     pub ip:          u32,
+    pub socket:      c_int,
     // if this is None, this is a retry
     pub last_result: Option<InitChainState>,
     pub state:       InitChainState,
@@ -204,6 +252,24 @@ pub struct NetInitData {
     pub last_err:    c_int,
     pub retry_count: u32,
     cmd_buf:         AlignedBuf<0x20>,
+    send_params:     SocketSendToParams,
+}
+
+impl Debug for NetInitData {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        f.debug_struct("NetInitDate")
+            .field("manage_fd", &self.manage_fd)
+            .field("top_fd", &self.top_fd)
+            .field("request_fd", &self.request_fd)
+            .field("ip", &self.ip)
+            .field("last_result", &self.last_result)
+            .field("state", &self.state)
+            .field("socket", &self.socket)
+            .field("mac_buf", &self.mac_buf)
+            .field("last_err", &self.last_err)
+            .field("retry_count", &self.retry_count)
+            .finish()
+    }
 }
 
 pub extern "C" fn net_init_retry_alarm_callback(alarm: *mut OSAlarm) {
@@ -217,7 +283,7 @@ fn retry_timeout() -> u64 {
 }
 
 #[link_section = ".data"]
-pub static mut INIT_CHAIN_DATA_PTR: usize = 0;
+pub static mut INIT_CHAIN_DATA_PTR: *mut NetInitData = core::ptr::null_mut();
 
 #[no_mangle]
 pub fn do_init_chain() {
@@ -234,6 +300,7 @@ pub fn do_init_chain() {
         top_fd:      -1,
         request_fd:  -1,
         ip:          0,
+        socket:      -1,
         last_result: None,
         state:       InitChainState::OpenManageFd,
         mac_buf:     [0; 6],
@@ -241,8 +308,9 @@ pub fn do_init_chain() {
         retry_count: 0,
         retry_alarm: OSAlarm::new(),
         cmd_buf:     AlignedBuf::default(),
+        send_params: Default::default(),
     });
-    unsafe { INIT_CHAIN_DATA_PTR = init_data.as_ptr() as usize };
+    unsafe { INIT_CHAIN_DATA_PTR = init_data.as_mut_ptr() };
     net_init_callback(0, init_data.as_mut_ptr().cast());
 }
 
@@ -260,7 +328,7 @@ pub extern "C" fn net_init_callback(result: c_int, usr_data: *mut c_void) {
     // ip = 0 is error
     let was_error = match init_data.last_result {
         Some(CheckIp) => result == 0,
-        Some(NWC24Startup) => result != -15, // happens when it's already started
+        Some(NWC24Startup) => result != -15 && result < 0, // happens when it's already started
         _ => result < 0 && result > -0x8000,
     };
     if was_error {
@@ -320,6 +388,16 @@ pub extern "C" fn net_init_callback(result: c_int, usr_data: *mut c_void) {
             },
             Some(CheckIp) => {
                 init_data.ip = result as u32;
+                init_data.state = CreateSocket;
+            },
+            Some(CreateSocket) => {
+                init_data.socket = result;
+                init_data.state = ConnectSocket;
+            },
+            Some(ConnectSocket) => {
+                init_data.state = SendSocketMessage;
+            },
+            Some(SendSocketMessage) => {
                 // we're DONE
                 // leak the memory for now, will be accessed by others
                 // unsafe { iosFree(IOS_HEAP, (init_data as *mut NetInitData).cast()) };
@@ -487,6 +565,94 @@ pub extern "C" fn net_init_callback(result: c_int, usr_data: *mut c_void) {
             if result < 0 {
                 unsafe {
                     ss_printf(cstr!("check ip: %d\n").as_ptr(), result);
+                }
+            }
+        },
+        CreateSocket => {
+            // see https://github.com/devkitPro/libogc/blob/dab81d801174e08b846cffe4531fe0325d1f5f8c/lwip/netio.c#L51
+            init_data.ioctlv.sock_init = [
+                2, // AF_INET
+                1, // SOCK_STREAM
+                0, // IPPROTO_IP
+            ];
+            let result = unsafe {
+                IOS_IoctlAsync(
+                    init_data.top_fd,
+                    15, // IOCTL_SO_SOCKET
+                    usr_data,
+                    12,
+                    null_mut(),
+                    0,
+                    net_init_callback,
+                    usr_data,
+                )
+            };
+            if result < 0 {
+                unsafe {
+                    ss_printf(cstr!("create socket: %d\n").as_ptr(), result);
+                }
+            }
+        },
+        ConnectSocket => {
+            init_data.ioctlv.connect_params = SocketConnectParams {
+                socket:     init_data.socket as u32,
+                has_addr:   1,
+                sin_len:    8,
+                sin_addr:   u32::from_be_bytes([192, 168, 0, 144]),
+                sin_family: 2, // AF_INET
+                sin_port:   12345,
+                sin_zero:   Default::default(),
+            };
+            let result = unsafe {
+                IOS_IoctlAsync(
+                    init_data.top_fd,
+                    4, // IOCTL_SO_CONNECT
+                    usr_data,
+                    size_of::<SocketConnectParams>() as c_int,
+                    null_mut(),
+                    0,
+                    net_init_callback,
+                    usr_data,
+                )
+            };
+            if result < 0 {
+                unsafe {
+                    ss_printf(cstr!("connect socket: %d\n").as_ptr(), result);
+                }
+            }
+        },
+        SendSocketMessage => {
+            init_data.cmd_buf.buf.fill(0);
+            let msg = "hello\n\n";
+
+            init_data.send_params = SocketSendToParams {
+                has_destaddr: 0,
+                flags: 0,
+                socket: init_data.socket as u32,
+                ..Default::default()
+            };
+
+            init_data.ioctlv.send_to_params = SocketSendToIoctlv {
+                msg_len:    msg.len() as u32,
+                msg_ptr:    msg.as_ptr().cast(),
+                params_ptr: addr_of!((init_data.send_params)).cast(),
+                params_len: size_of::<SocketSendToParams>() as u32,
+            };
+
+            let result = unsafe {
+                IOS_IoctlvAsync(
+                    init_data.top_fd,
+                    13,
+                    2,
+                    0,
+                    usr_data,
+                    net_init_callback,
+                    usr_data,
+                )
+            };
+            if result < 0 {
+                unsafe {
+                    ss_printf(cstr!("send message: %d\n").as_ptr(), result);
                 }
             }
         },
