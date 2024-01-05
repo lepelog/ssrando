@@ -1,14 +1,17 @@
 #![no_std]
 #![feature(split_array)]
 #![feature(ip_in_core)]
+#![feature(allocator_api)]
+#![feature(slice_ptr_get)]
 
 use core::{
     ffi::{c_char, c_double, c_ushort, c_void},
+    fmt::Write,
     ptr, slice,
 };
 
 use cstr::cstr;
-use rvl_os::INIT_CHAIN_DATA_PTR;
+use rvl_os::{ss_printf, NetManager, INIT_CHAIN_DATA_PTR};
 use text_print::write_to_screen;
 use wchar::wchz;
 
@@ -16,6 +19,8 @@ use message::{text_manager_set_num_args, text_manager_set_string_arg, FlowElemen
 
 mod filemanager_gen;
 mod message;
+mod rvl_mem;
+mod rvl_mutex;
 mod rvl_os;
 mod text_print;
 
@@ -759,11 +764,36 @@ fn custom_main_additions() {
                 write_to_screen(format_args!("ip: {addr}"), 300, 10);
             }
         }
+        if let Some(mgr) = NetManager::try_from_static() {
+            write_to_screen(format_args!("{:#?}", mgr), 10, 10);
+        }
     }
     // write_text_on_screen(); // This is test print code
 }
 
+pub fn console_print(args: core::fmt::Arguments<'_>) {
+    let mut s = arrayvec::ArrayString::<512>::new();
+    let _ = s.write_fmt(args);
+    let _ = s.try_push('\0');
+    unsafe {
+        // this might break the string if the last character is a multibyte
+        // character, but that probably never happens
+        if let Some(last) = s.as_bytes_mut().last_mut() {
+            *last = 0;
+        }
+    }
+    unsafe {
+        printf(cstr!("%s").as_ptr(), s.as_bytes().as_ptr());
+    }
+}
+
 #[panic_handler]
-fn panic(_: &core::panic::PanicInfo) -> ! {
+fn panic(info: &core::panic::PanicInfo) -> ! {
+    if let Some(msg) = info.payload().downcast_ref::<&str>() {
+        console_print(format_args!("{msg}\n"));
+    }
+    if let Some(loc) = info.location() {
+        console_print(format_args!("{loc}\n"));
+    }
     loop {}
 }

@@ -14,25 +14,36 @@ main.dol:
   is_custom_rando_item: 0x806785A8
   fix_custom_item_get: 0x806785C8
   check_scrapper_repaired: 0x8067867C
-  do_init_chain: 0x80679350
-  process_startflags: 0x8067C9E0
-  handle_bk_map_dungeonflag: 0x8067CC14
-  rando_text_command_handler: 0x8067CCC4
-  textbox_a_pressed_or_b_held: 0x8067CFE0
-  set_goddess_sword_pulled_scene_flag: 0x8067D010
-  randomize_boss_key_start_pos: 0x8067D03C
-  get_item_arc_name: 0x8067D160
-  get_item_model_name_ptr: 0x8067D1A4
-  enforce_loftwing_speed_cap: 0x8067D1E0
-  give_item_with_sceneflag: 0x8067D2D4
-  storyflag_set_to_1: 0x8067D368
-  get_start_info: 0x8067D398
-  send_to_start: 0x8067D3A4
-  do_er_fixes: 0x8067D400
-  allow_set_respawn_info: 0x8067D724
-  get_glow_color: 0x8067D74C
-  custom_main_additions: 0x8067D7B0
-  FORCE_MOGMA_CAVE_DIVE: 0x8067DF99
+  do_init_chain: 0x80678F8C
+  net_init_callback: 0x80679164
+  on_recv: 0x80679CB0
+  on_accept: 0x8067A1A8
+  on_close: 0x8067A2F8
+  net_mgr_shutdown: 0x8067A400
+  on_write_return: 0x8067A474
+  process_startflags: 0x80682BDC
+  handle_bk_map_dungeonflag: 0x80682E10
+  rando_text_command_handler: 0x80682EC0
+  textbox_a_pressed_or_b_held: 0x806831DC
+  set_goddess_sword_pulled_scene_flag: 0x8068320C
+  randomize_boss_key_start_pos: 0x80683238
+  get_item_arc_name: 0x8068335C
+  get_item_model_name_ptr: 0x806833A0
+  enforce_loftwing_speed_cap: 0x806833DC
+  give_item_with_sceneflag: 0x806834D0
+  storyflag_set_to_1: 0x80683564
+  get_start_info: 0x80683594
+  send_to_start: 0x806835A0
+  do_er_fixes: 0x806835FC
+  allow_set_respawn_info: 0x80683920
+  get_glow_color: 0x80683948
+  custom_main_additions: 0x806839AC
+  compiler_builtins::int::specialized_div_rem::u64_div_rem: 0x80684C08
+  compiler_builtins::int::udiv::__udivdi3: 0x80684EA8
+  compiler_builtins::int::udiv::__umoddi3: 0x80684EC8
+  NET_MANAGER: 0x80686DF8
+  INIT_CHAIN_DATA_PTR: 0x80686DFC
+  FORCE_MOGMA_CAVE_DIVE: 0x80687601
 d_t_D3_scene_changeNP.rel:
   trigger_exit_one: 0x804
   trigger_exit_one_lbl: 0x340

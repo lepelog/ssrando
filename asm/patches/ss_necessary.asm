@@ -377,8 +377,12 @@ li r3, 1
 .org 0x8016c808
 li r3, 1
 
-.org 0x80055024
+; .org 0x80055024
+.org 0x80237e38
 b do_init_chain
+
+.org 0x803af588
+b net_mgr_shutdown
 
 .close
 

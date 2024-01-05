@@ -372,6 +372,7 @@ b checkStoryflagIsSet
 .global allow_set_respawn_info
 .global get_glow_color
 .global custom_main_additions
+.global net_mgr_shutdown
 
 .close
 

@@ -119,10 +119,15 @@ main.dol:
     OSThreadStart: 0x803ad3d0
     OSThreadCreate: 0x803acca0
     OSYieldThread: 0x803acc60
+    OSLockMutex: 0x803aaad0
+    OSUnlockMutex: 0x803aabb0
+    OSTryLockMutex: 0x803aacf0
+    OSRegisterShutdownFunction: 0x803aae40
     IOS_Open: 0x80426170
     IOS_OpenAsync: 0x80426050
     IOS_Ioctlv: 0x80426ea0
     IOS_IoctlvAsync: 0x80426db0
+    IOS_Ioctl: 0x80426b40
     IOS_IoctlAsync: 0x80426a00
     IOS_Close: 0x80426360
     IOS_CloseAsync: 0x804262a0
