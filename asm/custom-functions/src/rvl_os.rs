@@ -15,41 +15,15 @@ use crate::console_print;
 use crate::game::player;
 use crate::rvl_mem::ios_allocate;
 use crate::rvl_mem::{iosAllocAligned, iosFree, ios_free, IOS_HEAP};
-
-#[repr(C)]
-pub struct OSAlarm {
-    // treat data as opaque for now
-    data: [u8; 44],
-}
-
-impl OSAlarm {
-    pub const fn new() -> Self {
-        OSAlarm { data: [0; 44] }
-    }
-}
+use crate::system::alarm::{OSAlarm, OSInsertAlarm};
+use crate::system::ios::*;
+use crate::system::time::get_time_base;
+use crate::utils::AlignedBuf;
 
 extern "C" {
     pub fn ss_printf(string: *const c_char, ...);
-    pub fn OSSetPeriodicAlarm(
-        alarm: *mut OSAlarm,
-        start: u64,
-        period: u64,
-        callback: extern "C" fn(*mut OSAlarm),
-    );
-    pub fn OSInsertAlarm(alarm: *mut OSAlarm, wait: u64, callback: extern "C" fn(*mut OSAlarm));
-    fn OSGetTick() -> u32;
     pub fn OSRegisterShutdownFunction(cb: extern "C" fn());
 }
-
-pub fn get_time_base() -> u32 {
-    let reg = unsafe { (0x800000F8 as *const u32).read_volatile() };
-    reg / 4000
-}
-
-pub fn os_get_tick() -> u32 {
-    unsafe { OSGetTick() }
-}
-
 #[repr(C)]
 pub struct OSThread {
     data: [u8; 792],
@@ -78,54 +52,6 @@ extern "C" {
     ) -> c_int;
     pub fn OSThreadStart(thread: *mut OSThread) -> c_int;
     pub fn OSYieldThread();
-
-    pub fn IOS_Open(path: *const c_char, mode: c_int) -> c_int;
-    pub fn IOS_OpenAsync(
-        path: *const c_char,
-        mode: c_int,
-        callback: extern "C" fn(c_int, *mut c_void),
-        userdata: *mut c_void,
-    ) -> c_int;
-    pub fn IOS_Ioctlv(
-        fd: c_int,
-        cmd: c_int,
-        in_cnt: c_int,
-        out_cnt: c_int,
-        ioctlv: *mut c_void,
-    ) -> c_int;
-    pub fn IOS_IoctlvAsync(
-        fd: c_int,
-        cmd: c_int,
-        in_cnt: c_int,
-        out_cnt: c_int,
-        ioctlv: *mut c_void,
-        callback: extern "C" fn(c_int, *mut c_void),
-        userdata: *mut c_void,
-    ) -> c_int;
-    pub fn IOS_Ioctl(
-        fd: c_int,
-        cmd: c_int,
-        in_buf: *mut c_void,
-        in_len: c_int,
-        out_buf: *mut c_void,
-        out_len: c_int,
-    ) -> c_int;
-    pub fn IOS_IoctlAsync(
-        fd: c_int,
-        cmd: c_int,
-        in_buf: *mut c_void,
-        in_len: c_int,
-        out_buf: *mut c_void,
-        out_len: c_int,
-        callback: extern "C" fn(c_int, *mut c_void),
-        userdata: *mut c_void,
-    ) -> c_int;
-    pub fn IOS_Close(fd: c_int) -> c_int;
-    pub fn IOS_CloseAsync(
-        fd: c_int,
-        callback: extern "C" fn(c_int, *mut c_void),
-        userdata: *mut c_void,
-    ) -> c_int;
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -196,17 +122,6 @@ struct IoctlvMac {
 struct IoctlvLinkStatus {
     buf_ptr: *mut u8,
     buf_len: u32,
-}
-
-#[repr(align(0x20))]
-struct AlignedBuf<const SIZE: usize> {
-    buf: [u8; SIZE],
-}
-
-impl<const SIZE: usize> Default for AlignedBuf<SIZE> {
-    fn default() -> Self {
-        Self { buf: [0; SIZE] }
-    }
 }
 
 // https://github.com/devkitPro/libogc/blob/master/gc/lwip/sockets.h#L38
@@ -791,7 +706,7 @@ impl InitChainPart for ConnectSocket {
 struct SendSocketMessage;
 impl InitChainPart for SendSocketMessage {
     fn do_ioctl(&self, init_data: &mut NetInitData, usr_data: *mut c_void) -> c_int {
-        init_data.cmd_buf.buf.fill(0);
+        init_data.cmd_buf.fill(0);
         let msg = "hello\n\n";
 
         init_data.send_params = SocketSendToParams {
@@ -1082,7 +997,7 @@ extern "C" fn on_recv(result: c_int, usr_data: *mut c_void) {
         do_close_current(mgr);
         return;
     }
-    let result_data = &mgr.recv_buf.buf[..result as usize];
+    let result_data = &mgr.recv_buf[..result as usize];
 
     if result_data.starts_with(b"pos") && !player::get_ptr().is_null() {
         let mut buf = arrayvec::ArrayString::<100>::new();
