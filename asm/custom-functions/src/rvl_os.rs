@@ -1,11 +1,10 @@
 use core::fmt::Write as _;
 use core::net::Ipv4Addr;
 use core::ptr::copy_nonoverlapping;
-use core::sync::atomic::AtomicU32;
 use core::{
     ffi::{c_char, c_int, c_uint, c_ushort, c_void},
     fmt::Debug,
-    mem::{align_of, size_of, size_of_val, MaybeUninit},
+    mem::{align_of, size_of, size_of_val},
     ptr::{addr_of, addr_of_mut, null, null_mut, NonNull},
     str::from_utf8,
 };
@@ -13,9 +12,9 @@ use core::{
 use cstr::cstr;
 
 use crate::console_print;
-use crate::game::player::{self, ActorLink};
+use crate::game::player;
+use crate::rvl_mem::ios_allocate;
 use crate::rvl_mem::{iosAllocAligned, iosFree, ios_free, IOS_HEAP};
-use crate::{rvl_mem::ios_allocate, rvl_mutex::WiiMutex};
 
 #[repr(C)]
 pub struct OSAlarm {

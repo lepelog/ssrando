@@ -2,6 +2,7 @@ pub mod button;
 pub mod gx;
 pub mod heap;
 pub mod math;
+pub mod mutex;
 pub mod ppc;
 
 extern "C" {

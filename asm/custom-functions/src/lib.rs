@@ -13,7 +13,6 @@ use rvl_os::ss_printf;
 mod game;
 mod rando;
 mod rvl_mem;
-mod rvl_mutex;
 mod rvl_os;
 mod system;
 mod utils;
