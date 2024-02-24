@@ -3,6 +3,8 @@
 // IMPORTANT: when adding functions here that need to get called from the game,
 // add `#[no_mangle]` and add a .global *symbolname* to custom_funcs.asm
 
+mod networking;
+
 use core::{
     ffi::{c_char, c_ushort, c_void},
     ptr, slice,

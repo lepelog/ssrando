@@ -14,35 +14,37 @@ main.dol:
   is_custom_rando_item: 0x806785A8
   fix_custom_item_get: 0x806785C8
   check_scrapper_repaired: 0x8067867C
-  storyflag_set_to_1: 0x80678A70
-  process_startflags: 0x8067DFE8
-  handle_bk_map_dungeonflag: 0x8067E230
-  rando_text_command_handler: 0x8067E2DC
-  textbox_a_pressed_or_b_held: 0x8067E5F8
-  set_goddess_sword_pulled_scene_flag: 0x8067E638
-  randomize_boss_key_start_pos: 0x8067E664
-  get_item_arc_name: 0x8067E788
-  get_item_model_name_ptr: 0x8067E7CC
-  enforce_loftwing_speed_cap: 0x8067E808
-  give_item_with_sceneflag: 0x8067E8F4
-  get_start_info: 0x8067E984
-  send_to_start: 0x8067E990
-  do_er_fixes: 0x8067E9EC
-  allow_set_respawn_info: 0x8067ED10
-  get_glow_color: 0x8067ED38
-  do_init_chain: 0x8067ED9C
-  net_init_callback: 0x8067EF74
-  on_accept: 0x8067F654
-  on_recv: 0x8067F7A4
-  on_close: 0x8067FC9C
-  on_write_return: 0x8067FDA4
-  net_mgr_shutdown: 0x8068084C
-  compiler_builtins::int::specialized_div_rem::u64_div_rem: 0x80680900
-  compiler_builtins::int::udiv::__udivdi3: 0x80680BA0
-  compiler_builtins::int::udiv::__umoddi3: 0x80680BC0
-  INIT_CHAIN_DATA_PTR: 0x8068184C
-  NET_MANAGER: 0x80681850
-  FORCE_MOGMA_CAVE_DIVE: 0x806818D5
+  storyflag_set_to_1: 0x806786F8
+  do_init_chain: 0x8067889C
+  net_init_callback: 0x80678A94
+  on_recv: 0x8067959C
+  on_accept: 0x80679A94
+  on_close: 0x80679BE4
+  net_mgr_shutdown: 0x80679CEC
+  on_write_return: 0x80679D60
+  post_ios: 0x8067FB40
+  run_net_init: 0x8067FBC0
+  process_startflags: 0x806801D0
+  handle_bk_map_dungeonflag: 0x80680418
+  rando_text_command_handler: 0x806804C4
+  textbox_a_pressed_or_b_held: 0x806807E0
+  set_goddess_sword_pulled_scene_flag: 0x80680820
+  randomize_boss_key_start_pos: 0x8068084C
+  get_item_arc_name: 0x80680970
+  get_item_model_name_ptr: 0x806809B4
+  enforce_loftwing_speed_cap: 0x806809F0
+  give_item_with_sceneflag: 0x80680ADC
+  get_start_info: 0x80680B6C
+  send_to_start: 0x80680B78
+  do_er_fixes: 0x80680BD4
+  allow_set_respawn_info: 0x80680EF8
+  get_glow_color: 0x80680F20
+  compiler_builtins::int::specialized_div_rem::u64_div_rem: 0x80680FC4
+  compiler_builtins::int::udiv::__udivdi3: 0x80681264
+  compiler_builtins::int::udiv::__umoddi3: 0x80681284
+  INIT_CHAIN_DATA_PTR: 0x80681F6C
+  NET_MANAGER: 0x80681F70
+  FORCE_MOGMA_CAVE_DIVE: 0x80682315
 d_t_D3_scene_changeNP.rel:
   trigger_exit_one: 0x804
   trigger_exit_one_lbl: 0x340

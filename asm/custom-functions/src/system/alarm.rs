@@ -1,4 +1,4 @@
-#[repr(C)]
+#[repr(C, align(4))]
 pub struct OSAlarm {
     // treat data as opaque for now
     data: [u8; 44],

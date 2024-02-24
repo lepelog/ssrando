@@ -11,7 +11,7 @@ extern "C" {
     pub static IOS_HEAP: *const c_void;
 }
 
-struct IosAllocator;
+pub struct IosAllocator;
 
 pub unsafe fn ios_allocate<'a, T>() -> &'a mut MaybeUninit<T> {
     unsafe {
