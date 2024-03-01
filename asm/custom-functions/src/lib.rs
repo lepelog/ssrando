@@ -9,7 +9,7 @@
 #![deny(improper_ctypes)]
 #![deny(improper_ctypes_definitions)]
 
-use core::alloc::GlobalAlloc;
+use core::{alloc::GlobalAlloc, ffi::CStr};
 
 use cstr::cstr;
 use rvl_os::ss_printf;
@@ -41,6 +41,10 @@ pub fn console_print(args: core::fmt::Arguments<'_>) {
     unsafe {
         ss_printf(cstr!("%s").as_ptr(), s.as_bytes().as_ptr());
     }
+}
+
+pub fn print_cstr(s: &CStr) {
+    unsafe { ss_printf(s.as_ptr()) }
 }
 
 struct PanicAlloc;

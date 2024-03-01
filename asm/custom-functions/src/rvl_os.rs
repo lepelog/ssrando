@@ -710,9 +710,9 @@ impl InitChainPart for SendSocketMessage {
         let msg = "hello\n\n";
 
         init_data.send_params = SocketSendToParams {
-            has_destaddr: 1,
-            flags:        0,
             socket:       init_data.udp_socket as u32,
+            flags:        0,
+            has_destaddr: 1,
             destaddr:     [
                 8, 2, 0x30, 0x39, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0,

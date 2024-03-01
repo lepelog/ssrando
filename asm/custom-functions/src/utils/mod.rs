@@ -11,24 +11,26 @@ pub fn simple_rng(rng: &mut u32) -> u32 {
 }
 
 #[repr(align(0x20))]
-pub struct AlignedBuf<const SIZE: usize> {
-    buf: [u8; SIZE],
+pub struct AlignedBuf<const SIZE: usize, T = u8> {
+    pub buf: [T; SIZE],
 }
 
-impl<const SIZE: usize> Default for AlignedBuf<SIZE> {
+impl<const SIZE: usize, T: Copy + Default> Default for AlignedBuf<SIZE, T> {
     fn default() -> Self {
-        Self { buf: [0; SIZE] }
+        Self {
+            buf: [T::default(); SIZE],
+        }
     }
 }
 
-impl<const SIZE: usize> Deref for AlignedBuf<SIZE> {
-    type Target = [u8; SIZE];
+impl<const SIZE: usize, T> Deref for AlignedBuf<SIZE, T> {
+    type Target = [T; SIZE];
     fn deref(&self) -> &Self::Target {
         &self.buf
     }
 }
 
-impl<const SIZE: usize> DerefMut for AlignedBuf<SIZE> {
+impl<const SIZE: usize, T> DerefMut for AlignedBuf<SIZE, T> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.buf
     }
