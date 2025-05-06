@@ -86,7 +86,7 @@ class RandoGUI(QMainWindow):
             str(RANDO_ROOT_PATH / "assets" / "OpenDyslexic3-Regular.ttf")
         )
 
-        self.setWindowTitle("Skyward Sword Randomizer v" + VERSION)
+        self.setWindowTitle("Skyward Sword Archipelago Patcher v" + VERSION)
 
         self.setWindowIcon(QIcon(str(RANDO_ROOT_PATH / "assets" / "icon.ico")))
 
