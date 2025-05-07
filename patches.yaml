@@ -4989,6 +4989,7 @@ D201: # FS A
   - name: FS rescue second trapped mogma archipelago flag A # Out of bounds
     type: objpatch
     id: 0xFC00
+    layer: 0
     room: 2
     objtype: OBJS
     object:
@@ -4996,6 +4997,7 @@ D201: # FS A
   - name: FS chest after bombable wall flag A # Out of bounds
     type: objpatch
     id: 0xFC00
+    layer: 0
     room: 11
     objtype: OBJS
     object:
