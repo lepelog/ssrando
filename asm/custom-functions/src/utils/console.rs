@@ -67,6 +67,8 @@ impl Console {
         } else {
             writer.set_font(1);
         }
+        // let tag_processor_ptr = unsafe { *(0x80575744 as *const u32) };
+        // writer.set_tag_processor(tag_processor_ptr);
         // Set size
         if self.dynamic_size {
             let rect = self.buffer.get_buff_rect(&mut writer);
