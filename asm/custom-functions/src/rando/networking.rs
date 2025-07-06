@@ -2,7 +2,7 @@ use core::{
     borrow::BorrowMut,
     cell::Cell,
     ffi::{c_int, c_uint, c_ushort, c_void, CStr},
-    fmt::Debug,
+    fmt::{Debug, Write},
     future::Future,
     mem::size_of_val,
     net::Ipv4Addr,
@@ -22,6 +22,7 @@ use crate::{
         ios::{IOS_CloseAsync, IOS_IoctlAsync, IOS_IoctlvAsync, IOS_OpenAsync},
         time::get_time_base,
     },
+    utils::console::Console,
     utils::AlignedBuf,
 };
 
@@ -577,6 +578,11 @@ async fn net_init_stuff() {
 }
 
 async fn try_net_init_stuff() -> Result<(), i32> {
+    let mut console = Console::with_pos_and_size(0f32, 120f32, 120f32, 85f32);
+    console.set_bg_color(0x0000007F);
+    console.set_font_color(0xFFFFFFFF);
+    console.set_font_size(0.25f32);
+    console.set_dynamic_size(true);
     let request_fd = RequestFd::open().await?;
     print_cstr(cstr!("req open\n"));
     let _ = request_fd.nwc_24_startup().await;
@@ -589,9 +595,11 @@ async fn try_net_init_stuff() -> Result<(), i32> {
     let ip = Ipv4Addr::from(ip as u32);
     console_print(format_args!("ip: {}\n", ip));
     let sock = top_fd.create_tcp_socket().await?;
-    print_cstr(cstr!("sock create\n"));
+    print_cstr(cstr!("tcp sock create\n"));
+    let _ = console.write_fmt(format_args!("socket created\nip: {}\n", ip));
+    console.draw();
     top_fd
-        .connect_socket(sock, u32::from_be_bytes([192, 168, 0, 144]), 43673)
+        .connect_socket(sock, u32::from_be_bytes([192, 168, 0, 144]), 43673) // your 192.168.x.x IP from ipconfig/ifconfig here
         .await?;
     print_cstr(cstr!("sock connect\n"));
     let message = "hello, world!\n";

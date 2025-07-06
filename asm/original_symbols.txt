@@ -1,6 +1,7 @@
 main.dol:
     # --------------- C STUFFS --------------------------------
     printf: 0x802df060
+    float_to_unsigned: 0x804c6a64
     memcpy: 0x800043c4
     memset: 0x80004714
     memmove: 0x804c9ca4
