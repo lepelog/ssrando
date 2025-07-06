@@ -167,6 +167,10 @@ impl TextWriterBase {
         }
     }
 
+    pub fn set_tag_processor(&mut self, ptr: u32) {
+        self.tag_processor = ptr;
+    }
+
     // Prints text directly to screen
     pub fn print(&mut self, string: &[u16]) {
         // Set to default font
