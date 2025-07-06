@@ -1582,6 +1582,8 @@ class GamePatcher:
         self.add_asm_patch("custom_items")
         self.add_asm_patch("post_boko_base_platforms")
         self.add_asm_patch("archipelago")
+        if self.placement_file.options["print-client-messages"]:
+            self.add_asm_patch("archipelago_client_text")
         if self.placement_file.options["shopsanity"]:
             self.add_asm_patch("shopsanity")
         self.add_asm_patch("gossip_stone_hints")
