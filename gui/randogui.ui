@@ -450,7 +450,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_31">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <layout class="QHBoxLayout" name="hlay_cosmetics">
           <property name="bottomMargin">
            <number>0</number>
           </property>

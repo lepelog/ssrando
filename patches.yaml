@@ -1642,6 +1642,14 @@ F012r: # Batreaux House
     objtype: OBJS
     object:
       setscenefid: 93
+  - name: Make Kukiel Appear Permanently
+    type: objpatch
+    id: 0xFC01
+    layer: 0
+    room: 0
+    objtype: OBJ
+    object:
+      untrigstoryfid: -1 # Never despawns
 F013r: # Sparrot's House
   - name: Sparrot spawn
     type: objpatch
@@ -4914,7 +4922,7 @@ D201: # FS A
       posy: -550
       posz: -14240
       name: Tubo
-  - name: FS plats chest archipelago flag
+  - name: FS plats chest archipelago flag A
     type: objpatch
     id: 0xFC6A
     layer: 0
@@ -4922,7 +4930,7 @@ D201: # FS A
     objtype: OBJS
     object:
       setscenefid: 108
-  - name: FS chest in staircase room archipelago flag
+  - name: FS chest in staircase room archipelago flag A
     type: objpatch
     id: 0xFC27
     layer: 0
@@ -4930,6 +4938,70 @@ D201: # FS A
     objtype: OBJS
     object:
       setscenefid: 17
+  - name: FS chest in second room archipelago flag A # Out of bounds
+    type: objpatch
+    id: 0xFC01
+    layer: 0
+    room: 1
+    objtype: OBJS
+    object:
+      setscenefid: 113
+  - name: FS chest on balcony archipelago flag A # Out of bounds
+    type: objpatch
+    id: 0xFC04
+    layer: 0
+    room: 6
+    objtype: OBJS
+    object:
+      setscenefid: 126
+  - name: FS chest near first trapped mogma archipelago flag A # Out of bounds
+    type: objpatch
+    id: 0xFC01
+    layer: 0
+    room: 5
+    objtype: OBJS
+    object:
+      setscenefid: 123
+  - name: FS first chest in water fruit room archipelago flag A # Out of bounds
+    type: objpatch
+    id: 0xFC01
+    layer: 0
+    room: 7
+    objtype: OBJS
+    object:
+      setscenefid: 122
+  - name: FS second chest in water fruit room archipelago flag A # Out of bounds
+    type: objpatch
+    id: 0xFC02
+    layer: 0
+    room: 7
+    objtype: OBJS
+    object:
+      setscenefid: 102
+  - name: FS rescue first trapped mogma archipelago flag A # Out of bounds
+    type: objpatch
+    id: 0xFC00
+    layer: 0
+    room: 5
+    objtype: OBJS
+    object:
+      setscenefid: 100
+  - name: FS rescue second trapped mogma archipelago flag A # Out of bounds
+    type: objpatch
+    id: 0xFC00
+    layer: 0
+    room: 2
+    objtype: OBJS
+    object:
+      setscenefid: 77
+  - name: FS chest after bombable wall flag A # Out of bounds
+    type: objpatch
+    id: 0xFC00
+    layer: 0
+    room: 11
+    objtype: OBJS
+    object:
+      setscenefid: 97
 D201_1: # FS B
   - name: Clawshot Target for 2nd small Key
     type: objadd
@@ -5074,7 +5146,31 @@ D201_1: # FS B
       posy: -550
       posz: -14240
       name: Tubo
-  - name: FS chest in second room archipelago flag
+  - name: FS chest in first room archipelago flag B # Out of bounds
+    type: objpatch
+    id: 0xFC00
+    layer: 0
+    room: 0
+    objtype: OBJS
+    object:
+      setscenefid: 5
+  - name: FS plats chest archipelago flag B # Out of bounds
+    type: objpatch
+    id: 0xFC01
+    layer: 0
+    room: 3
+    objtype: OBJS
+    object:
+      setscenefid: 108
+  - name: FS chest in staircase room archipelago flag B # Out of bounds
+    type: objpatch
+    id: 0xFC04
+    layer: 0
+    room: 9
+    objtype: OBJS
+    object:
+      setscenefid: 17
+  - name: FS chest in second room archipelago flag B
     type: objpatch
     id: 0xFC37
     layer: 0
@@ -5082,7 +5178,7 @@ D201_1: # FS B
     objtype: OBJS
     object:
       setscenefid: 113
-  - name: FS chest on balcony archipelago flag
+  - name: FS chest on balcony archipelago flag B
     type: objpatch
     id: 0xFC08
     layer: 0
@@ -5090,7 +5186,7 @@ D201_1: # FS B
     objtype: OBJS
     object:
       setscenefid: 126
-  - name: FS chest near first trapped mogma archipelago flag
+  - name: FS chest near first trapped mogma archipelago flag B
     type: objpatch
     id: 0xFC10
     layer: 0
@@ -5098,7 +5194,7 @@ D201_1: # FS B
     objtype: OBJS
     object:
       setscenefid: 123
-  - name: FS first chest in water fruit room archipelago flag
+  - name: FS first chest in water fruit room archipelago flag B
     type: objpatch
     id: 0xFC09
     layer: 0
@@ -5106,7 +5202,7 @@ D201_1: # FS B
     objtype: OBJS
     object:
       setscenefid: 122
-  - name: FS second chest in water fruit room archipelago flag
+  - name: FS second chest in water fruit room archipelago flag B
     type: objpatch
     id: 0xFC0E
     layer: 0
@@ -5114,7 +5210,7 @@ D201_1: # FS B
     objtype: OBJS
     object:
       setscenefid: 102
-  - name: FS rescue first trapped mogma archipelago flag
+  - name: FS rescue first trapped mogma archipelago flag B
     type: objpatch
     id: 0xFC0F
     layer: 0
@@ -6155,7 +6251,7 @@ D300: # LMF A
       posy: 0
       posz: 2180
       name: Tubo
-  - name: LMF chest behind bars archipelago flag
+  - name: LMF chest behind bars archipelago flag A
     type: objpatch
     id: 0xFC07
     layer: 0
@@ -6163,7 +6259,7 @@ D300: # LMF A
     objtype: OBJS
     object:
       setscenefid: 45
-  - name: LMF chest in first west room archipelago flag
+  - name: LMF chest in first west room archipelago flag A
     type: objpatch
     id: 0xFC10
     layer: 0
@@ -6171,7 +6267,7 @@ D300: # LMF A
     objtype: OBJS
     object:
       setscenefid: 42
-  - name: LMF chest in key locked room archipelago flag
+  - name: LMF chest in key locked room archipelago flag A
     type: objpatch
     id: 0xFC16
     layer: 0
@@ -6179,7 +6275,7 @@ D300: # LMF A
     objtype: OBJS
     object:
       setscenefid: 41
-  - name: LMF raised chest in hop across boxes room archipelago flag
+  - name: LMF raised chest in hop across boxes room archipelago flag A
     type: objpatch
     id: 0xFC00
     layer: 0
@@ -6187,7 +6283,7 @@ D300: # LMF A
     objtype: OBJS
     object:
       setscenefid: 57
-  - name: LMF lower chest in hop across boxes room archipelago flag
+  - name: LMF lower chest in hop across boxes room archipelago flag A
     type: objpatch
     id: 0xFC23
     layer: 0
@@ -6195,6 +6291,46 @@ D300: # LMF A
     objtype: OBJS
     object:
       setscenefid: 49
+  - name: LMF first chest in hub room archipelago flag A
+    type: objpatch
+    id: 0xFC00
+    layer: 0
+    room: 5
+    objtype: OBJS
+    object:
+      setscenefid: 61
+  - name: LMF shortcut chest in main hub archipelago flag A
+    type: objpatch
+    id: 0xFC04
+    layer: 0
+    room: 5
+    objtype: OBJS
+    object:
+      setscenefid: 48
+  - name: LMF chest behind first crawlspace archipelago flag A
+    type: objpatch
+    id: 0xFC00
+    layer: 0
+    room: 9
+    objtype: OBJS
+    object:
+      setscenefid: 55
+  - name: LMF chest in spike maze archipelago flag A
+    type: objpatch
+    id: 0xFC00
+    layer: 0
+    room: 7
+    objtype: OBJS
+    object:
+      setscenefid: 52
+  - name: LMF boss key chest archipelago flag A
+    type: objpatch
+    id: 0xFC00
+    layer: 0
+    room: 8
+    objtype: OBJS
+    object:
+      setscenefid: 6
 D300_1: # LMF B
   - name: Fi Text in front of boss door
     type: objdelete
@@ -6293,7 +6429,55 @@ D300_1: # LMF B
       posy: 1100
       posz: -22785
       name: Tubo
-  - name: LMF first chest in hub room archipelago flag
+  - name: LMF chest behind bars archipelago flag B
+    type: objpatch
+    id: 0xFC00
+    layer: 0
+    room: 0
+    objtype: OBJS
+    object:
+      setscenefid: 45
+  - name: LMF chest in first west room archipelago flag B
+    type: objpatch
+    id: 0xFC00
+    layer: 0
+    room: 3
+    objtype: OBJS
+    object:
+      setscenefid: 42
+  - name: LMF chest after armos fight archipelago flag B
+    type: objpatch
+    id: 0xFC00
+    layer: 0
+    room: 6
+    objtype: OBJS
+    object:
+      setscenefid: 22
+  - name: LMF chest in key locked room archipelago flag B
+    type: objpatch
+    id: 0xFC00
+    layer: 0
+    room: 2
+    objtype: OBJS
+    object:
+      setscenefid: 41
+  - name: LMF raised chest in hop across boxes room archipelago flag B
+    type: objpatch
+    id: 0xFC00
+    layer: 0
+    room: 4
+    objtype: OBJS
+    object:
+      setscenefid: 57
+  - name: LMF lower chest in hop across boxes room archipelago flag B
+    type: objpatch
+    id: 0xFC01
+    layer: 0
+    room: 4
+    objtype: OBJS
+    object:
+      setscenefid: 49
+  - name: LMF first chest in hub room archipelago flag B
     type: objpatch
     id: 0xFC08
     layer: 0
@@ -6301,7 +6485,7 @@ D300_1: # LMF B
     objtype: OBJS
     object:
       setscenefid: 61
-  - name: LMF shortcut chest in main hub archipelago flag
+  - name: LMF shortcut chest in main hub archipelago flag B
     type: objpatch
     id: 0xFC5D
     layer: 0
@@ -6309,7 +6493,7 @@ D300_1: # LMF B
     objtype: OBJS
     object:
       setscenefid: 48
-  - name: LMF chest behind first crawlspace archipelago flag
+  - name: LMF chest behind first crawlspace archipelago flag B
     type: objpatch
     id: 0xFC03
     layer: 0
@@ -6317,7 +6501,7 @@ D300_1: # LMF B
     objtype: OBJS
     object:
       setscenefid: 55
-  - name: LMF chest in spike maze archipelago flag
+  - name: LMF chest in spike maze archipelago flag B
     type: objpatch
     id: 0xFC3A
     layer: 0

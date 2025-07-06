@@ -32,6 +32,7 @@ class Archipelago:
         self.starting_items: list = apdata["Starting Items"]
         self.dungeons: list[str] = apdata["Required Dungeons"]
         self.locations: dict[str, dict] = apdata["Locations"]
+        self.batreaux_rewards: dict[str, int] = apdata["Batreaux Rewards"]
         self.hints: dict[str, list] = apdata["Hints"]
         self.log_hints: dict[str, list] = apdata["Log Hints"]
         self.impa_hint: tuple[str, str] | None = apdata["SoT Location"]

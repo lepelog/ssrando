@@ -143,6 +143,7 @@ class Rando:
         self.randomize_required_dungeons()  # self.required_dungeons, self.unrequired_dungeons
         self.randomize_starting_items()  # self.placement.starting_items
         self.ban_the_banned()  # self.banned, self.ban_options
+        # self.batreaux_crystal_counts()
 
         self.get_endgame_requirements()  # self.endgame_requirements
 
@@ -421,6 +422,33 @@ class Rando:
         self.randosettings = RandomizationSettings(
             must_be_placed_items, may_be_placed_items, duplicable_items
         )
+
+    # def batreaux_crystal_counts(self):
+    #     for reward, count in :
+    #         # Hacky way to change location names to the amount of gratitude crystals required
+    #         if self.batreaux_rewards.index(reward) == 2:
+    #             self.areas.checks[
+    #                 f"\\Skyloft\\Skyloft Village\\Batreaux's House\\Chest"
+    #             ]["short_name"] = f"Batreaux's House - {reward} Crystals Chest"
+    #         elif self.batreaux_rewards.index(reward) == 5:
+    #             self.areas.checks[
+    #                 f"\\Skyloft\\Skyloft Village\\Batreaux's House\\Seventh Reward"
+    #             ]["short_name"] = f"Batreaux's House - {reward} Crystals Second Reward"
+    #         self.areas.checks[
+    #             f"\\Skyloft\\Skyloft Village\\Batreaux's House\\{btrw[self.batreaux_rewards.index(reward)]}"
+    #         ]["short_name"] = f"Batreaux's House - {reward} Gratitude Crystals"
+
+    #         if reward > 65:
+    #             self.areas.checks[
+    #                 f"\\Skyloft\\Skyloft Village\\Batreaux's House\\{btrw[self.batreaux_rewards.index(reward)]}"
+    #             ]["hint"] = "always"
+    #         elif reward > 50:
+    #             self.areas.checks[
+    #                 f"\\Skyloft\\Skyloft Village\\Batreaux's House\\{btrw[self.batreaux_rewards.index(reward)]}"
+    #             ]["hint"] = "sometimes"
+
+    #     self.options.batreaux_crystal_counts = self.batreaux_rewards.copy()
+    #     self.options.batreaux_crystal_counts.sort(reverse=True)
 
     def set_placement_options(self):
         shopsanity = self.options["shopsanity"]

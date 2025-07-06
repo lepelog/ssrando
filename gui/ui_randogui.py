@@ -320,9 +320,9 @@ class Ui_MainWindow(object):
         self.tab_cosmetics.setObjectName(u"tab_cosmetics")
         self.verticalLayout_31 = QVBoxLayout(self.tab_cosmetics)
         self.verticalLayout_31.setObjectName(u"verticalLayout_31")
-        self.horizontalLayout_10 = QHBoxLayout()
-        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
-        self.horizontalLayout_10.setContentsMargins(-1, -1, -1, 0)
+        self.hlay_cosmetics = QHBoxLayout()
+        self.hlay_cosmetics.setObjectName(u"hlay_cosmetics")
+        self.hlay_cosmetics.setContentsMargins(-1, -1, -1, 0)
         self.custom_model_settings = QVBoxLayout()
         self.custom_model_settings.setObjectName(u"custom_model_settings")
         self.hlay_type_options = QHBoxLayout()
@@ -400,7 +400,7 @@ class Ui_MainWindow(object):
         self.custom_model_settings.addLayout(self.hlay_pack_options)
 
 
-        self.horizontalLayout_10.addLayout(self.custom_model_settings)
+        self.hlay_cosmetics.addLayout(self.custom_model_settings)
 
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
@@ -444,10 +444,10 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.color_presets_list, 0, 1, 1, 3)
 
 
-        self.horizontalLayout_10.addLayout(self.gridLayout)
+        self.hlay_cosmetics.addLayout(self.gridLayout)
 
 
-        self.verticalLayout_31.addLayout(self.horizontalLayout_10)
+        self.verticalLayout_31.addLayout(self.hlay_cosmetics)
 
         self.hlay_colors_and_preview = QHBoxLayout()
         self.hlay_colors_and_preview.setObjectName(u"hlay_colors_and_preview")
