@@ -523,8 +523,39 @@ impl TopFd {
         .await;
         map_standard_result(result)
     }
+
+    async fn receive_message(&self, socket: c_int, buffer: &mut [u8]) -> Result<i32, i32> {
+        #[repr(C, align(0x20))]
+        #[derive(Default, Debug, Clone, Copy)]
+        struct SocketRecvParams {
+            socket: c_int,
+            flags:  u32,
+        }
+
+        let params = SocketRecvParams { socket, flags: 0 };
+
+        let mut ioctlv = AlignedBuf {
+            buf: [
+                &params as *const SocketRecvParams as u32,
+                size_of_val(&params) as u32,
+                buffer.as_mut_ptr() as u32,
+                buffer.len() as u32,
+            ],
+        };
+
+        let result = IosIoctlvFut {
+            fd:      self.fd,
+            command: 12, // IOCTL_SO_RECV
+            in_cnt:  1,
+            out_cnt: 1,
+            ioctlv:  ioctlv.as_mut_ptr() as *mut _,
+        }
+        .await;
+        map_standard_result(result)
+    }
 }
 
+#[derive(Copy, Clone)]
 struct IpV4DestAddr {
     ip:   u32,
     port: u16,
@@ -598,18 +629,28 @@ async fn try_net_init_stuff() -> Result<(), i32> {
     print_cstr(cstr!("tcp sock create\n"));
     let _ = console.write_fmt(format_args!("socket created\nip: {}\n", ip));
     console.draw();
-    top_fd
-        .connect_socket(sock, u32::from_be_bytes([192, 168, 0, 144]), 43673) // your 192.168.x.x IP from ipconfig/ifconfig here
-        .await?;
+    top_fd.bind_socket(sock, ip.into(), 43673).await?;
+    print_cstr(cstr!("sock bound\n"));
+    top_fd.listen_socket(sock, 1).await?;
+    print_cstr(cstr!("listening for connections...\n"));
+    let (client_sock, addr) = top_fd.accept_socket(sock).await?;
     print_cstr(cstr!("sock connect\n"));
     let message = "hello, world!\n";
     loop {
-        if let Err(e) = top_fd.send_message(sock, message.as_bytes(), None).await {
+        if let Err(e) = top_fd
+            .send_message(client_sock, message.as_bytes(), None)
+            .await
+        {
             console_print(format_args!("send err: {e}\n"));
         } else {
             break;
         }
     }
+    let mut buffer = [0u8; 1024];
+    console_print(format_args!("awaiting client message...\n"));
+    let bytes_received = top_fd.receive_message(client_sock, &mut buffer).await?;
+    console_print(format_args!("received {bytes_received} bytes back\n"));
     console_print(format_args!("{} {sock}\n", top_fd.fd));
+
     Ok(())
 }
