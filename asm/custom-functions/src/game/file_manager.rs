@@ -60,3 +60,9 @@ pub fn get_current_health() -> u16 {
 pub fn get_current_file() -> *mut SaveFile {
     unsafe { FileManager__GetCurrentFile(FILE_MANAGER) }
 }
+pub fn get_current_scene_flags() -> [u8; 416usize] {
+    unsafe {
+        let file = *get_current_file();
+        core::mem::transmute(file.scene_flags)
+    }
+}
