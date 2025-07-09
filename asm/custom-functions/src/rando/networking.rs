@@ -19,7 +19,6 @@ use alloc::string::ToString;
 use cstr::cstr;
 
 use crate::{
-    game::file_manager::{get_current_health, get_current_scene_flags},
     game::flag_managers::{SceneflagManager, StoryflagManager},
     println,
     rvl_mem::IosAllocator,
@@ -571,7 +570,9 @@ impl TopFd {
             has_destaddr: destaddr.is_some().into(),
             destaddr: destaddr.map(|a| a.to_array()).unwrap_or_default(),
         };
-        let mut message_buf = AlignedBuf { buf: [0u8; 432] };
+        let mut message_buf = AlignedBuf {
+            buf: [0u8; SEND_BUFFER_SIZE * 2], // doubled buffer size to be safe
+        };
 
         message_buf.buf[..message.len()].copy_from_slice(message);
         let mut ioctlv = AlignedBuf {
@@ -645,6 +646,8 @@ struct RequestFd {
 }
 
 pub const CONNECTION_PORT: u16 = 43673;
+const RECV_BUFFER_SIZE: usize = 600;
+const SEND_BUFFER_SIZE: usize = 32;
 
 impl RequestFd {
     async fn open() -> Result<Self, c_int> {
@@ -718,7 +721,9 @@ async fn try_net_init_stuff_server() -> Result<(), i32> {
         SOCK_STATUS.active = true;
     };
     println!("waiting for UDP messages...");
-    let mut buffer = AlignedBuf { buf: [0u8; 600] };
+    let mut buffer = AlignedBuf {
+        buf: [0u8; RECV_BUFFER_SIZE],
+    };
 
     loop {
         let readres = top_fd.receive_message(sock, &mut buffer.buf).await;
@@ -801,6 +806,7 @@ async fn try_net_init_stuff_server() -> Result<(), i32> {
                                     }
                                 }
                             },
+                            /*
                             3 => {
                                 // GET_SCENE_FLAGS: 0x03
                                 let flags = get_current_scene_flags();
@@ -808,9 +814,10 @@ async fn try_net_init_stuff_server() -> Result<(), i32> {
                             },
                             4 => {
                                 // GET_STORY_FLAGS: 0x04
-                                let flags_ref = StoryflagManager::flag_byte_slice();
-                                let _ = top_fd.send_message(sock, flags_ref, client_addr).await;
+                                let flags = get_current_story_flags();
+                                let _ = top_fd.send_message(sock, &flags, client_addr).await;
                             },
+                            */
                             5 => {
                                 // DISCONNECT: 0x05 - send acknowledgment and display IP for
                                 // reconnection
@@ -877,7 +884,7 @@ fn read_bytes_from_address(address: u32, num_bytes: usize) -> Option<&'static [u
         (0x90000000, 0x907FFFFF), // MEM2
     ];
 
-    if num_bytes == 0 || num_bytes > 432 {
+    if num_bytes == 0 || num_bytes > SEND_BUFFER_SIZE {
         return None;
     }
 

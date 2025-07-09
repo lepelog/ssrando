@@ -5,7 +5,6 @@
 #![feature(format_args_nl)]
 #![feature(slice_ptr_get)]
 #![feature(slice_partition_dedup)]
-#![feature(ip_in_core)]
 #![feature(waker_getters)]
 #![feature(noop_waker)]
 #![allow(dead_code)]
@@ -25,7 +24,6 @@ mod utils;
 use crate::rando::networking::{ServerProgress, CONNECTION_PORT, SOCK_STATUS};
 use crate::utils::console::Console;
 use core::fmt::Write;
-use core::net::Ipv4Addr;
 
 #[macro_export]
 macro_rules! print {
