@@ -343,7 +343,6 @@
     - Own Dungeon
     # - Own Dungeon - Any World
     # - Own Dungeon - Unrestricted
-    - Lanayru Caves Key Only
     # - Overworld Only
     # - Any Dungeon
     - Anywhere
@@ -354,6 +353,21 @@
         **Lanayru Caves Key only**: shuffles the Lanayru Caves Small Key
             (all other keys are shuffled within their own dungeon).
         **Anywhere**: keys can appear outside of dungeons."
+- name: Lanayru Caves Small Key
+  command: lanayru-caves-small-key
+  type: singlechoice
+  bits: 3
+  choices:
+    - Start With
+    - Caves
+    - Lanayru
+    - Anywhere
+  default: Lanayru
+  help: "Determines the placement of the Lanayru Caves small key.
+        **Start With**: start with the key in your inventory.
+        **Caves**: places the key within the caves.
+        **Lanayru**: places the key in the Lanayru surface region. The key will only be in an accessible area of Lanayru.
+        **Anywhere**: key can appear outside of dungeons in any world."
 - name: Boss Key Mode
   command: boss-key-mode
   type: singlechoice
