@@ -64,9 +64,10 @@ fn custom_main_additions() -> u32 {
             } else if !SOCK_STATUS.active {
                 INIT_CONNECTION_TIMER -= 1;
             }
+
+            display_socket_status();
         }
     }
-    display_socket_status();
     if unsafe { SHOULD_PRINT_AP_BUFFER } {
         return crate::rando::print_archipelago_text();
     }
@@ -85,9 +86,16 @@ fn display_socket_status() {
             "Network code failed with error code {}",
             status.last_error_code
         ));
+        match status.last_error_code {
+            -10 => {
+                let _ = console
+                    .write_str("(network is busy)\nThis usually requires reopening the game.");
+            },
+            _ => {},
+        }
         match status.progress {
             ServerProgress::None => {
-                let _ = console.write_str("\nCouldn't create socket, try reopening the gmae");
+                let _ = console.write_str("\nCouldn't create socket, try reopening the game");
             },
             ServerProgress::CreatedUDP => {
                 let _ = console
