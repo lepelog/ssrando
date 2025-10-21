@@ -3,6 +3,8 @@
 // IMPORTANT: when adding functions here that need to get called from the game,
 // add `#[no_mangle]` and add a .global *symbolname* to custom_funcs.asm
 
+pub mod networking;
+
 use core::{
     ffi::{c_char, c_int, c_ushort, c_void},
     fmt::Write,
@@ -709,7 +711,7 @@ extern "C" fn get_tablet_keyframe_count() -> c_int {
 }
 
 #[no_mangle]
-pub fn print_archipelago_text() -> u8 {
+pub fn print_archipelago_text() -> u32 {
     let text_cstr = unsafe { archipelago_text_buffer };
     if text_cstr[0] != 0 {
         let mut top_height = 438f32;

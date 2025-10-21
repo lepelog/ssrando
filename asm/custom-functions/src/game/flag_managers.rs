@@ -3,6 +3,7 @@ use super::file_manager::{self};
 use core::{
     ffi::{c_ushort, c_void},
     ptr::addr_of_mut,
+    slice,
 };
 
 #[repr(C)]
@@ -77,6 +78,14 @@ impl StoryflagManager {
     #[no_mangle]
     pub fn storyflag_set_to_1(flag: u16) {
         unsafe { FlagManager__setFlagTo1(STORYFLAG_MANAGER as _, flag) };
+    }
+    pub fn flag_byte_slice() -> &'static [u8] {
+        unsafe {
+            let u16_ptr = Self::get_static() as *const u16;
+            let u8_ptr = u16_ptr as *const u8;
+            let len = 128 * core::mem::size_of::<u16>(); // 2
+            slice::from_raw_parts(u8_ptr, len)
+        }
     }
 }
 

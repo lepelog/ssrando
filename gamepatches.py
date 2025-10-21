@@ -19,7 +19,14 @@ from brresTools.brres import BRRES
 from sslib import AllPatcher, U8File
 from sslib.msb import process_control_sequences
 from sslib.utils import write_bytes_create_dirs, encodeBytes, toBytes
-from sslib.fs_helpers import write_str, write_u16, write_float, write_u8, write_bytes
+from sslib.fs_helpers import (
+    write_str,
+    write_u16,
+    write_float,
+    write_u32,
+    write_u8,
+    write_bytes,
+)
 from sslib.dol import DOL
 from sslib.rel import REL
 from paths import RANDO_ROOT_PATH
@@ -1582,8 +1589,8 @@ class GamePatcher:
         self.add_asm_patch("custom_items")
         self.add_asm_patch("post_boko_base_platforms")
         self.add_asm_patch("archipelago")
-        if self.placement_file.options["print-client-messages"]:
-            self.add_asm_patch("archipelago_client_text")
+        # The custom code will ignore printing the text if the option is disabled
+        self.add_asm_patch("archipelago_client_patches")
         if self.placement_file.options["shopsanity"]:
             self.add_asm_patch("shopsanity")
         self.add_asm_patch("gossip_stone_hints")
@@ -3838,6 +3845,18 @@ class GamePatcher:
         dol.write_data_bytes(
             self.custom_symbols["main.dol"]["archipelago_seed"],
             self.archipelago.apseed.encode("utf-8"),
+        )
+
+        dol.write_data(
+            write_u8,
+            self.custom_symbols["main.dol"]["SHOULD_PRINT_AP_BUFFER"],
+            1 if self.placement_file.options["print-client-messages"] else 0,
+        )
+
+        dol.write_data(
+            write_u8,
+            self.custom_symbols["main.dol"]["SHOULD_OPEN_SOCKET"],
+            1 if self.placement_file.options["use-wii-udp-socket"] else 0,
         )
 
         dol.save_changes()
