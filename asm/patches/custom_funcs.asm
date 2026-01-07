@@ -379,6 +379,7 @@ b checkStoryflagIsSet
 .global remove_ammo_drops
 .global print_archipelago_text
 .global net_mgr_shutdown
+.global add_magenta
 
 .global give_archipelago_item
 give_archipelago_item:
