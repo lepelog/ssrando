@@ -713,13 +713,17 @@ extern "C" fn get_tablet_keyframe_count() -> c_int {
 #[no_mangle]
 pub fn print_archipelago_text() -> u32 {
     let text_cstr = unsafe { archipelago_text_buffer };
+    let mut last_char = 0;
     if text_cstr[0] != 0 {
         let mut top_height = 438f32;
         for char in text_cstr.iter() {
             // We want to move the text box up for each newline so it's bottom-justified
-            if *char == b'\n' {
+            // Ignore if last character was 0x02, as that means it's part of a tag
+            // processor control sequence
+            if *char == b'\n' && last_char != 0x02 {
                 top_height -= 14f32;
             }
+            last_char = *char;
         }
         let text = from_utf8(&text_cstr).unwrap();
         let mut console = Console::with_pos(0f32, top_height);
@@ -732,4 +736,17 @@ pub fn print_archipelago_text() -> u32 {
 
     // Return 1 to tell the game to continue running
     1
+}
+
+#[no_mangle]
+pub fn add_magenta() {
+    extern "C" {
+        static mut FONT_COLORS_1: [u32; 49];
+        static mut FONT_COLORS_2: [u32; 49];
+    }
+    // Index 41 in the color table is unused
+    unsafe {
+        FONT_COLORS_1[0x29] = 0xFF00FFFF;
+        FONT_COLORS_2[0x29] = 0xC800C8FF;
+    }
 }
