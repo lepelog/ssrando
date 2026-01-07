@@ -6,7 +6,7 @@ bl give_archipelago_item
 .long archipelago_text_buffer
 
 .org 0x800b9270
-b add_magenta
+b add_more_colors
 
 .close
 

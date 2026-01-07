@@ -739,13 +739,17 @@ pub fn print_archipelago_text() -> u32 {
 }
 
 #[no_mangle]
-pub fn add_magenta() {
+pub fn add_more_colors() {
     extern "C" {
         static mut FONT_COLORS_1: [u32; 49];
         static mut FONT_COLORS_2: [u32; 49];
     }
-    // Index 41 in the color table is unused
+    // Indices 39 and 41 in the color table are unused
     unsafe {
+        // Slateblue
+        FONT_COLORS_1[0x27] = 0x4040C0FF;
+        FONT_COLORS_2[0x27] = 0x202080FF;
+        // Magenta
         FONT_COLORS_1[0x29] = 0xFF00FFFF;
         FONT_COLORS_2[0x29] = 0xC800C8FF;
     }

@@ -51,32 +51,32 @@ main.dol:
   drop_nothing: 0x80681710
   get_tablet_keyframe_count: 0x80681750
   print_archipelago_text: 0x806817B0
-  add_magenta: 0x80681E48
-  load_arcs_for_item: 0x80681E74
-  check_arcs_loaded: 0x80681FCC
-  unload_arcs_for_item: 0x80682094
-  unload_all_arcs: 0x806821BC
-  load_arcs_for_tbox_item_get: 0x806822A8
-  unload_arcs_after_tbox_item_get: 0x806822DC
-  custom_main_additions: 0x80682320
-  do_init_chain: 0x80683E60
-  net_init_callback: 0x80683FF0
-  on_accept: 0x80684538
-  on_recv: 0x8068462C
-  on_close: 0x80684A80
-  on_write_return: 0x80684B34
-  net_mgr_shutdown: 0x80685584
-  compiler_builtins::int::specialized_div_rem::u64_div_rem: 0x80685610
-  compiler_builtins::int::udiv::__udivdi3: 0x806858C0
-  INIT_CHAIN_DATA_PTR: 0x80686A08
-  NET_MANAGER: 0x80686A0C
-  FORCE_MOGMA_CAVE_DIVE: 0x80686BED
-  archipelago_text_buffer: 0x80686BEE
-  ITEM_ID: 0x80686DEE
-  HERO_MODE_OPTIONS: 0x80686DF0
-  SHOULD_PRINT_AP_BUFFER: 0x80686E44
-  SHOULD_OPEN_SOCKET: 0x80686E45
-  BUFFER_TAG_PROCESSOR: 0x80686E48
+  add_more_colors: 0x80681E48
+  load_arcs_for_item: 0x80681E8C
+  check_arcs_loaded: 0x80681FE4
+  unload_arcs_for_item: 0x806820AC
+  unload_all_arcs: 0x806821D4
+  load_arcs_for_tbox_item_get: 0x806822C0
+  unload_arcs_after_tbox_item_get: 0x806822F4
+  custom_main_additions: 0x80682338
+  do_init_chain: 0x80683E78
+  net_init_callback: 0x80684008
+  on_accept: 0x80684550
+  on_recv: 0x80684644
+  on_close: 0x80684A98
+  on_write_return: 0x80684B4C
+  net_mgr_shutdown: 0x8068559C
+  compiler_builtins::int::specialized_div_rem::u64_div_rem: 0x80685628
+  compiler_builtins::int::udiv::__udivdi3: 0x806858D8
+  INIT_CHAIN_DATA_PTR: 0x80686A20
+  NET_MANAGER: 0x80686A24
+  FORCE_MOGMA_CAVE_DIVE: 0x80686C05
+  archipelago_text_buffer: 0x80686C06
+  ITEM_ID: 0x80686E06
+  HERO_MODE_OPTIONS: 0x80686E08
+  SHOULD_PRINT_AP_BUFFER: 0x80686E5C
+  SHOULD_OPEN_SOCKET: 0x80686E5D
+  BUFFER_TAG_PROCESSOR: 0x80686E60
 d_t_D3_scene_changeNP.rel:
   trigger_exit_one: 0x804
   trigger_exit_one_lbl: 0x340
