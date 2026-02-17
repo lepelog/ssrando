@@ -61,6 +61,9 @@ main.dol:
     func_0x802ee0e0: 0x802ee0e0
     RUPEE_ITEM_TO_TEX_FRAME: 0x804e9a48
     INPUT_BUFFER: 0x80599d0c
+    Base__deleteRequest: 0x802e1e00
+    SMALL_SFX_MANAGER: 0x80575d98
+    playSound: 0x8037ded0
     # --------------- ARC MANAGERS ----------------------------
     OARC_MANAGER: 0x80575280
     getModelDataFromOarc: 0x80069b30
@@ -113,11 +116,17 @@ main.dol:
     AcItem__spawnItem: 0x802487c0
     # r3 itemid, r4 pouch slot index or -1, r5 always 0
     AcItem__giveItem: 0x80249210
+    AcItem__giveItem2: 0x80249060
     AcItem__setupItemParams: 0x8024a260
     AcItem__getItemId: 0x8024a2b0
     AcItem__setFlagForItem: 0x80251ca0
     AcItem__checkItemFlag: 0x80251da0
     AcItem__isBabyRattle: 0x80256c30
+    AcItem__performCollection2: 0x80253a00
+    AcItem__performCollection1and2: 0x802531d0
+    AcItem__ctor: 0x80248070
+    AcItem__dtor: 0x802484f0
+    AcItem__init: 0x8024ABD0
     NUMBER_OF_ITEMS: 0x805758d0
     ITEM_GET_BOTTLE_POUCH_SLOT: 0x8057398c
     ITEM_MODEL_INDEX: 0x804e9650

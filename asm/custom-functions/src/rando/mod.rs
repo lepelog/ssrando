@@ -6,7 +6,7 @@
 pub mod networking;
 
 use core::{
-    ffi::{c_char, c_int, c_ushort, c_void},
+    ffi::{c_char, c_int, c_uint, c_ushort, c_void},
     fmt::Write,
     ptr, slice,
     str::from_utf8,
@@ -23,7 +23,7 @@ use crate::{
         events::ActorEventFlowMgr,
         file_manager,
         flag_managers::*,
-        item,
+        item::{self, Item},
         message::{text_manager_set_num_args, text_manager_set_string_arg, FlowElement},
         minigame::SpecialMinigameState,
         player,
@@ -444,7 +444,7 @@ extern "C" fn give_item_with_sceneflag(
     bottle_pouch_slot: u32,
     number: u32,
     sceneflag: u32,
-) -> *mut c_void {
+) -> *mut Item {
     item::set_bottle_pouch_slot(bottle_pouch_slot);
     item::set_number_of_items(number);
     // Same as the vanilla setupItemParams function only with extra control over
@@ -732,4 +732,65 @@ pub fn print_archipelago_text() -> u32 {
 
     // Return 1 to tell the game to continue running
     1
+}
+
+// static mut SHARED_AP_ITEM: Option<*mut c_void> = None;
+
+#[no_mangle]
+extern "C" fn spawn_ap_item(item_id: u16) -> *mut c_void {
+    extern "C" {
+        static mut archipelago_is_giving_item: bool;
+    }
+    item::set_bottle_pouch_slot(0xFFFFFFFF);
+    item::set_number_of_items(0);
+    let item_params = item::setup_item_params(item_id, 3, 0, 0xFF, 1, 0xFF);
+    let item = item::spawn_item(u32::MAX, item_params, 0, 0, 0, u32::MAX, 1);
+    item::set_bottle_pouch_slot(u32::MAX);
+    item::set_number_of_items(0);
+    unsafe {
+        // (*item).frames_in_air = 0xDEADBEEF;
+        archipelago_is_giving_item = true;
+    }
+    item as *mut c_void
+    // item::make_dummy_item(item_id) as *mut c_void
+
+    // extern "C" {
+    // fn AcItem__dtor(item: *mut c_void);
+    // fn AcItem__performCollection1and2(item: *mut c_void);
+    // fn AcItem__init(item: *mut c_void);
+    // }
+    // let shared_item = unsafe { &mut SHARED_AP_ITEM };
+    // match *shared_item {
+    // Some(item) => {
+    // unsafe { AcItem__performCollection1and2(item); }
+    // item
+    // }
+    // None => {
+    // item::set_bottle_pouch_slot(0xFFFFFFFF);
+    // item::set_number_of_items(0);
+    // let item_params = item::setup_item_params(item_id, 1, 0, 0xFF, 1, 0xFF);
+    // let item = item::spawn_item(u32::MAX, item_params, 0, 0, 0, u32::MAX,
+    // 1); item::set_bottle_pouch_slot(u32::MAX);
+    // item::set_number_of_items(0);
+    //
+    // unsafe {
+    // AcItem__init(item);
+    // AcItem__performCollection1and2(item);
+    // SHARED_AP_ITEM = Some(item);
+    // AcItem__dtor(item);
+    // }
+    // item
+    // },
+    // }
+}
+
+#[no_mangle]
+extern "C" fn done_ap_item(item: *mut Item) {
+    extern "C" {
+        static mut archipelago_is_giving_item: bool;
+    }
+
+    unsafe {
+        archipelago_is_giving_item = false;
+    }
 }

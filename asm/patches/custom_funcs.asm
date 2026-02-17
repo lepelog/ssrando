@@ -379,6 +379,8 @@ b checkStoryflagIsSet
 .global remove_ammo_drops
 .global print_archipelago_text
 .global net_mgr_shutdown
+.global spawn_ap_item
+.global done_ap_item
 
 .global give_archipelago_item
 give_archipelago_item:
@@ -447,9 +449,9 @@ beq give_archipelago_item_loop_end
 lbzx r3, r30, r31
 
 ; Branch to giveItem
-li r4, -1
-li r5, 0
-bl AcItem__giveItem
+li r4, 0
+li r5, -1
+bl spawn_ap_item
 
 ; Reset item ID in memory by overwriting with 0xFF
 ; Also reset the loading arc address to 0xFF
@@ -499,6 +501,10 @@ archipelago_slot_name:
 .global archipelago_seed
 archipelago_seed:
 .space 0x14, 0xFF ; 20 bytes
+
+.global archipelago_is_giving_item
+archipelago_is_giving_item:
+.space 0x1, 0x00
 
 .close
 

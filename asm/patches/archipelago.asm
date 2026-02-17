@@ -5,6 +5,9 @@ bl give_archipelago_item
 .org 0x8005526c ; 4 free bytes in the dol that we can use to store a pointer to the text buffer
 .long archipelago_text_buffer
 
+.org 0x80256a4c
+b done_ap_item
+
 .close
 
 .open "d_a_b_lastbossNP.rel"
