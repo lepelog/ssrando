@@ -21,7 +21,7 @@ use crate::{
         actor, arc,
         bird::AcOBird,
         events::ActorEventFlowMgr,
-        file_manager,
+        file_manager::{self, get_current_health},
         flag_managers::*,
         item::{self, Item},
         message::{text_manager_set_num_args, text_manager_set_string_arg, FlowElement},
@@ -818,24 +818,33 @@ fn can_remove_textbox(item_id: u16) -> bool {
 // }
 // }
 
-#[no_mangle]
-extern "C" fn increment_item_queue() {
-    unsafe {
-        IS_GETTING_ITEM = true;
-    }
+// #[no_mangle]
+// extern "C" fn increment_item_queue() {
+// unsafe {
+// IS_GETTING_ITEM = true;
+// }
+// }
+
+extern "C" {
+    static TITLE_LOADER_ADDR: u32;
+    static mut ARCHIPELAGO_ITEM_SLOT: u8;
+    static FRAME_COUNT: u32;
 }
 
 #[no_mangle]
 extern "C" fn decrement_item_queue(item: *mut Item) {
     unsafe {
         if (*item).unkfield == AP_ITEM_MAGIC {
+            // finished receiving an AP item
+            (*item).unkfield = 0;
+            ARCHIPELAGO_ITEM_SLOT = 0xFF;
             IS_GETTING_ITEM = false;
         }
     }
 }
 
-#[no_mangle]
-static mut ARCHIPELAGO_ITEM_SLOT: u8 = 0xFF;
+// #[no_mangle]
+// static mut ARCHIPELAGO_ITEM_SLOT: u8 = 0xFF;
 
 #[no_mangle]
 static mut CURR_AP_ARC: u8 = 0xFF;
@@ -843,14 +852,42 @@ static mut CURR_AP_ARC: u8 = 0xFF;
 #[no_mangle]
 static mut IS_GETTING_ITEM: bool = false;
 
+#[no_mangle]
+static mut DID_DIE: bool = false;
+
 const AP_ITEM_MAGIC: u8 = 0xAB;
 
 #[no_mangle]
 pub fn give_ap_rs() {
     if let Some(link) = player::as_ref() {
+        // don't give items on the title screen!!
+        if unsafe { TITLE_LOADER_ADDR } != 0 {
+            unsafe {
+                ARCHIPELAGO_ITEM_SLOT = 0xFF;
+            };
+            return;
+        }
         let item_id = unsafe { ARCHIPELAGO_ITEM_SLOT };
         let getting_item = unsafe { IS_GETTING_ITEM };
         let current_item_arc = unsafe { CURR_AP_ARC };
+        // is this hacky? yes. do I care? immensely, but I need to prevent bad things
+        // from happening, okay
+        let frame_count = unsafe { FRAME_COUNT };
+        if get_current_health() == 0 {
+            unsafe {
+                DID_DIE = true;
+            }
+            return;
+        }
+        if unsafe { DID_DIE } {
+            if frame_count == 19 {
+                unsafe {
+                    DID_DIE = false;
+                }
+            } else {
+                return;
+            }
+        }
         // is Link on foot or in water?
         // is the item ID not 0xFF?
         // is Link not receiving another item?
@@ -867,7 +904,6 @@ pub fn give_ap_rs() {
                 item::set_number_of_items(0);
                 unsafe {
                     (*item).unkfield = AP_ITEM_MAGIC;
-                    ARCHIPELAGO_ITEM_SLOT = 0xFF;
                     IS_GETTING_ITEM = true;
                 };
             } else {
@@ -887,13 +923,16 @@ pub fn give_ap_rs() {
                     item::set_number_of_items(0);
                     unsafe {
                         (*item).unkfield = AP_ITEM_MAGIC;
-                        ARCHIPELAGO_ITEM_SLOT = 0xFF;
                         CURR_AP_ARC = 0xFF;
                         IS_GETTING_ITEM = true;
                     };
                     unload_arcs_for_item(item_id.into());
                 }
             }
+        }
+    } else {
+        unsafe {
+            IS_GETTING_ITEM = false;
         }
     }
 }
