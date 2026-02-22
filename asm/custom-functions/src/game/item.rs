@@ -287,7 +287,8 @@ pub struct Item {
     pub frames_in_air:                 u32,
     pad2:                              u32,
     pub show_no_model_and_other_flags: u32,
-    pad3:                              [u8; 0x30],
+    pad3:                              [u8; 0x2F],
+    pub unkfield:                      u8,
 }
 
 #[repr(C)]

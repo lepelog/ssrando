@@ -379,8 +379,8 @@ b checkStoryflagIsSet
 .global remove_ammo_drops
 .global print_archipelago_text
 .global net_mgr_shutdown
-.global spawn_ap_item
-.global done_ap_item
+.global increment_item_queue
+.global decrement_item_queue
 
 .global give_archipelago_item
 give_archipelago_item:
@@ -393,107 +393,107 @@ mr r29, r3
 ; First, check Link's actionflags
 ; If not on his feet or in water, do not run the loop
 ; Poor Link, no items for him
-lwz r5, LINK_PTR@sda21(r13)
-cmpwi r5, 0
-beq give_archipelago_item_end ; necessary so the game doesn't error on the first loading frame
-lwz r5, 0x364(r5)
-
-rlwinm r3, r5, 0x0, 0x3, 0x3 ; is Link on foot?
-rlwinm r4, r5, 0x0, 0xD, 0xD ; is Link in water?
-or r3, r3, r4
-cmpwi r3, 0
-beq give_archipelago_item_end ; if not on foot or in water, branch past loop
-
-; Basically, the functions above just make sure Link is in a valid state to receive items.
-; If not, the game will hold all of the items in an angry array of potential energy waiting
-; for Link to enter a valid state, then it will slam the player with all items to give.
-; The AP Client itself will also be checking Link's state before placing items in the array.
-
-lis r30, give_archipelago_item_array@ha
-addi r30, r30, give_archipelago_item_array@l
-li r31, 0
-  
-give_archipelago_item_loop:
-; If we've looped through the entire array, return
-cmpwi r31, 0x1 ; num_give_archipelago_item_array_entries
-bge give_archipelago_item_end
-
-; Load the item ID into r3
-lbzx r3, r30, r31
-
-; If item ID is 0xFF, ignore
-cmpwi r3, 0xFF
-beq give_archipelago_item_loop_end
-
-; check if arcs are currently loading, so we don't increase the ref count too much
-li r4, 0x12
-lbzx r3, r30, r4
-cmpwi r3, 0xFF
-bne check_for_ap_arcs ; If item is currently loading, skip loading arcs
-lbzx r3, r30, r31
-
-; Load the arcs for the received item, item ID in r3
-; After loading arcs, reload the item ID into r3 for the giveItem function
-bl load_arcs_for_item
-li r4, 0x12
-lbzx r3, r30, r31
-stbx r3, r30, r4 ; store itemid in loading arc address
-
-check_for_ap_arcs:
-lbzx r5, r30, r31
-cmpw r3, r5
-bne give_archipelago_item_loop_end
-bl check_arcs_loaded
-cmpwi r3, 0 ; if arcs not loaded, branch away
-beq give_archipelago_item_loop_end
-lbzx r3, r30, r31
-
-; Branch to giveItem
-li r4, 0
-li r5, -1
-bl spawn_ap_item
-
-; Reset item ID in memory by overwriting with 0xFF
-; Also reset the loading arc address to 0xFF
-lbzx r3, r30, r31
-li r5, 0xFF
-li r4, 0x12 ; loading arc address index
-stbx r5, r30, r31
-stbx r5, r30, r4
-
-; Reset register 5 to 0 and unload arcs
-li r5, 0
-bl unload_arcs_for_item
-
-give_archipelago_item_loop_end:
-; Increment loop counter and continue
-addi r31, r31, 1
-b give_archipelago_item_loop
-
-give_archipelago_item_end:
-; Retore the value of r3
-mr r3, r29
-
-lmw r29, 0x8 (sp)
-lwz r0, 0x14 (sp)
-mtlr r0
-addi sp, sp, 0x10
-li r3, 0x1 ; overwritten line
-blr ; back to where we breakpointed
-
-.global give_archipelago_item_equ
-give_archipelago_item_equ:
-.equ num_give_archipelago_item_array_entries, 0x10
-
-.global give_archipelago_item_array
-give_archipelago_item_array:
-.space num_give_archipelago_item_array_entries, 0xFF
-.align 2 ; Align to the next 4 bytes
-
-.global archipelago_arc_array
-archipelago_arc_array:
-.space 0x4, 0xFF ; 4 bytes
-
+;   lwz r5, LINK_PTR@sda21(r13)
+;   cmpwi r5, 0
+;   beq give_archipelago_item_end ; necessary so the game doesn't error on the first loading frame
+;   lwz r5, 0x364(r5)
+;   
+;   rlwinm r3, r5, 0x0, 0x3, 0x3 ; is Link on foot?
+;   rlwinm r4, r5, 0x0, 0xD, 0xD ; is Link in water?
+;   or r3, r3, r4
+;   cmpwi r3, 0
+;   beq give_archipelago_item_end ; if not on foot or in water, branch past loop
+;   
+;   ; Basically, the functions above just make sure Link is in a valid state to receive items.
+;   ; If not, the game will hold all of the items in an angry array of potential energy waiting
+;   ; for Link to enter a valid state, then it will slam the player with all items to give.
+;   ; The AP Client itself will also be checking Link's state before placing items in the array.
+;   
+;   lis r30, give_archipelago_item_array@ha
+;   addi r30, r30, give_archipelago_item_array@l
+;   li r31, 0
+;     
+;   give_archipelago_item_loop:
+;   ; If we've looped through the entire array, return
+;   cmpwi r31, 0x1 ; num_give_archipelago_item_array_entries
+;   bge give_archipelago_item_end
+;   
+;   ; Load the item ID into r3
+;   lbzx r3, r30, r31
+;   
+;   ; If item ID is 0xFF, ignore
+;   cmpwi r3, 0xFF
+;   beq give_archipelago_item_loop_end
+;   
+;   ; check if arcs are currently loading, so we don't increase the ref count too much
+;   li r4, 0x12
+;   lbzx r3, r30, r4
+;   cmpwi r3, 0xFF
+;   bne check_for_ap_arcs ; If item is currently loading, skip loading arcs
+;   lbzx r3, r30, r31
+;   
+;   ; Load the arcs for the received item, item ID in r3
+;   ; After loading arcs, reload the item ID into r3 for the giveItem function
+;   bl load_arcs_for_item
+;   li r4, 0x12
+;   lbzx r3, r30, r31
+;   stbx r3, r30, r4 ; store itemid in loading arc address
+;   
+;   check_for_ap_arcs:
+;   lbzx r5, r30, r31
+;   cmpw r3, r5
+;   bne give_archipelago_item_loop_end
+;   bl check_arcs_loaded
+;   cmpwi r3, 0 ; if arcs not loaded, branch away
+;   beq give_archipelago_item_loop_end
+;   lbzx r3, r30, r31
+;   
+;   ; Branch to giveItem
+;   li r4, 0
+;   li r5, -1
+;   bl spawn_ap_item
+;   
+;   ; Reset item ID in memory by overwriting with 0xFF
+;   ; Also reset the loading arc address to 0xFF
+;   lbzx r3, r30, r31
+;   li r5, 0xFF
+;   li r4, 0x12 ; loading arc address index
+;   stbx r5, r30, r31
+;   stbx r5, r30, r4
+;   
+;   ; Reset register 5 to 0 and unload arcs
+;   li r5, 0
+;   bl unload_arcs_for_item
+;   
+;   give_archipelago_item_loop_end:
+;   ; Increment loop counter and continue
+;   addi r31, r31, 1
+;   b give_archipelago_item_loop
+;   
+;   give_archipelago_item_end:
+;   ; Retore the value of r3
+;   mr r3, r29
+;   
+;   lmw r29, 0x8 (sp)
+;   lwz r0, 0x14 (sp)
+;   mtlr r0
+;   addi sp, sp, 0x10
+;   li r3, 0x1 ; overwritten line
+;   blr ; back to where we breakpointed
+;   
+;   .global give_archipelago_item_equ
+;   give_archipelago_item_equ:
+;   .equ num_give_archipelago_item_array_entries, 0x10
+;   
+;   .global give_archipelago_item_array
+;   give_archipelago_item_array:
+;   .space num_give_archipelago_item_array_entries, 0xFF
+;   .align 2 ; Align to the next 4 bytes
+;   
+;   .global archipelago_arc_array
+;   archipelago_arc_array:
+;   .space 0x4, 0xFF ; 4 bytes
+;   
 .global archipelago_slot_name
 archipelago_slot_name:
 .space 0x10, 0xFF ; 16 bytes
@@ -501,10 +501,6 @@ archipelago_slot_name:
 .global archipelago_seed
 archipelago_seed:
 .space 0x14, 0xFF ; 20 bytes
-
-.global archipelago_is_giving_item
-archipelago_is_giving_item:
-.space 0x1, 0x00
 
 .close
 

@@ -68,6 +68,8 @@ fn custom_main_additions() -> u32 {
             display_socket_status();
         }
     }
+
+    rando::give_ap_rs();
     if unsafe { SHOULD_PRINT_AP_BUFFER } {
         return crate::rando::print_archipelago_text();
     }

@@ -29,6 +29,7 @@ use crate::{
         player,
         reloader::{self, Reloader},
     },
+    rando::item_arc_loader::{check_arcs_loaded, load_arcs_for_item, unload_arcs_for_item},
     system::{button::*, math::*},
     utils::console::Console,
 };
@@ -736,61 +737,163 @@ pub fn print_archipelago_text() -> u32 {
 
 // static mut SHARED_AP_ITEM: Option<*mut c_void> = None;
 
-#[no_mangle]
-extern "C" fn spawn_ap_item(item_id: u16) -> *mut c_void {
-    extern "C" {
-        static mut archipelago_is_giving_item: bool;
+fn can_remove_textbox(item_id: u16) -> bool {
+    match item_id {
+        2..=4 // Rupees
+        | 6 // Heart
+        | 32..=34 // more rupees
+        | 40 // 5 bombs
+        | 41 // 10 bombs
+        | 60 // 10 deku seeds
+        | 63 // semi rare treasure
+        | 64 // rare treasure
+        | 94 // heart piece
+        // a bunch of treasures
+        | 163
+        | 165
+        | 171
+        | 173
+        | 175
+        | 176 => true,
+        _ => false,
     }
-    item::set_bottle_pouch_slot(0xFFFFFFFF);
-    item::set_number_of_items(0);
-    let item_params = item::setup_item_params(item_id, 3, 0, 0xFF, 1, 0xFF);
-    let item = item::spawn_item(u32::MAX, item_params, 0, 0, 0, u32::MAX, 1);
-    item::set_bottle_pouch_slot(u32::MAX);
-    item::set_number_of_items(0);
-    unsafe {
-        // (*item).frames_in_air = 0xDEADBEEF;
-        archipelago_is_giving_item = true;
-    }
-    item as *mut c_void
-    // item::make_dummy_item(item_id) as *mut c_void
+}
 
-    // extern "C" {
-    // fn AcItem__dtor(item: *mut c_void);
-    // fn AcItem__performCollection1and2(item: *mut c_void);
-    // fn AcItem__init(item: *mut c_void);
-    // }
-    // let shared_item = unsafe { &mut SHARED_AP_ITEM };
-    // match *shared_item {
-    // Some(item) => {
-    // unsafe { AcItem__performCollection1and2(item); }
-    // item
-    // }
-    // None => {
-    // item::set_bottle_pouch_slot(0xFFFFFFFF);
-    // item::set_number_of_items(0);
-    // let item_params = item::setup_item_params(item_id, 1, 0, 0xFF, 1, 0xFF);
-    // let item = item::spawn_item(u32::MAX, item_params, 0, 0, 0, u32::MAX,
-    // 1); item::set_bottle_pouch_slot(u32::MAX);
-    // item::set_number_of_items(0);
-    //
-    // unsafe {
-    // AcItem__init(item);
-    // AcItem__performCollection1and2(item);
-    // SHARED_AP_ITEM = Some(item);
-    // AcItem__dtor(item);
-    // }
-    // item
-    // },
-    // }
+// #[no_mangle]
+// extern "C" fn spawn_ap_item(item_id: u16) -> *mut c_void {
+// extern "C" {
+// static mut archipelago_is_giving_item: bool;
+// }
+// item::set_bottle_pouch_slot(0xFFFFFFFF);
+// item::set_number_of_items(0);
+// let subtype = if can_remove_textbox(item_id) { 4 } else { 5 };
+// let item_params = item::setup_item_params(item_id, subtype, 0, 0xFF, 1,
+// 0xFF); let item = item::spawn_item(u32::MAX, item_params, 0, 0, 0, u32::MAX,
+// 1); item::set_bottle_pouch_slot(u32::MAX);
+// item::set_number_of_items(0);
+// unsafe {
+// archipelago_is_giving_item = true;
+// }
+// item as *mut c_void
+// item::make_dummy_item(item_id) as *mut c_void
+//
+// extern "C" {
+// fn AcItem__dtor(item: *mut c_void);
+// fn AcItem__performCollection1and2(item: *mut c_void);
+// fn AcItem__init(item: *mut c_void);
+// }
+// let shared_item = unsafe { &mut SHARED_AP_ITEM };
+// match *shared_item {
+// Some(item) => {
+// unsafe { AcItem__performCollection1and2(item); }
+// item
+// }
+// None => {
+// item::set_bottle_pouch_slot(0xFFFFFFFF);
+// item::set_number_of_items(0);
+// let item_params = item::setup_item_params(item_id, 1, 0, 0xFF, 1, 0xFF);
+// let item = item::spawn_item(u32::MAX, item_params, 0, 0, 0, u32::MAX,
+// 1); item::set_bottle_pouch_slot(u32::MAX);
+// item::set_number_of_items(0);
+//
+// unsafe {
+// AcItem__init(item);
+// AcItem__performCollection1and2(item);
+// SHARED_AP_ITEM = Some(item);
+// AcItem__dtor(item);
+// }
+// item
+// },
+// }
+// }
+//
+// #[no_mangle]
+// extern "C" fn done_ap_item(item: *mut Item) {
+// extern "C" {
+// static mut archipelago_is_giving_item: bool;
+// }
+//
+// unsafe {
+// archipelago_is_giving_item = false;
+// }
+// }
+
+#[no_mangle]
+extern "C" fn increment_item_queue() {
+    unsafe {
+        IS_GETTING_ITEM = true;
+    }
 }
 
 #[no_mangle]
-extern "C" fn done_ap_item(item: *mut Item) {
-    extern "C" {
-        static mut archipelago_is_giving_item: bool;
-    }
-
+extern "C" fn decrement_item_queue(item: *mut Item) {
     unsafe {
-        archipelago_is_giving_item = false;
+        if (*item).unkfield == AP_ITEM_MAGIC {
+            IS_GETTING_ITEM = false;
+        }
+    }
+}
+
+#[no_mangle]
+static mut ARCHIPELAGO_ITEM_SLOT: u8 = 0xFF;
+
+#[no_mangle]
+static mut CURR_AP_ARC: u8 = 0xFF;
+
+#[no_mangle]
+static mut IS_GETTING_ITEM: bool = false;
+
+const AP_ITEM_MAGIC: u8 = 0xAB;
+
+#[no_mangle]
+pub fn give_ap_rs() {
+    if let Some(link) = player::as_ref() {
+        let item_id = unsafe { ARCHIPELAGO_ITEM_SLOT };
+        let getting_item = unsafe { IS_GETTING_ITEM };
+        let current_item_arc = unsafe { CURR_AP_ARC };
+        // is Link on foot or in water?
+        // is the item ID not 0xFF?
+        // is Link not receiving another item?
+        if link.actionflags & 0x80040000 != 0 && item_id != 0xFF && !getting_item {
+            let is_minor_item = can_remove_textbox(item_id.into());
+            if is_minor_item {
+                // just give the item directly, no need to load in any arcs
+                item::set_bottle_pouch_slot(0xFFFFFFFF);
+                item::set_number_of_items(0);
+                // subtype 4 means no textbox
+                let item_params = item::setup_item_params(item_id.into(), 4, 0, 0xFF, 1, 0xFF);
+                let item = item::spawn_item(u32::MAX, item_params, 0, 0, 0, u32::MAX, 1);
+                item::set_bottle_pouch_slot(u32::MAX);
+                item::set_number_of_items(0);
+                unsafe {
+                    (*item).unkfield = AP_ITEM_MAGIC;
+                    ARCHIPELAGO_ITEM_SLOT = 0xFF;
+                    IS_GETTING_ITEM = true;
+                };
+            } else {
+                if current_item_arc == 0xFF {
+                    load_arcs_for_item(item_id.into());
+                    unsafe {
+                        CURR_AP_ARC = item_id;
+                    };
+                }
+                if unsafe { CURR_AP_ARC } == item_id && check_arcs_loaded(item_id.into()) {
+                    item::set_bottle_pouch_slot(0xFFFFFFFF);
+                    item::set_number_of_items(0);
+                    // subtype 5 means textbox
+                    let item_params = item::setup_item_params(item_id.into(), 5, 0, 0xFF, 1, 0xFF);
+                    let item = item::spawn_item(u32::MAX, item_params, 0, 0, 0, u32::MAX, 1);
+                    item::set_bottle_pouch_slot(u32::MAX);
+                    item::set_number_of_items(0);
+                    unsafe {
+                        (*item).unkfield = AP_ITEM_MAGIC;
+                        ARCHIPELAGO_ITEM_SLOT = 0xFF;
+                        CURR_AP_ARC = 0xFF;
+                        IS_GETTING_ITEM = true;
+                    };
+                    unload_arcs_for_item(item_id.into());
+                }
+            }
+        }
     }
 }
