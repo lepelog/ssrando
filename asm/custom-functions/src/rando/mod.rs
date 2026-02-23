@@ -749,7 +749,6 @@ fn can_remove_textbox(item_id: u16) -> bool {
         | 64 // rare treasure
         | 94 // heart piece
         // a bunch of treasures
-        | 163
         | 165
         | 171
         | 173
@@ -827,7 +826,7 @@ fn can_remove_textbox(item_id: u16) -> bool {
 
 extern "C" {
     static TITLE_LOADER_ADDR: u32;
-    static mut ARCHIPELAGO_ITEM_SLOT: u8;
+    static mut ARCHIPELAGO_ITEM_SLOTS: [u8; 2];
     static FRAME_COUNT: u32;
 }
 
@@ -837,7 +836,8 @@ extern "C" fn decrement_item_queue(item: *mut Item) {
         if (*item).unkfield == AP_ITEM_MAGIC {
             // finished receiving an AP item
             (*item).unkfield = 0;
-            ARCHIPELAGO_ITEM_SLOT = 0xFF;
+            ARCHIPELAGO_ITEM_SLOTS[0] = ARCHIPELAGO_ITEM_SLOTS[1];
+            ARCHIPELAGO_ITEM_SLOTS[1] = 0xFF;
             IS_GETTING_ITEM = false;
         }
     }
@@ -863,11 +863,11 @@ pub fn give_ap_rs() {
         // don't give items on the title screen!!
         if unsafe { TITLE_LOADER_ADDR } != 0 {
             unsafe {
-                ARCHIPELAGO_ITEM_SLOT = 0xFF;
+                ARCHIPELAGO_ITEM_SLOTS = [0xFF; 2];
             };
             return;
         }
-        let item_id = unsafe { ARCHIPELAGO_ITEM_SLOT };
+        let item_id = unsafe { ARCHIPELAGO_ITEM_SLOTS[0] };
         let getting_item = unsafe { IS_GETTING_ITEM };
         let current_item_arc = unsafe { CURR_AP_ARC };
         // is this hacky? yes. do I care? immensely, but I need to prevent bad things
