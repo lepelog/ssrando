@@ -824,9 +824,11 @@ fn can_remove_textbox(item_id: u16) -> bool {
 // }
 // }
 
+const AP_ITEM_BUFFER_SIZE: usize = 6;
+
 extern "C" {
     static TITLE_LOADER_ADDR: u32;
-    static mut ARCHIPELAGO_ITEM_SLOTS: [u8; 2];
+    static mut ARCHIPELAGO_ITEM_SLOTS: [u8; AP_ITEM_BUFFER_SIZE]; // ring buffer
     static FRAME_COUNT: u32;
 }
 
@@ -836,8 +838,15 @@ extern "C" fn decrement_item_queue(item: *mut Item) {
         if (*item).unkfield == AP_ITEM_MAGIC {
             // finished receiving an AP item
             (*item).unkfield = 0;
-            ARCHIPELAGO_ITEM_SLOTS[0] = ARCHIPELAGO_ITEM_SLOTS[1];
-            ARCHIPELAGO_ITEM_SLOTS[1] = 0xFF;
+            // shift over the received item queue by one
+            // we implement this as a ring buffer so it's guaranteed that any slot
+            // that *was* 0xFF will stay 0xFF in the future (to avoid client race
+            // conditions)
+            ARCHIPELAGO_ITEM_SLOTS[CURR_ITEM_SLOT] = 0xFF;
+            CURR_ITEM_SLOT += 1;
+            if CURR_ITEM_SLOT == AP_ITEM_BUFFER_SIZE {
+                CURR_ITEM_SLOT = 0;
+            }
             IS_GETTING_ITEM = false;
         }
     }
@@ -855,7 +864,12 @@ static mut IS_GETTING_ITEM: bool = false;
 #[no_mangle]
 static mut DID_DIE: bool = false;
 
+#[no_mangle]
+static mut CURR_ITEM_SLOT: usize = 0;
+
 const AP_ITEM_MAGIC: u8 = 0xAB;
+
+const ACTION_FLAG_MASK: u32 = 0x80040000;
 
 #[no_mangle]
 pub fn give_ap_rs() {
@@ -863,11 +877,11 @@ pub fn give_ap_rs() {
         // don't give items on the title screen!!
         if unsafe { TITLE_LOADER_ADDR } != 0 {
             unsafe {
-                ARCHIPELAGO_ITEM_SLOTS = [0xFF; 2];
+                ARCHIPELAGO_ITEM_SLOTS = [0xFF; AP_ITEM_BUFFER_SIZE];
             };
             return;
         }
-        let item_id = unsafe { ARCHIPELAGO_ITEM_SLOTS[0] };
+        let item_id = unsafe { ARCHIPELAGO_ITEM_SLOTS[CURR_ITEM_SLOT] };
         let getting_item = unsafe { IS_GETTING_ITEM };
         let current_item_arc = unsafe { CURR_AP_ARC };
         // is this hacky? yes. do I care? immensely, but I need to prevent bad things
@@ -888,10 +902,20 @@ pub fn give_ap_rs() {
                 return;
             }
         }
+        if item_id == 0xFF {
+            // switch to next item in the ring buffer, try next frame
+            unsafe {
+                CURR_ITEM_SLOT += 1;
+                if CURR_ITEM_SLOT == AP_ITEM_BUFFER_SIZE {
+                    CURR_ITEM_SLOT = 0;
+                }
+            }
+            return;
+        }
         // is Link on foot or in water?
         // is the item ID not 0xFF?
         // is Link not receiving another item?
-        if link.actionflags & 0x80040000 != 0 && item_id != 0xFF && !getting_item {
+        if link.actionflags & ACTION_FLAG_MASK != 0 && !getting_item {
             let is_minor_item = can_remove_textbox(item_id.into());
             if is_minor_item {
                 // just give the item directly, no need to load in any arcs
