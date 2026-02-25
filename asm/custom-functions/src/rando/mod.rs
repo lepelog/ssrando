@@ -903,7 +903,7 @@ fn can_receive_items(link: &ActorLink) -> bool {
     // don't give items in the post-Harp sealed temple before Song from Impa
     // (prevents accidentally deleting items due to the reload; kinda hacky)
     if stage[0..4] == [b'F', b'4', b'0', b'2'] {
-        return spawn_slave.layer != 2 || SceneflagManager::check_global(10, 21);
+        return spawn_slave.layer != 2 || SceneflagManager::check_global(10, 29);
     }
 
     unsafe { MINIGAME_STATE != 0 }
