@@ -29,12 +29,14 @@ use crate::{
         player,
         reloader::{self, Reloader},
     },
+    rando::archipelago::reset_ap_from_save,
     system::{button::*, math::*},
     utils::console::Console,
 };
 
-mod custom_actor;
-mod item_arc_loader;
+pub mod archipelago;
+pub mod custom_actor;
+pub mod item_arc_loader;
 
 #[link_section = "data"]
 static mut IS_FILE_START: bool = false;
@@ -142,6 +144,9 @@ extern "C" fn process_startflags() {
     // Commit global flag managers.
     ItemflagManager::do_commit();
     StoryflagManager::do_commit();
+
+    // make sure achipelago is reset
+    reset_ap_from_save();
 
     unsafe { (*file_manager::get_ptr()).anticommit_flag = 0 };
 }

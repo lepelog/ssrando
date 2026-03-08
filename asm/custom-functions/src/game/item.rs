@@ -253,3 +253,10 @@ pub fn get_item_arc_names_for_item(item_id: u16) -> ArrayVec<*const c_char, 2> {
     }
     ArrayVec::new()
 }
+
+#[repr(C)]
+pub struct AcItem {
+    // TODO
+    _pad:                  [u8; 0xB0C],
+    pub actor_event_flags: u32,
+}

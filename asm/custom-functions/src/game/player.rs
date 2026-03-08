@@ -9,7 +9,9 @@ pub struct ActorLink {
     pub pos_y:          f32,
     pub pos_z:          f32,
     pub obj_base_pad:   [u8; 0x330 - (0x64 + 0x5C + 0xC)],
-    pub pad01:          [u8; 0x4498 - 0x330],
+    pub pad01:          [u8; 0x36C - 0x330],
+    pub current_state:  u32,
+    pub pad02:          [u8; 0x4498 - 0x370],
     pub stamina_amount: u32,
     // More after
 }

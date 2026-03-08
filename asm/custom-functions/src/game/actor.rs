@@ -1,5 +1,7 @@
 use core::ffi::c_void;
 
+use crate::system::math::{Vec3f, Vec3s};
+
 // This is also known as Profile name for decomp purposes
 #[allow(non_camel_case_types)]
 #[repr(C)]
@@ -713,6 +715,16 @@ pub enum ActorID {
 
 extern "C" {
     fn findActorByActorType(actor_type: i32, start_actor: *const c_void) -> *mut c_void;
+    pub fn dAcObjBase_c__create(
+        actorId: ActorID,
+        roomId: u32,
+        params1: u32,
+        pos: *const Vec3f,
+        rot: *const Vec3s,
+        scale: *const Vec3f,
+        params2: u32,
+    );
+    pub fn ActorBase__kill(ac: *mut c_void);
 }
 
 pub fn find_actor_by_type(actor_type: i32, start_actor: *const c_void) -> *mut c_void {

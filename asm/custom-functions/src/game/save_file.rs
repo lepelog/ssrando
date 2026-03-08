@@ -26,7 +26,7 @@ pub struct SaveFile {
     pub item_flags:              [c_ushort; 64usize],
     pub dungeon_flags:           [[c_ushort; 22usize]; 8usize],
     pub field_0xbc4:             [u8; 3744usize],
-    pub scene_flags:             [c_ushort; 208usize],
+    pub scene_flags:             [[c_ushort; 8]; 26],
     pub field_0x1c04:            [u8; 3680usize],
     pub tboxFlags:               u8,
     pub field_0x2a65:            [u8; 1279usize],

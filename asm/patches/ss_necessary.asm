@@ -504,6 +504,7 @@ blr
 .int 0x802e15e0
 .int RandoActorGlue_destroy
 
+; E3 title (unused actor, id: 1)
 .org 0x80541860
 .int 0x802e17a0
 .int RandoActorGlue_update
@@ -521,6 +522,9 @@ blr
 
 .org 0x803af588
 b net_mgr_shutdown
+
+.org 0x8000e05c
+b reset_ap_from_save
 
 .close
 
@@ -1158,6 +1162,12 @@ nop
 .word 134 ; Defeated the Horde
 .word 486 ; Defeated Ghirahim 3
 .word -1
+
+; text0: 0x80ec54e0
+; (80ec74dc - 80ec54e0) + 130
+.org 0x212C
+; when starting a file, reset ap queue
+b reset_ap_from_save
 
 .close
 

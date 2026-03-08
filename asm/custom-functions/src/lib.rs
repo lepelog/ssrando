@@ -21,6 +21,8 @@ mod rvl_os;
 mod system;
 mod utils;
 
+use crate::game::item;
+use crate::rando::archipelago::handle_archipelago_item_giving;
 use crate::rando::networking::{ServerProgress, CONNECTION_PORT, SOCK_STATUS};
 use crate::utils::console::Console;
 use core::fmt::Write;
@@ -68,6 +70,8 @@ fn custom_main_additions() -> u32 {
             display_socket_status();
         }
     }
+    handle_archipelago_item_giving();
+
     if unsafe { SHOULD_PRINT_AP_BUFFER } {
         return crate::rando::print_archipelago_text();
     }

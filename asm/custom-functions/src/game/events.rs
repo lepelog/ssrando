@@ -16,3 +16,23 @@ pub struct ActorEventFlowMgr {
     pub unk7:                       u32,
     pub unk8:                       u32,
 }
+
+#[repr(C)]
+pub struct EventManager {
+    _pad:  [u8; 0x184],
+    state: u32,
+}
+
+extern "C" {
+    static EventManager__sInstance: *mut EventManager;
+}
+
+impl EventManager {
+    pub fn is_in_event() -> bool {
+        unsafe {
+            EventManager__sInstance
+                .as_ref()
+                .is_some_and(|mgr| mgr.state != 0)
+        }
+    }
+}

@@ -21,7 +21,7 @@ pub struct FileManager {
     pub field_0xa7b0:     [u8; 50usize],
     pub heroname:         [c_ushort; 18usize],
     pub field_0xa806:     [u8; 54usize],
-    pub field112_0xa83c:  u8,
+    pub selectedFileNum:  u8,
     pub isFileEmpty:      [u8; 3usize],
     pub isFileUnk1:       [u8; 3usize],
     pub isFileUnk2:       [u8; 3usize],
@@ -65,4 +65,7 @@ pub fn get_current_scene_flags() -> [u8; 416usize] {
         let file = *get_current_file();
         core::mem::transmute(file.scene_flags)
     }
+}
+pub fn get_selected_file_num() -> u8 {
+    unsafe { (*FILE_MANAGER).selectedFileNum }
 }

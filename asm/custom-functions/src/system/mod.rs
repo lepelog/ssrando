@@ -5,6 +5,7 @@ pub mod heap;
 pub mod ios;
 pub mod math;
 pub mod mutex;
+pub mod os;
 pub mod ppc;
 pub mod time;
 

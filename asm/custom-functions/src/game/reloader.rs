@@ -1,6 +1,6 @@
 #![allow(non_snake_case)]
 
-use core::ptr::addr_of_mut;
+use core::{ffi::c_void, ptr::addr_of_mut};
 
 #[repr(C)]
 pub struct SpawnStruct {
@@ -48,6 +48,7 @@ extern "C" {
         transition_fade_frames: u8,
         param_9: u8,
     );
+    static mut GLOBAL_TITLE_RELOADER: *mut c_void;
 }
 
 pub fn get_ptr() -> *mut Reloader {
@@ -86,4 +87,8 @@ pub fn trigger_entrance(
             param_9,
         )
     };
+}
+
+pub fn is_on_title_screen() -> bool {
+    unsafe { !GLOBAL_TITLE_RELOADER.is_null() }
 }

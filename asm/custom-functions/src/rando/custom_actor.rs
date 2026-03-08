@@ -1,11 +1,23 @@
 use core::{
     ffi::{c_int, c_uint, c_void},
     mem::size_of,
-    ptr::drop_in_place,
+    ptr::{self, drop_in_place},
+    u32,
 };
 
 use crate::{
+    game::{
+        actor::{dAcObjBase_c__create, ActorBase__kill, ActorID},
+        actor_reference::ActorReference,
+        events::EventManager,
+        item::AcItem,
+        minigame::SpecialMinigameState,
+        player::{self, ActorLink},
+    },
     println,
+    rando::{
+        archipelago::ArchipelagoItemGiver, give_item_with_sceneflag, item_arc_loader::ItemArcLoader,
+    },
     system::{
         game_frame,
         math::{Vec3f, Vec3s},
@@ -13,6 +25,8 @@ use crate::{
 };
 
 use super::item_arc_loader::{check_arcs_loaded, load_arcs_for_item, unload_arcs_for_item};
+
+// overwrites: E3 title (unused actor, id: 1)
 
 #[repr(C)]
 pub struct BaseActor {
@@ -42,6 +56,15 @@ extern "C" {
     fn ActorBase__dtor(ptr: *mut c_void, destroy_bases: c_int);
     fn ActorBase__getDistToPlayer(ptr: *const BaseActor) -> f32; // 0x8002d470
     fn ActorBase__getSquareDistToPlayer(ptr: *const BaseActor) -> f32; // 0x8002d4a0
+
+}
+
+impl BaseActor {
+    pub fn kill(&mut self) {
+        unsafe {
+            ActorBase__kill(self as *mut BaseActor as *mut c_void);
+        }
+    }
 }
 
 #[repr(C)]
@@ -58,6 +81,7 @@ enum RandoCustomActor {
         load_start_frame: u32,
         load_end_frame:   u32,
     },
+    ArchiItemGiver(ArchipelagoItemGiver),
 }
 
 #[repr(C)]
@@ -167,6 +191,20 @@ extern "C" fn RandoActorGlue_dtor(actor: *mut RandoActorGlue, destroy_bases: c_i
     }
 }
 
+pub fn spawn_archi_item_give(item_id: u16) {
+    unsafe {
+        dAcObjBase_c__create(
+            ActorID::E3_TITLE,
+            u32::MAX,
+            1u32 | ((item_id as u32) << 8),
+            ptr::null(),
+            ptr::null(),
+            ptr::null(),
+            u32::MAX,
+        );
+    }
+}
+
 impl RandoCustomActor {
     fn init(&mut self, base_actor: &mut BaseActor) {
         let subtype = base_actor.params & 0xFF;
@@ -179,6 +217,14 @@ impl RandoCustomActor {
                     load_start_frame: 0,
                     load_end_frame:   0,
                 };
+            },
+            1 => {
+                let item_id = (base_actor.params >> 8) & 0xFFFF;
+
+                println!("archi init");
+                // makes the actor update in events as well
+                base_actor.actor_properties |= 4;
+                *self = RandoCustomActor::ArchiItemGiver(ArchipelagoItemGiver::new(item_id as u16));
             },
             _ => {},
         }
@@ -222,6 +268,7 @@ impl RandoCustomActor {
                     }
                 }
             },
+            RandoCustomActor::ArchiItemGiver(archi) => archi.update(base_actor),
         }
     }
     fn destroy(&mut self, _base_actor: &mut BaseActor) {
@@ -235,6 +282,7 @@ impl RandoCustomActor {
                     unload_arcs_for_item(*item_id);
                 }
             },
+            RandoCustomActor::ArchiItemGiver(archi) => archi.destroy(),
             _ => {},
         }
     }

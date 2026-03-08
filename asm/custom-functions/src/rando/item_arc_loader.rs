@@ -71,3 +71,24 @@ pub extern "C" fn unload_arcs_after_tbox_item_get(item_id: u16) -> u32 {
     }
     1
 }
+
+pub struct ItemArcLoader {
+    item_id: u16,
+}
+
+impl ItemArcLoader {
+    pub fn for_item(item_id: u16) -> Self {
+        load_arcs_for_item(item_id);
+        Self { item_id }
+    }
+
+    pub fn is_loaded(&self) -> bool {
+        check_arcs_loaded(self.item_id)
+    }
+}
+
+impl Drop for ItemArcLoader {
+    fn drop(&mut self) {
+        unload_arcs_for_item(self.item_id);
+    }
+}
