@@ -104,6 +104,9 @@ global:
       - 95 # Fi Text for Ruby Tablet
       - 96 # Fi Text for Amber Tablet
       - 99 # Sheikah Stone cs played
+    # The Sky:
+    #   - onlyif: Option "randomize-entrances" Is "All Entrances"
+    #     flag: 1  # IoS puzzle completed
     Faron Woods:
       - 15 # fi text after vine to deep woods
       - 14 # text in front of VP statue
@@ -115,6 +118,8 @@ global:
       - 52 # Fi text after opening floria gate
       - 19 # Great Tree Intro Cutscene
       - 30 # Enter Skyview Cutscene
+      # - onlyif: Option "randomize-entrances" Is "All Entrances"
+      #   flag: 22 # Log to Floria Waterfall is down
     Sealed Grounds:
       - 4  # Pushed log from BtT to Faron Woods
       - 7  # vents active
@@ -1133,6 +1138,7 @@ F000: # Skyloft
       id: 0xFFFF
       name: ScChang
   - name: Patch other SCEN into Goddess Statue
+    onlyif: Option "randomize-entrances" Is Not "All Entrances"
     type: objpatch
     index: 49
     room: 0
@@ -1240,6 +1246,22 @@ F000: # Skyloft
     objtype: OBJS
     object:
       setscenefid: 48
+  - name: Unlock KA outside downstairs right exit door for ER
+    type: objpatch
+    id: 0xFC2E
+    layer: 0
+    room: 0
+    objtype: OBJS
+    object:
+      anglex: 0xFFFF
+  - name: Unlock KA outside downstairs left exit door for ER
+    type: objpatch
+    id: 0xFC2D
+    layer: 0
+    room: 0
+    objtype: OBJS
+    object:
+      anglex: 0xFFFF
   # - name: test actor
   #   type: objadd
   #   layer: 0
@@ -1445,6 +1467,22 @@ F001r: # Knight Academy
     objtype: OBJ
     object:
       trigstoryfid: 140 # groose landing in faron, cut out sleeping
+  - name: Unlock KA inside downstairs right exit door for ER
+    type: objpatch
+    id: 0xFC41
+    layer: 0
+    room: 0
+    objtype: OBJS
+    object:
+      anglex: 0xFFFF
+  - name: Unlock KA inside downstairs left exit door for ER
+    type: objpatch
+    id: 0xFC42
+    layer: 0
+    room: 0
+    objtype: OBJS
+    object:
+      anglex: 0xFFFF
 F002r: # Beedle's Airshop
   - name: Delete cutscene
     type: objdelete
@@ -2715,14 +2753,30 @@ F100_1: # Great Tree
       name: Bombf
   - name: Exit from GT to Flooded GT Layer 2
     type: objadd
-    index: 1
+    index: 5
     room: 0
     objtype: SCEN
     object:
       name: F103_1
       layer: 2 # Layer with Water Dragon after Tadtones appear
       room: 0
-      entrance: 5 # New GT -> Flooded GT entrance
+      entrance: 4 # New GT -> Flooded GT entrance
+  - name: Water Dragon Entrance from Flooded GT
+    type: objadd
+    index: 6
+    room: 0
+    objtype: PLY
+    object:
+      storyflag: 2047
+      play_cutscene: -1
+      byte4: -1
+      posx: 200
+      posy: 3454
+      posz: 170
+      anglex: 0
+      angley: 51963
+      anglez: 0
+      entrance_id: 6
   - name: Waterdragon in Great Tree
     type: oarcadd
     destlayer: 0
@@ -2754,14 +2808,30 @@ F100_1: # Great Tree
 F103_1: # Flooded Great Tree
   - name: Exit from Flooded GT to GT
     type: objadd
-    index: 1
+    index: 11
     room: 0
     objtype: SCEN
     object:
       name: F100_1
       layer: 1 # Default layer for GT in rando??
       room: 0
-      entrance: 5 # New Flooded GT -> GT entrance
+      entrance: 6 # New Flooded GT -> GT entrance
+  - name: Water Dragon Entrance from GT
+    type: objadd
+    index: 4
+    room: 0
+    objtype: PLY
+    object:
+      storyflag: 2047
+      play_cutscene: -1
+      byte4: -1
+      posx: 200
+      posy: 3454
+      posz: 170
+      anglex: 0
+      angley: 51963
+      anglez: 0
+      entrance_id: 4
   - name: Remove Faron Soth Cutscene
     type: objpatch
     room: 0
@@ -3557,16 +3627,6 @@ F200: # Eldin main area
       anglez: 30505 # Different eventpoint on hero mode cos boko base sucks
       id: 0xFFFF
       name: HrpHint
-  - name: Exit from Eldin Shiekah Stone to Boko Base
-    type: objadd
-    index: 0
-    room: 1
-    objtype: SCEN
-    object:
-      name: F202
-      layer: 1
-      room: 1 # 0 = cutscene + no items; 1 = no cutscene + keep items
-      entrance: 0 # New Eldin -> Boko Base sky entrance
   - name: Boko Base Shiekah Stone Coords
     type: objadd
     index: 5
@@ -3992,16 +4052,6 @@ F202: # Boko Base
       anglez: 30506 # Different eventpoint on hero mode cos boko base sucks
       id: 0xFFFF
       name: HrpHint
-  - name: Exit from Boko Base Shiekah Stone to Eldin
-    type: objadd
-    index: 0
-    room: 1
-    objtype: SCEN
-    object:
-      name: F200
-      layer: 1
-      room: 1
-      entrance: 5 # New Boko Base -> Eldin entrance
   - name: Add hot cave Plats to prison
     type: objadd
     layer: 0

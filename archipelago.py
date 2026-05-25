@@ -36,7 +36,7 @@ class Archipelago:
         self.hints: dict[str, list] = apdata["Hints"]
         self.log_hints: dict[str, list] = apdata["Log Hints"]
         self.impa_hint: tuple[str, str] | None = apdata["SoT Location"]
-        self.dungeon_connections: dict[str, str] = apdata["Dungeon Entrances"]
+        self.entrances: list[tuple] = apdata["Entrances"]
         self.trial_connections: dict[str, str] = apdata["Trial Entrances"]
         self.start_statues: dict = apdata["Starting Statues"]
         self.start_entrance: dict = apdata["Starting Entrance"]
@@ -119,7 +119,7 @@ class Archipelago:
                 self.placement_file.hints[areas.short_to_full(hint)] = data
             else:
                 self.placement_file.hints[hint] = data
-        self.placement_file.dungeon_connections = self.dungeon_connections
+        self.placement_file.entrances = self.entrances
         self.placement_file.trial_connections = self.trial_connections
         self.placement_file.start_statues = self.start_statues
         self.placement_file.start_entrance = self.start_entrance

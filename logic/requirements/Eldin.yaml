@@ -103,6 +103,7 @@ Volcano:
       Exit to Earth Temple: Open ET option | Key Piece x5
       Volcano - Upper Platform Cave: Beaten Boko Base
       Hot Cave: Blow down Watchtower to Hot Cave
+      Fire Dragon Dummy Room 2 Exit: Nothing
     locations:
       Unlock Statue: Nothing
       Blow down Watchtower to Hot Cave: Nothing
@@ -141,6 +142,7 @@ Volcano:
       Ascent: Unlock Shortcut to Ascent
       Vent Exit near Ascent: Nothing
       Volcano - Lower Platform Cave: Beaten Boko Base
+      Fire Dragon Dummy Room 1 Exit: Nothing
     locations:
       Digging Spot after Draining Lava: Digging Mitts
       Unlock Shortcut to Ascent: Nothing
@@ -152,6 +154,14 @@ Volcano:
       East: Beaten Boko Base
     locations:
       Gossip Stone in Lower Platform Cave: Nothing
+
+  Eldin Fire Dragon Dummy Room 1:
+    exits:
+      Exit: Nothing
+
+  Eldin Fire Dragon Dummy Room 2:
+    exits:
+      Exit: Nothing
 
 Mogma Turf: # when randomizing this, need to find a way to force the skydiving animation
   hint-region: Mogma Turf
@@ -294,6 +304,7 @@ Bokoblin Base:
       After Drawbridge: Clawshots
       Before Drawbridge: Nothing
       Volcano East: Nothing
+      Fire Dragon Dummy Room 1 Exit: Nothing
     locations:
       Volcano - Gossip Stone in Lower Platform Cave: Nothing
   
@@ -301,6 +312,7 @@ Bokoblin Base:
     exits:
       Hot Cave: Nothing
       Bokoblin Base - Upper Platform Cave: Nothing
+      Fire Dragon Dummy Room 2 Exit: Nothing
     locations:
       Chest East of Earth Temple Entrance: Nothing
       Volcano - Goddess Cube East of Earth Temple Entrance: Goddess Sword
@@ -317,6 +329,14 @@ Bokoblin Base:
     exits:
       After Drawbridge: Fireshield Earrings & Bomb Bag
       Bokoblin Base Summit: Fireshield Earrings & Bomb Bag
+
+  Boko Base Fire Dragon Dummy Room 1:
+    exits:
+      Exit: Nothing
+
+  Boko Base Fire Dragon Dummy Room 2:
+    exits:
+      Exit: Nothing
   
   Bokoblin Base Summit:
     exits:

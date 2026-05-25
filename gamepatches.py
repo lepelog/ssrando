@@ -145,6 +145,16 @@ START_CUTSCENES = [
     ("F405", 0, 0),
 ]
 
+DUNGEON_EXIT_NAMES = {
+    SV: "Skyview Temple - Main Exit",
+    AC: "Ancient Cistern - Main Exit",
+    ET: "Earth Temple - Main Exit",
+    FS: "Fire Sanctuary - Main Exit",
+    LMF: "Lanayru Mining Facility - Main Exit",
+    SSH: "Sandship - Main Exit",
+    SK: "Sky Keep - First Room - Bottom Exit",
+}
+
 # The stage name of each dungeon
 DUNGEON_STAGES = {
     SV: "D100",
@@ -1769,6 +1779,181 @@ class GamePatcher:
             )
 
     def add_entrance_rando_patches(self):
+        self.entrances = yaml_load(RANDO_ROOT_PATH / "entrances.yaml")
+        for ex, ent in self.placement_file.entrances:
+            if ex in DUNGEON_EXIT_NAMES.values():
+                # Patch entrances into dungeons, but all dungeon exits will be patched later
+                continue
+            if ex == "Eldin Volcano - Exit to Bokoblin Base" or ex == "Bokoblin Base - Prison - Exit":
+                objtype = "objadd"
+            else:
+                objtype = "objpatch"
+            print(ex)
+            print(ent)
+            exit_stage = self.entrances[ex]["stage"]
+            exit_room = self.entrances[ex]["room"]
+            exit_index = self.entrances[ex]["index"]
+            entrance_stage = self.entrances[ent]["stage"]
+            entrance_room = self.entrances[ent]["room"]
+            entrance_index = self.entrances[ent]["entrance"]
+            entrance_layer = self.entrances[ent]["layer"]
+            entrance_tod = self.entrances[ent]["tod"]
+            self.add_patch_to_stage(
+                exit_stage,
+                {
+                    "name": f"ER Patch - {ex} to {ent}",
+                    "type": objtype,
+                    "index": exit_index,
+                    "room": exit_room,
+                    "objtype": "SCEN",
+                    "object": {
+                        "name": entrance_stage,
+                        "layer": entrance_layer,
+                        "room": entrance_room,
+                        "entrance": entrance_index,
+                        "night": entrance_tod,
+                    },
+                },
+            )
+
+            if "alt" in self.entrances[ex]:
+                # Case of double doors, make sure we patch both exits
+                alt_exit = self.entrances[ex]["alt"]
+                alt_exit_stage = self.entrances[alt_exit]["stage"]
+                alt_exit_room = self.entrances[alt_exit]["room"]
+                alt_exit_index = self.entrances[alt_exit]["index"]
+                
+                # If the connecting entrance is also a double door, patch an alt entrance as well
+                # By default, it will patch any exit to the left door entrance
+                # In this case, we want to patch the left door exit to the right door entrance
+                if "alt" in self.entrances[ent]:
+                    alt_entrance = self.entrances[ent]["alt"]
+                    alt_entrance_stage = self.entrances[alt_entrance]["stage"]
+                    alt_entrance_layer = self.entrances[alt_entrance]["layer"]
+                    alt_entrance_room = self.entrances[alt_entrance]["room"]
+                    alt_entrance_index = self.entrances[alt_entrance]["entrance"]
+                    alt_entrance_tod = self.entrances[alt_entrance]["tod"]
+                else:
+                    # Otherwise, we'll use the normal entrance
+                    alt_entrance = ent
+                    alt_entrance_stage = entrance_stage
+                    alt_entrance_layer = entrance_layer
+                    alt_entrance_room = entrance_room
+                    alt_entrance_index = entrance_index
+                    alt_entrance_tod = entrance_tod
+
+                self.add_patch_to_stage(
+                    alt_exit_stage,
+                    {
+                        "name": f"ER Patch - {alt_exit} to {alt_entrance}",
+                        "type": objtype,
+                        "index": alt_exit_index,
+                        "room": alt_exit_room,
+                        "objtype": "SCEN",
+                        "object": {
+                            "name": alt_entrance_stage,
+                            "layer": alt_entrance_layer,
+                            "room": alt_entrance_room,
+                            "entrance": alt_entrance_index,
+                            "night": alt_entrance_tod,
+                        },
+                    },
+                )
+
+            if "also-patch" in self.entrances[ex]:
+                # In this case, we need to patch addition exits to this entrance
+                for i, patch in enumerate(self.entrances[ex]["also-patch"], start=1):
+                    add_exit_stage = patch["stage"]
+                    add_exit_room = patch["room"]
+                    add_exit_index = patch["index"]
+
+                    self.add_patch_to_stage(
+                        add_exit_stage,
+                        {
+                            "name": f"ER Additional Patch {i} - {ex} to {ent}",
+                            "type": objtype,
+                            "index": add_exit_index,
+                            "room": add_exit_room,
+                            "objtype": "SCEN",
+                            "object": {
+                                "name": entrance_stage,
+                                "layer": entrance_layer,
+                                "room": entrance_room,
+                                "entrance": entrance_index,
+                                "night": entrance_tod,
+                            },
+                        },
+                    )
+
+        for dungeon, exit_name in DUNGEON_EXIT_NAMES.items():
+            entrance = [ent for ex, ent in self.placement_file.entrances if ex == exit_name].pop()
+            entrance_stage = self.entrances[entrance]["stage"]
+            entrance_room = self.entrances[entrance]["room"]
+            entrance_index = self.entrances[entrance]["entrance"]
+            entrance_layer = self.entrances[entrance]["layer"]
+            entrance_tod = self.entrances[entrance]["tod"]
+            for scen_stage, scen_room, scen_index in DUNGEON_EXIT_SCENS[dungeon]:
+                self.add_patch_to_stage(
+                    scen_stage,
+                    {
+                        "name": f"Dungeon exit patch - {dungeon} to {entrance}",
+                        "type": "objpatch",
+                        "index": scen_index,
+                        "room": scen_room,
+                        "objtype": "SCEN",
+                        "object": {
+                            "name": entrance_stage,
+                            "layer": entrance_layer,
+                            "room": entrance_room,
+                            "entrance": entrance_index,
+                        },
+                    },
+                )
+
+            scen_stage, scen_room, scen_index = DUNGEON_FINISH_EXIT_SCEN[dungeon]
+            self.add_patch_to_stage(
+                scen_stage,
+                {
+                    "name": f"Dungeon finish exit patch - {dungeon} to {entrance}",
+                    "type": "objpatch",
+                    "index": scen_index,
+                    "room": scen_room,
+                    "objtype": "SCEN",
+                    "object": {
+                        "name": entrance_stage,
+                        "layer": entrance_layer,
+                        "room": entrance_room,
+                        "entrance": entrance_index,
+                        "saveprompt": 1,  # save prompt
+                    },
+                },
+            )
+
+            # most dungeons only have a single exit, exception being LMF, which is handled seperately
+            # the exit out of the back of LMF is special, because it's the only dungeon finish that can be
+            # taken multiple times. The first time it should show a save prompt and subsequent times
+            # it should not and they don't need to be touched if the LMF entrance is vanilla
+            # the first time exit is taken care of by the DUNGEON_FINISH_EXIT_SCEN stuff
+            # patch the secondary exit if it's not vanilla
+            if dungeon == LMF:
+                self.add_patch_to_stage(
+                    "F300_5",
+                    {
+                        "name": f"Dungeon exit patch - second LMF finish to {entrance}",
+                        "type": "objpatch",
+                        "index": 1,
+                        "room": 0,
+                        "objtype": "SCEN",
+                        "object": {
+                            "name": entrance_stage,
+                            "layer": entrance_layer,
+                            "room": entrance_room,
+                            "entrance": entrance_index,
+                        },
+                    },
+                )
+
+        return
         for entrance, dungeon in self.placement_file.dungeon_connections.items():
             entrance_stage, entrance_room, entrance_scen = DUNGEON_ENTRANCE_STAGES[
                 entrance
@@ -3812,7 +3997,8 @@ class GamePatcher:
         )  # force day when value is >1
 
         force_mogma_cave_dive = (
-            start_entrance["stage"] == "F210" and start_entrance["entrance"] == 0
+            self.placement_file.options["randomize-entrances"] == "All Entrances" or
+            (start_entrance["stage"] == "F210" and start_entrance["entrance"] == 0)
         )
 
         dol.write_data(

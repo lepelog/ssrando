@@ -869,7 +869,7 @@ mflr r0
 stw r0, 0xc(r1)
 stw r31, 0x14(r1) ; r31 currently holds a copy of param_1 from before branch
 
-li r4, 0x13 ; story flag 19 - talked to Fire Dragon
+li r4, 0x24 ; story flag 19 - talked to Fire Dragon
 bl checkStoryflagIsSet
 lwz r31, 0x14(r1) ; restoring param_1 to r31
 lwz r0, 0x138(r31) ; normal check val (basically the line of code we replaced)
