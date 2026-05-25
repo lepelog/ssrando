@@ -88,6 +88,11 @@ fn custom_main_additions() -> u32 {
         }
     }
 
+    rando::give_ap_rs();
+    if unsafe { SHOULD_PRINT_AP_BUFFER } {
+        return crate::rando::print_archipelago_text();
+    }
+
     return 1;
 }
 

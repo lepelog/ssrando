@@ -6,12 +6,13 @@
 pub mod networking;
 
 use core::{
-    ffi::{c_char, c_int, c_ushort, c_void},
+    ffi::{c_char, c_int, c_uint, c_ushort, c_void},
     fmt::Write,
     ptr, slice,
     str::from_utf8,
 };
 
+use alloc::str;
 use cstr::cstr;
 
 use wchar::wch;
@@ -21,14 +22,15 @@ use crate::{
         actor, arc,
         bird::AcOBird,
         events::ActorEventFlowMgr,
-        file_manager,
+        file_manager::{self, get_current_health},
         flag_managers::*,
-        item,
+        item::{self, Item},
         message::{text_manager_set_num_args, text_manager_set_string_arg, FlowElement},
         minigame::SpecialMinigameState,
-        player,
-        reloader::{self, Reloader},
+        player::{self, ActorLink},
+        reloader::{self, get_spawn_slave, Reloader},
     },
+    rando::item_arc_loader::{check_arcs_loaded, load_arcs_for_item, unload_arcs_for_item},
     system::{button::*, math::*},
     utils::console::Console,
 };
@@ -444,7 +446,7 @@ extern "C" fn give_item_with_sceneflag(
     bottle_pouch_slot: u32,
     number: u32,
     sceneflag: u32,
-) -> *mut c_void {
+) -> *mut Item {
     item::set_bottle_pouch_slot(bottle_pouch_slot);
     item::set_number_of_items(number);
     // Same as the vanilla setupItemParams function only with extra control over
@@ -752,5 +754,267 @@ pub fn add_more_colors() {
         // Magenta
         FONT_COLORS_1[0x29] = 0xFF00FFFF;
         FONT_COLORS_2[0x29] = 0xC800C8FF;
+    }
+}
+
+// static mut SHARED_AP_ITEM: Option<*mut c_void> = None;
+
+fn can_remove_textbox(item_id: u16) -> bool {
+    match item_id {
+        2..=4 // Rupees
+        | 6 // Heart
+        | 32..=34 // more rupees
+        | 40 // 5 bombs
+        | 41 // 10 bombs
+        | 60 // 10 deku seeds
+        | 63 // semi rare treasure
+        | 64 // rare treasure
+        | 94 // heart piece
+        // a bunch of treasures
+        | 165
+        | 171
+        | 173
+        | 175
+        | 176 => true,
+        _ => false,
+    }
+}
+
+// #[no_mangle]
+// extern "C" fn spawn_ap_item(item_id: u16) -> *mut c_void {
+// extern "C" {
+// static mut archipelago_is_giving_item: bool;
+// }
+// item::set_bottle_pouch_slot(0xFFFFFFFF);
+// item::set_number_of_items(0);
+// let subtype = if can_remove_textbox(item_id) { 4 } else { 5 };
+// let item_params = item::setup_item_params(item_id, subtype, 0, 0xFF, 1,
+// 0xFF); let item = item::spawn_item(u32::MAX, item_params, 0, 0, 0, u32::MAX,
+// 1); item::set_bottle_pouch_slot(u32::MAX);
+// item::set_number_of_items(0);
+// unsafe {
+// archipelago_is_giving_item = true;
+// }
+// item as *mut c_void
+// item::make_dummy_item(item_id) as *mut c_void
+//
+// extern "C" {
+// fn AcItem__dtor(item: *mut c_void);
+// fn AcItem__performCollection1and2(item: *mut c_void);
+// fn AcItem__init(item: *mut c_void);
+// }
+// let shared_item = unsafe { &mut SHARED_AP_ITEM };
+// match *shared_item {
+// Some(item) => {
+// unsafe { AcItem__performCollection1and2(item); }
+// item
+// }
+// None => {
+// item::set_bottle_pouch_slot(0xFFFFFFFF);
+// item::set_number_of_items(0);
+// let item_params = item::setup_item_params(item_id, 1, 0, 0xFF, 1, 0xFF);
+// let item = item::spawn_item(u32::MAX, item_params, 0, 0, 0, u32::MAX,
+// 1); item::set_bottle_pouch_slot(u32::MAX);
+// item::set_number_of_items(0);
+//
+// unsafe {
+// AcItem__init(item);
+// AcItem__performCollection1and2(item);
+// SHARED_AP_ITEM = Some(item);
+// AcItem__dtor(item);
+// }
+// item
+// },
+// }
+// }
+//
+// #[no_mangle]
+// extern "C" fn done_ap_item(item: *mut Item) {
+// extern "C" {
+// static mut archipelago_is_giving_item: bool;
+// }
+//
+// unsafe {
+// archipelago_is_giving_item = false;
+// }
+// }
+
+// #[no_mangle]
+// extern "C" fn increment_item_queue() {
+// unsafe {
+// IS_GETTING_ITEM = true;
+// }
+// }
+
+const AP_ITEM_BUFFER_SIZE: usize = 14;
+
+extern "C" {
+    static TITLE_LOADER_ADDR: u32;
+    static MINIGAME_STATE: u8;
+    static mut ARCHIPELAGO_ITEM_SLOTS: [u8; AP_ITEM_BUFFER_SIZE]; // ring buffer
+    static FRAME_COUNT: u32;
+}
+
+#[no_mangle]
+extern "C" fn decrement_item_queue(item: *mut Item) {
+    unsafe {
+        if (*item).unkfield == AP_ITEM_MAGIC {
+            // finished receiving an AP item
+            (*item).unkfield = 0;
+            // shift over the received item queue by one
+            // we implement this as a ring buffer so it's guaranteed that any slot
+            // that *was* 0xFF will stay 0xFF in the future (to avoid client race
+            // conditions)
+            ARCHIPELAGO_ITEM_SLOTS[CURR_ITEM_SLOT] = EMPTY_SLOT;
+            CURR_ITEM_SLOT += 1;
+            if CURR_ITEM_SLOT == AP_ITEM_BUFFER_SIZE {
+                CURR_ITEM_SLOT = 0;
+            }
+            IS_GETTING_ITEM = false;
+        }
+    }
+}
+
+#[no_mangle]
+static mut CURR_AP_ARC: u8 = EMPTY_SLOT;
+
+#[no_mangle]
+static mut IS_GETTING_ITEM: bool = false;
+
+#[no_mangle]
+static mut DID_DIE: bool = false;
+
+#[no_mangle]
+static mut DID_RESET: bool = false;
+
+#[no_mangle]
+static mut CURR_ITEM_SLOT: usize = 0;
+
+const AP_ITEM_MAGIC: u8 = 0xAB;
+const EMPTY_SLOT: u8 = 0x00;
+
+const ACTION_FLAG_MASK: u32 = 0xFFFFFFFF; // 0x80040000
+
+fn can_receive_items(link: &ActorLink) -> bool {
+    match link.state & 0x00FFFFFF {
+        0 | 0x5A2C88 | 0x5A328C | 0xB4F450 | 0x5A31AC | 0x5A336C | 0x9796BC => {
+            return false;
+        },
+        _ => {},
+    }
+
+    match link.current_action {
+        0..=13 | 0x78 => {},
+        _ => {
+            return false;
+        },
+    }
+
+    // if link.actionflags & ACTION_FLAG_MASK == 0 {
+    //    return false;
+    // }
+
+    let spawn_slave = get_spawn_slave();
+    let stage = get_spawn_slave().name;
+    // don't give items in boss stages or dungeon crest areas
+    if stage[0] == b'B' {
+        return false;
+    }
+
+    // don't give items in the post-Harp sealed temple before Song from Impa
+    // (prevents accidentally deleting items due to the reload; kinda hacky)
+    if stage[0..4] == [b'F', b'4', b'0', b'2'] {
+        return spawn_slave.layer != 2 || SceneflagManager::check_global(10, 29);
+    }
+
+    unsafe { MINIGAME_STATE != 0 }
+}
+
+#[no_mangle]
+pub fn give_ap_rs() {
+    if let Some(link) = player::as_ref() {
+        // don't give items on the title screen!!
+        if unsafe { TITLE_LOADER_ADDR } != 0 {
+            return;
+        }
+        let item_id = unsafe { ARCHIPELAGO_ITEM_SLOTS[CURR_ITEM_SLOT] };
+        let getting_item = unsafe { IS_GETTING_ITEM };
+        let current_item_arc = unsafe { CURR_AP_ARC };
+        // is this hacky? yes. do I care? immensely, but I need to prevent bad things
+        // from happening, okay
+        let frame_count = unsafe { FRAME_COUNT };
+        if get_current_health() == 0 {
+            unsafe {
+                DID_DIE = true;
+            }
+            return;
+        }
+        if unsafe { DID_DIE } {
+            if frame_count == 19 {
+                unsafe {
+                    DID_DIE = false;
+                }
+            } else {
+                return;
+            }
+        }
+        if item_id == EMPTY_SLOT {
+            // switch to next item in the ring buffer, try next frame
+            unsafe {
+                CURR_ITEM_SLOT += 1;
+                if CURR_ITEM_SLOT == AP_ITEM_BUFFER_SIZE {
+                    CURR_ITEM_SLOT = 0;
+                }
+            }
+            return;
+        }
+        // is Link not receiving another item?
+        // if not, can he safely get items?
+        if !getting_item && can_receive_items(link) {
+            let is_minor_item = can_remove_textbox(item_id.into());
+            if is_minor_item {
+                // just give the item directly, no need to load in any arcs
+                item::set_bottle_pouch_slot(0xFFFFFFFF);
+                item::set_number_of_items(0);
+                // subtype 4 means no textbox
+                let item_params = item::setup_item_params(item_id.into(), 4, 0, 0xFF, 1, 0xFF);
+                let item = item::spawn_item(u32::MAX, item_params, 0, 0, 0, u32::MAX, 1);
+                item::set_bottle_pouch_slot(u32::MAX);
+                item::set_number_of_items(0);
+                unsafe {
+                    (*item).unkfield = AP_ITEM_MAGIC;
+                    IS_GETTING_ITEM = true;
+                };
+            } else {
+                if current_item_arc == 0xFF || current_item_arc == EMPTY_SLOT {
+                    load_arcs_for_item(item_id.into());
+                    unsafe {
+                        CURR_AP_ARC = item_id;
+                    };
+                }
+                if unsafe { CURR_AP_ARC } == item_id && check_arcs_loaded(item_id.into()) {
+                    item::set_bottle_pouch_slot(0xFFFFFFFF);
+                    item::set_number_of_items(0);
+                    // subtype 5 means textbox
+                    let item_params = item::setup_item_params(item_id.into(), 5, 0, 0xFF, 1, 0xFF);
+                    let item = item::spawn_item(u32::MAX, item_params, 0, 0, 0, u32::MAX, 1);
+                    item::set_bottle_pouch_slot(u32::MAX);
+                    item::set_number_of_items(0);
+                    unsafe {
+                        (*item).unkfield = AP_ITEM_MAGIC;
+                        CURR_AP_ARC = EMPTY_SLOT;
+                        IS_GETTING_ITEM = true;
+                    };
+                    unload_arcs_for_item(item_id.into());
+                }
+            }
+        }
+    } else {
+        // we should retry giving items if Link transitioned stages
+        // before finishing any itemgets
+        unsafe {
+            IS_GETTING_ITEM = false;
+            CURR_AP_ARC = EMPTY_SLOT;
+        }
     }
 }
