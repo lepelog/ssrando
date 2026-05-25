@@ -10,7 +10,6 @@ from .constants import *
 
 import yaml
 
-
 AllowedTimeOfDay = Enum("AllowedTimeOfDay", ("DayOnly", "NightOnly", "Both"))
 DayOnly = AllowedTimeOfDay.DayOnly
 NightOnly = AllowedTimeOfDay.NightOnly

@@ -647,7 +647,7 @@ class Rando:
             shuffle_indices(self.rng, dungeons, indices=unreq_indices)
         else:
             pass
-            #assert der == "None"
+            # assert der == "None"
 
         self.randomized_dungeon_entrance = {}
         for entrance, dungeon in zip(entrances, dungeons):

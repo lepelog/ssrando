@@ -1784,12 +1784,13 @@ class GamePatcher:
             if ex in DUNGEON_EXIT_NAMES.values():
                 # Patch entrances into dungeons, but all dungeon exits will be patched later
                 continue
-            if ex == "Eldin Volcano - Exit to Bokoblin Base" or ex == "Bokoblin Base - Prison - Exit":
+            if (
+                ex == "Eldin Volcano - Exit to Bokoblin Base"
+                or ex == "Bokoblin Base - Prison - Exit"
+            ):
                 objtype = "objadd"
             else:
                 objtype = "objpatch"
-            print(ex)
-            print(ent)
             exit_stage = self.entrances[ex]["stage"]
             exit_room = self.entrances[ex]["room"]
             exit_index = self.entrances[ex]["index"]
@@ -1822,7 +1823,7 @@ class GamePatcher:
                 alt_exit_stage = self.entrances[alt_exit]["stage"]
                 alt_exit_room = self.entrances[alt_exit]["room"]
                 alt_exit_index = self.entrances[alt_exit]["index"]
-                
+
                 # If the connecting entrance is also a double door, patch an alt entrance as well
                 # By default, it will patch any exit to the left door entrance
                 # In this case, we want to patch the left door exit to the right door entrance
@@ -1886,7 +1887,9 @@ class GamePatcher:
                     )
 
         for dungeon, exit_name in DUNGEON_EXIT_NAMES.items():
-            entrance = [ent for ex, ent in self.placement_file.entrances if ex == exit_name].pop()
+            entrance = [
+                ent for ex, ent in self.placement_file.entrances if ex == exit_name
+            ].pop()
             entrance_stage = self.entrances[entrance]["stage"]
             entrance_room = self.entrances[entrance]["room"]
             entrance_index = self.entrances[entrance]["entrance"]
@@ -3182,7 +3185,7 @@ class GamePatcher:
             for (id, room), (params, actor_name) in loc_params:
                 # replace the dusk relic objects with randomized items
                 if trial_relic_patches and actor_name == "AncJwls":
-                    (sceneflag, itemid) = trial_relic_patches.pop()
+                    sceneflag, itemid = trial_relic_patches.pop()
                     # 9 is the rando item subtype forcing a textbox
                     params1 = 0xFF9C0200
                     params1 = mask_shift_set(params1, 0xFF, 10, sceneflag)
@@ -3996,9 +3999,10 @@ class GamePatcher:
             write_u8, 0x802DA0EB, start_entrance["day-night"] & 1
         )  # force day when value is >1
 
-        force_mogma_cave_dive = (
-            self.placement_file.options["randomize-entrances"] == "All Entrances" or
-            (start_entrance["stage"] == "F210" and start_entrance["entrance"] == 0)
+        force_mogma_cave_dive = self.placement_file.options[
+            "randomize-entrances"
+        ] == "All Entrances" or (
+            start_entrance["stage"] == "F210" and start_entrance["entrance"] == 0
         )
 
         dol.write_data(

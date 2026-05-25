@@ -586,7 +586,7 @@ class RandoGUI(QMainWindow):
             )
             return
         if preset == NEW_PRESET:
-            (name, ok) = QInputDialog.getText(
+            name, ok = QInputDialog.getText(
                 self,
                 "Create New Preset",
                 "Enter a name for the new preset",
